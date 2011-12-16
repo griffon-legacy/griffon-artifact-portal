@@ -1,0 +1,11 @@
+griffon-plugin-portal-grailsPlugins.iml
+griffon-plugin-portal.iml
+griffon-plugin-portal.ipr
+griffon-plugin-portal.iws
+.idea
+.gradle
+target
+plugin-portal.ser
+.settings
+.project
+.classpath
