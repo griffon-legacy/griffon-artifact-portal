@@ -16,6 +16,8 @@
 
 package griffon.portal
 
+import grails.util.GrailsNameUtils
+
 /**
  * @author Andres Almiray
  */
@@ -43,5 +45,16 @@ class Artifact {
 
     void setName(String name) {
         this.name = name.toLowerCase()
+    }
+
+    String toString() {
+        [
+                id: id,
+                type: GrailsNameUtils.getShortName(getClass()).toLowerCase(),
+                name: name,
+                title: title,
+                license: license,
+                authors: authors*.toString()
+        ]
     }
 }

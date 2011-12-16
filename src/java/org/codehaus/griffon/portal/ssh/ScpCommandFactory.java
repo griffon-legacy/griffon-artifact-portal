@@ -33,14 +33,11 @@ import java.util.List;
  * @see org.codehaus.griffon.portal.ssh.ScpCommand
  */
 public class ScpCommandFactory implements CommandFactory {
-
+    private final ArtifactProcessor artifactProcessor;
     private CommandFactory delegate;
 
-    public ScpCommandFactory() {
-    }
-
-    public ScpCommandFactory(CommandFactory delegate) {
-        this.delegate = delegate;
+    public ScpCommandFactory(ArtifactProcessor artifactProcessor) {
+        this.artifactProcessor = artifactProcessor;
     }
 
     /**
@@ -54,7 +51,7 @@ public class ScpCommandFactory implements CommandFactory {
      */
     public Command createCommand(String command) {
         try {
-            return new ScpCommand(splitCommandString(command));
+            return new ScpCommand(splitCommandString(command), artifactProcessor);
         } catch (IllegalArgumentException iae) {
             if (delegate != null) {
                 return delegate.createCommand(command);

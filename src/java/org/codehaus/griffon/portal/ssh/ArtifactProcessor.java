@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-package griffon.portal
+package org.codehaus.griffon.portal.ssh;
+
+import org.apache.sshd.server.SshFile;
+
+import java.io.IOException;
 
 /**
  * @author Andres Almiray
  */
-class Author {
-    String name
-    String email
-
-    Date dateCreated
-    Date lastUpdated
-
-    static constraints = {
-        name(nullable: false, blank: false)
-        email(nullable: false, email: true)
-    }
-
-    String toString() {
-        [
-                id: id,
-                name: name,
-                email: email,
-        ]
-    }
+public interface ArtifactProcessor {
+    void process(SshFile file, String artifactName, String artifactVersion) throws IOException;
 }

@@ -19,6 +19,7 @@ package org.codehaus.griffon.portal.spring;
 import groovy.util.ConfigObject;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.codehaus.griffon.portal.ssh.ArtifactProcessorImpl;
 import org.codehaus.griffon.portal.ssh.PasswordAuthenticator;
 import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.springframework.beans.factory.InitializingBean;
@@ -59,8 +60,7 @@ public class SshServerFactory extends AbstractFactoryBean<SshServer> implements 
         SshServer sshd = getObject();
         sshd.setPort(getConfigValueAsInt(config, "sshd.port", 2222));
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(getConfigValueAsString(config, "sshd.keystorage", "plugin-portal.ser")));
-        sshd.setCommandFactory(new org.codehaus.griffon.portal.ssh.ScpCommandFactory());
-        //sshd.setShellFactory(new ProcessShellFactory(new String[]{"/bin/sh", "-i", "-l"}));
+        sshd.setCommandFactory(new org.codehaus.griffon.portal.ssh.ScpCommandFactory(new ArtifactProcessorImpl()));
         sshd.setPasswordAuthenticator(passwordAuthenticator);
         sshd.start();
     }

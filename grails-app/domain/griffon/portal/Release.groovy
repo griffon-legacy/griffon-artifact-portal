@@ -33,4 +33,15 @@ class Release {
         comment(nullable: false, blank: false)
         artifact(nullable: false)
     }
+
+    String toString() {
+        [
+                id: id,
+                artifactVersion: artifactVersion,
+                griffonVersion: griffonVersion,
+                comment: comment,
+                date: dateCreated,
+                artifact: artifact
+        ]
+    }
 }

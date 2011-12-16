@@ -34,7 +34,6 @@ class BootStrap {
                 license: 'Apache Software License 2.0',
                 toolkits: 'swing'
         )
-        plugin.toolkits([Toolkit.SWING])
         plugin.addToAuthors(author)
         plugin.save()
 

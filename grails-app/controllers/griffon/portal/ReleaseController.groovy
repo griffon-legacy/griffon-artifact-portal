@@ -27,7 +27,7 @@ class ReleaseController {
     }
 
     def show() {
-        if (params.id == 'show') {
+        if (params.id == 'show' || params.id == 'process') {
             params.id = request.getParameter('id')
         }
         if (!params.id) {
@@ -35,7 +35,8 @@ class ReleaseController {
             return
         }
 
-        Release releaseInstance = Release.get(params.id)
+        def releaseId = params.id instanceof Long ? params.id : params.id.toLong()
+        Release releaseInstance = Release.get(releaseId)
         if (!releaseInstance) {
             redirect(uri: '/')
             return

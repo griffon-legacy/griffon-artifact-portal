@@ -38,4 +38,11 @@ class Plugin extends Artifact {
     void platforms(List<Platform> values) {
         platforms = values.collect([]) {it.name.toLowerCase()}.join(',')
     }
+
+    String toString() {
+        super.toString() + [
+                toolkits: toolkits,
+                platforms: platforms
+        ]
+    }
 }
