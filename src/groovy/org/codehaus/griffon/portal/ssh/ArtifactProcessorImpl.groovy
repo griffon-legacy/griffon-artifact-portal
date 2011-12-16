@@ -95,14 +95,18 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
     }
 
     private void handlePlugin(ZipFile zipFile, json) {
-        Plugin plugin = new Plugin(
-                name: json.name,
-                title: json.title,
-                description: json.description,
-                license: json.license,
-                toolkits: json.toolkits.join(','),
-                platforms: json.platforms.join(',')
-        )
+        Plugin plugin = Plugin.findByName(json.name)
+        if (!plugin) {
+            plugin = new Plugin(name: json.name)
+        }
+        plugin.with {
+            title = json.title
+            description = json.description
+            license = json.license
+            toolkits = json.toolkits.join(',')
+            platforms = json.platforms.join(',')
+        }
+
         json.authors.each {data ->
             Author author = Author.findByEmail(data.email)
             if (!author) {
@@ -111,7 +115,9 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                         email: data.email
                 )
             }
-            plugin.addToAuthors(author)
+            if (!plugin.authors?.contains(author)) {
+                plugin.addToAuthors(author)
+            }
         }
 
         plugin.save()
@@ -122,12 +128,16 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
     }
 
     private void handleArchetype(ZipFile zipFile, json) {
-        Archetype archetype = new Archetype(
-                name: json.name,
-                title: json.title,
-                description: json.description,
-                license: json.license,
-        )
+        Archetype archetype = Archetype.findByName(json.name)
+        if (!archetype) {
+            archetype = new Archetype(name: json.name)
+        }
+        archetype.with {
+            title = json.title
+            description = json.description
+            license = json.license
+        }
+
         json.authors.each {data ->
             Author author = Author.findByEmail(data.email)
             if (!author) {
@@ -136,7 +146,9 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                         email: data.email
                 )
             }
-            archetype.addToAuthors(author)
+            if (!archetype.authors?.contains(author)) {
+                archetype.addToAuthors(author)
+            }
         }
 
         archetype.save()
@@ -146,13 +158,24 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         // unpack docs (if any)
     }
 
-    private void makeRelease(Artifact artifact, json) {
-        Release release = new Release(
-                artifactVersion: json.version,
-                griffonVersion: json.griffonVersion,
-                comment: json.comment,
-                artifact: artifact
-        )
+    private void makeRelease(Artifact pArtifact, json) {
+        Release release = Release.withCriteria(uniqueResult: true) {
+            and {
+                eq("artifactVersion", json.version)
+                artifact {
+                    eq("name", pArtifact.name)
+                }
+            }
+        }
+        if (!release) {
+            release = new Release(
+                    artifactVersion: json.version)
+        }
+        release.with {
+            griffonVersion = json.griffonVersion
+            comment = json.comment
+            artifact = pArtifact
+        }
         release.save()
     }
 }

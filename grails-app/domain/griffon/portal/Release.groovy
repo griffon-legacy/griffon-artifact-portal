@@ -26,6 +26,7 @@ class Release {
     Artifact artifact
 
     Date dateCreated
+    Date lastUpdated
 
     static constraints = {
         artifactVersion(nullable: false, blank: false)

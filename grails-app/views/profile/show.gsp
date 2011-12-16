@@ -38,7 +38,7 @@
       <g:if test="${profileInstance.website}">
         <div class="fieldcontain">
           <span class="property-label" aria-labelledby="description-label"><g:message code="profile.website.label"
-                                                                                      default="Website"/></span>
+                                                                                      default="Website/Blog"/></span>
           <span class="property-value" aria-labelledby="description-label"><a
                   href="${profileInstance.website}"><g:fieldValue bean="${profileInstance}"
                                                                   field="website"/></a></span>
