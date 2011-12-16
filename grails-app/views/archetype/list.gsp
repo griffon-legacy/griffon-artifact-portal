@@ -1,3 +1,4 @@
+<%@ page import="grails.util.GrailsNameUtils" %>
 <!doctype html>
 <html>
 <head>
@@ -26,7 +27,7 @@
         <tbody>
         <g:each in="${archetypeList}" status="i" var="archetypeInstance">
           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-            <td>${fieldValue(bean: archetypeInstance, field: "name")}</td>
+            <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: archetypeInstance, field: "name").toString())}</td>
             <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
             <td>
               <div>

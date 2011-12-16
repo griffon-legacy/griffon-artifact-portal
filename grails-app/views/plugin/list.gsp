@@ -1,3 +1,4 @@
+<%@ page import="grails.util.GrailsNameUtils" %>
 <!doctype html>
 <html>
 <head>
@@ -26,7 +27,7 @@
         <tbody>
         <g:each in="${pluginList}" status="i" var="pluginInstance">
           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-            <td>${fieldValue(bean: pluginInstance, field: "name")}</td>
+            <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: pluginInstance, field: "name").toString())}</td>
             <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
             <td>
               <div>

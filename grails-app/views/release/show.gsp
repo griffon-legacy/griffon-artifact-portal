@@ -23,7 +23,7 @@
       <span id="artifact-label" class="property-label"><%=artifactType%></span>
       <g:link controller="${artifactType.toLowerCase()}" action="show" params="${linkParams}">
         <span class="property-value" aria-labelledby="artifact-label">
-          <g:fieldValue bean="${releaseInstance.artifact}" field="name"/>
+          ${GrailsNameUtils.getNaturalName(fieldValue(bean: releaseInstance.artifact, field: "name").toString())}
         </span>
       </g:link>
     </div>
