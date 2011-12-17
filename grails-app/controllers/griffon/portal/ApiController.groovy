@@ -71,6 +71,7 @@ class ApiController {
                             version: params.version
                     ]
             ] as JSON)
+            return
         }
 
         String basePath = "/WEB-INF/releases/${params.type}/${params.name}/${params.version}/"

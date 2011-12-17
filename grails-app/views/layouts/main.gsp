@@ -32,7 +32,7 @@
 
       <%
         def isHomeActive = {->
-          !params.controller || !(params.controller in ['plugin', 'archetype']) ? 'active' : ''
+          !params.controller || !(params.controller in ['plugin', 'archetype', 'profile']) ? 'active' : ''
         }
         def isTabActive = { String tabName ->
           params?.controller == tabName ? 'active' : ''
@@ -42,6 +42,10 @@
         <li class="<%=isHomeActive()%>"><a href="${application.contextPath}">Home</a></li>
         <li class="<%=isTabActive('plugin')%>"><a href="${application.contextPath}/plugins">Plugins</a></li>
         <li class="<%=isTabActive('archetype')%>"><a href="${application.contextPath}/archetypes">Archetypes</a></li>
+        <g:if test="${session.user}">
+          <li class="<%=isTabActive('profile')%>"><a
+                  href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
+        </g:if>
       </ul>
       <g:if test="${!session.user}">
         <div class="pull-right">
