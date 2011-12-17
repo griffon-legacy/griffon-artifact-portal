@@ -49,10 +49,10 @@
       </ul>
       <g:if test="${!session.user}">
         <div class="pull-right">
-          <g:form controller="user" action="login">
-            <input class="input-small" type="text" name="username" placeholder="Username">
-            <input class="input-small" type="password" name="password" placeholder="Password">
-            <button class="btn small" type="submit">Sign in</button>
+          <g:form name="login" controller="user" action="login">
+            <input class="input-small" type="text" id="username" name="username" placeholder="Username">
+            <input class="input-small" type="password" id="password" name="password" placeholder="Password">
+            <button class="btn small" onclick="return checkLogin();">Sign in</button>
           </g:form>
           <g:form controller="user" action="signup">
             &nbsp;
@@ -78,6 +78,18 @@
     <p>&copy; Griffon 2011</p>
   </footer>
 
-</div> <!-- /container -->
+</div>
+
+<script language="javascript">
+  function isEmpty(str) {
+    return (!str || 0 === str.length || /^\s*$/.test(str));
+  }
+
+  function checkLogin() {
+    var username = $('#username').val();
+    var password = $('#password').val();
+    return !isEmpty(username) && !isEmpty(password);
+  }
+</script>
 </body>
 </html>
