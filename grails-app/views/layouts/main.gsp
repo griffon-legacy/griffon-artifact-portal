@@ -51,7 +51,7 @@
         <div class="pull-right">
           <g:form name="login" controller="user" action="login">
             <input class="input-small" type="text" id="username" name="username" placeholder="Username">
-            <input class="input-small" type="password" id="password" name="password" placeholder="Password">
+            <input class="input-small" type="password" id="passwd" name="passwd" placeholder="Password">
             <button class="btn small" onclick="return checkLogin();">Sign in</button>
           </g:form>
           <g:form controller="user" action="signup">
@@ -87,7 +87,7 @@
 
   function checkLogin() {
     var username = $('#username').val();
-    var password = $('#password').val();
+    var password = $('#passwd').val();
     return !isEmpty(username) && !isEmpty(password);
   }
 </script>

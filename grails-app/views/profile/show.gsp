@@ -40,11 +40,17 @@
         </div>
 
         <div class="span4">
-          <g:if test="${profileInstance.user.username == session.user?.username && profileInstance.user.membership.status == Membership.Status.ACCEPTED}">
-            <g:form controller="release" action="upload">
-              <button class="btn success pull-right" type="submit" id="upload" name="upload">
-                ${message(code: 'griffon.portal.button.upload.label', default: 'Upload a Release')}</button>
-            </g:form>
+          <g:if test="${profileInstance.user.username == session.user?.username}">
+            <g:if test="${profileInstance.user.membership.status == Membership.Status.ACCEPTED}">
+              <g:form controller="release" action="upload">
+                <button class="btn success pull-right" type="submit" id="upload" name="upload">
+                  ${message(code: 'griffon.portal.button.upload.label', default: 'Upload a Release')}</button>
+              </g:form>
+            </g:if>
+            <g:else>
+              <button class="btn primary pull-right">
+                ${message(code: 'griffon.portal.button.membership.label', default: 'Apply for Membership')}</button>
+            </g:else>
           </g:if>
         </div>
       </div>

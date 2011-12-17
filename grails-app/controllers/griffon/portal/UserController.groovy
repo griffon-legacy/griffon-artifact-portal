@@ -26,7 +26,7 @@ class UserController {
 
     def login() {
         User user = User.findWhere(username: params.username,
-                password: MD5.encode(params.password))
+                password: MD5.encode(params.passwd))
         if (user) {
             session.user = user
             redirect(controller: 'profile', action: 'show', params: [id: user.id])
