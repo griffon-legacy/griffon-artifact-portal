@@ -22,23 +22,22 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author Andres Almiray
  */
-public class MD5 {
-    private static MessageDigest digester;
-
-    static {
-        try {
-            digester = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+public final class MD5 {
+    public static String encode(String str) throws IllegalArgumentException {
+        if (str == null || str.length() == 0) {
+            throw new IllegalArgumentException("String to encode cannot be null or have zero length");
         }
+
+        return encode(str.getBytes());
     }
 
-    public static String encode(String str) {
-        if (str == null || str.length() == 0) {
-            throw new IllegalArgumentException("String to encrypt cannot be null or zero length");
+    public static String encode(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            throw new IllegalArgumentException("Byte array to encode cannot be null or have zero length");
         }
 
-        digester.update(str.getBytes());
+        MessageDigest digester = createDigester();
+        digester.update(bytes);
         byte[] hash = digester.digest();
         StringBuffer hexString = new StringBuffer();
         for (int i = 0; i < hash.length; i++) {
@@ -49,5 +48,13 @@ public class MD5 {
             }
         }
         return hexString.toString();
+    }
+
+    private static MessageDigest createDigester() {
+        try {
+            return MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

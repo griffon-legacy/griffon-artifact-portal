@@ -74,7 +74,7 @@
 
             <td>
               <div>
-                <g:form controller="release" action="process">
+                <g:form controller="release" action="dispatch">
                   <g:hiddenField name="id" value="${releaseInstance.id}"/>
                   <g:hiddenField id="release_${releaseInstance.id}" name="release_${releaseInstance.id}" value=""/>
                   <button class="btn primary small" type="submit" id="info" name="info"

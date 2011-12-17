@@ -16,20 +16,19 @@
 
 package griffon.portal
 
+import grails.util.GrailsNameUtils
+
 /**
  * @author Andres Almiray
  */
 class ReleaseController {
-    def process() {
+    def dispatch() {
         def releaseId = params.id
         def actionToFollow = params['release_' + releaseId]
         redirect(action: actionToFollow, id: releaseId)
     }
 
     def show() {
-        if (params.id == 'show' || params.id == 'process') {
-            params.id = request.getParameter('id')
-        }
         if (!params.id) {
             redirect(uri: '/')
             return
@@ -46,6 +45,30 @@ class ReleaseController {
     }
 
     def download() {
+        if (!params.id) {
+            redirect(uri: '/')
+            return
+        }
 
+        def releaseId = params.id instanceof Long ? params.id : params.id.toLong()
+        Release releaseInstance = Release.get(releaseId)
+        if (!releaseInstance) {
+            redirect(uri: '/')
+            return
+        }
+
+        Artifact artifact = releaseInstance.artifact
+        String type = GrailsNameUtils.getShortName(artifact.getClass()).toLowerCase()
+        String basePath = "/WEB-INF/releases/${type}/${artifact.name}/${releaseInstance.artifactVersion}/"
+        String fileName = "griffon-${artifact.name}-${releaseInstance.artifactVersion}.zip"
+        String releasePath = servletContext.getRealPath("${basePath}${fileName}")
+        byte[] content = new FileInputStream(releasePath).bytes
+
+        response.contentType = 'application/octet-stream'
+        response.contentLength = content.length
+        response.setHeader('Pragma', '')
+        response.setHeader('Cache-Control', 'must-revalidate')
+        response.setHeader('Content-disposition', "attachment; filename=${fileName}")
+        response.outputStream << content
     }
 }

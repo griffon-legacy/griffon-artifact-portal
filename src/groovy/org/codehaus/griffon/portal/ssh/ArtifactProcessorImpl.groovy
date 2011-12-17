@@ -16,11 +16,13 @@
 
 package org.codehaus.griffon.portal.ssh
 
+import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import org.apache.sshd.server.SshFile
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import griffon.portal.*
@@ -69,11 +71,13 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         try {
             switch (artifactType) {
                 case 'plugin':
+                    verifyArtifact(zipFile, json)
                     withTransaction {
                         handlePlugin(zipFile, json)
                     }
                     break
                 case 'archetype':
+                    verifyArtifact(zipFile, json)
                     withTransaction {
                         handleArchetype(zipFile, json)
                     }
@@ -92,6 +96,36 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                 throw e
             }
         }
+    }
+
+    private void verifyArtifact(ZipFile zipFile, json) {
+        String fileName = "griffon-${json.name}-${json.version}.zip"
+        ZipEntry artifactFileEntry = zipFile.getEntry(fileName)
+        ZipEntry md5ChecksumEntry = zipFile.getEntry("${fileName}.md5")
+
+        if (artifactFileEntry == null) {
+            throw new IOException("Release does not contain expected zip entry ${fileName}")
+        }
+        if (md5ChecksumEntry == null) {
+            throw new IOException("Release does not contain expected zip entry ${fileName}.md5")
+        }
+
+        byte[] bytes = zipFile.getInputStream(artifactFileEntry).bytes
+        String computedHash = MD5.encode(bytes)
+        String releaseHash = zipFile.getInputStream(md5ChecksumEntry).text
+
+        if (computedHash.trim() != releaseHash.trim()) {
+            throw new IOException("Wrong checksum for ${fileName}")
+        }
+
+        String basePath = "/WEB-INF/releases/${json.type}/${json.name}/${json.version}/"
+        String releaseFilePath = ServletContextHolder.servletContext.getRealPath("${basePath}${fileName}")
+        String md5ChecksumPath = ServletContextHolder.servletContext.getRealPath("${basePath}${fileName}.md5")
+        new File(releaseFilePath).getParentFile().mkdirs()
+        OutputStream os = new FileOutputStream(releaseFilePath)
+        os.bytes = zipFile.getInputStream(artifactFileEntry).bytes
+        os = new FileOutputStream(md5ChecksumPath)
+        os.bytes = zipFile.getInputStream(md5ChecksumEntry).bytes
     }
 
     private void handlePlugin(ZipFile zipFile, json) {
@@ -123,7 +157,6 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         plugin.save()
         makeRelease(plugin, json)
 
-        // unpack artifact zip to download area
         // unpack docs (if any)
     }
 
@@ -154,7 +187,6 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         archetype.save()
         makeRelease(archetype, json)
 
-        // unpack artifact zip to download area
         // unpack docs (if any)
     }
 
