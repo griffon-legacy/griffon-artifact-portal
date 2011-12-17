@@ -23,6 +23,7 @@ class Release {
     String artifactVersion
     String griffonVersion
     String comment
+    String checksum
     Artifact artifact
 
     Date dateCreated
@@ -32,6 +33,7 @@ class Release {
         artifactVersion(nullable: false, blank: false)
         griffonVersion(nullable: false, blank: false)
         comment(nullable: false, blank: false)
+        checksum(nullable: false, blank: false)
         artifact(nullable: false)
     }
 
@@ -41,6 +43,7 @@ class Release {
                 artifactVersion: artifactVersion,
                 griffonVersion: griffonVersion,
                 comment: comment,
+                checksum: checksum,
                 date: dateCreated,
                 artifact: artifact
         ]

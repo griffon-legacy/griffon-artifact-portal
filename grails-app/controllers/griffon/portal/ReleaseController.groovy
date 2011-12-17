@@ -66,9 +66,9 @@ class ReleaseController {
         byte[] content = new FileInputStream(releasePath).bytes
 
         new Activity(
-                username: session.user?.username ?: 'web',
+                username: session.user?.username ?: 'GRIFFON_WEB',
                 eventType: EventType.DOWNLOAD,
-                event: "${type}: ${artifact.name}-${releaseInstance.artifactVersion}"
+                event: [type: type, name: artifact.name, version: releaseInstance.artifactVersion].toString()
         ).save()
 
         response.contentType = 'application/octet-stream'

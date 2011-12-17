@@ -9,7 +9,7 @@
 <body>
 
 <div class="page-header">
-  <h1>${archetypeName} <small>${archetypeInstance.title}</small></h1>
+  <h1>${archetypeName} <small><p>${archetypeInstance.title}</p></small></h1>
 </div>
 
 <div class="row">
@@ -52,7 +52,7 @@
 </div>
 
 <div class="row">
-  <div class="span16">
+  <div class="span15">
     <div id="list-releases" class="scaffold-list" role="main">
       <table>
         <thead>
@@ -72,7 +72,7 @@
             <td>${fieldValue(bean: releaseInstance, field: "griffonVersion")}</td>
             <td><g:formatDate format="dd-MM-yyyy" date="${releaseInstance.dateCreated}"/></td>
 
-            <td>
+            <td class="pull-right">
               <div>
                 <g:form controller="release" action="dispatch">
                   <g:hiddenField name="id" value="${releaseInstance.id}"/>

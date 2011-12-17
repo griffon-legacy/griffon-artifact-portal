@@ -14,7 +14,7 @@
 
 
 <div class="row">
-  <div class="span16">
+  <div class="span15">
     <div id="list-plugins">
       <table>
         <thead>
@@ -29,7 +29,7 @@
           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
             <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: pluginInstance, field: "name").toString())}</td>
             <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
-            <td>
+            <td class="pull-right">
               <div>
                 <%
                   def formParams = [name: pluginInstance.name]

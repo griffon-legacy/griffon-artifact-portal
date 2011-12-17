@@ -21,34 +21,6 @@ class BootStrap {
                 twitter: 'aalmiray'
         )
         user.save()
-
-        Author author = new Author(
-                name: 'Andres Almiray',
-                email: 'aalmiray@yahoo.com'
-        )
-        author.save()
-        Plugin plugin = new Plugin(
-                name: 'miglayout',
-                title: 'Adds Miglayout support to Views',
-                description: 'Miglayout support http://miglayout.com',
-                license: 'Apache Software License 2.0',
-                toolkits: 'swing'
-        )
-        plugin.addToAuthors(author)
-        plugin.save()
-
-        new Release(
-                artifactVersion: '0.1',
-                griffonVersion: '0.9.3 > *',
-                comment: 'First release',
-                artifact: plugin
-        ).save()
-        new Release(
-                artifactVersion: '0.2',
-                griffonVersion: '0.9.3 > *',
-                comment: 'Second release',
-                artifact: plugin
-        ).save()
     }
     def destroy = {
     }

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package org.codehaus.griffon.portal.ssh
+package org.codehaus.griffon.portal.api
 
 import griffon.portal.util.MD5
-import griffon.portal.values.EventType
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import org.apache.sshd.server.SshFile
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -34,15 +32,13 @@ import griffon.portal.*
 class ArtifactProcessorImpl implements ArtifactProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactProcessorImpl)
 
-    void process(SshFile file, String artifactName, String artifactVersion, String username) throws IOException {
-        ZipFile zipFile = new ZipFile(file.getAbsolutePath())
-
+    void process(ArtifactInfo artifactInfo) throws IOException {
         boolean handled = false
         for (artifact in ['plugin', 'archetype']) {
-            ZipEntry artifactEntry = zipFile.getEntry(artifact + '.json')
+            ZipEntry artifactEntry = artifactInfo.zipFile.getEntry(artifact + '.json')
             if (artifactEntry) {
                 handled = true
-                handle(zipFile, artifactEntry, artifact, artifactName, artifactVersion, username)
+                handle(artifactInfo, artifact, artifactEntry)
                 break
             }
         }
@@ -52,41 +48,41 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
     }
 
-    private void handle(ZipFile zipFile, ZipEntry artifactEntry, String artifactType, String artifactName, String artifactVersion, String username) {
+    private void handle(ArtifactInfo artifactInfo, String artifactType, ZipEntry artifactEntry) {
         def json = null
         try {
-            json = new JsonSlurper().parseText(zipFile.getInputStream(artifactEntry).text)
+            json = new JsonSlurper().parseText(artifactInfo.zipFile.getInputStream(artifactEntry).text)
         } catch (JsonException e) {
-            throw new IOException("Release of ${artifactType}::${artifactName}-${artifactVersion} failed => $e", e)
+            throw new IOException("Release of ${artifactType}::${artifactInfo.artifactName}-${artifactInfo.artifactVersion} failed => $e", e)
         }
         if (artifactType != json.type) {
             throw new IOException("Artifact type is '${json.type}' but expected type is '${artifactType}'")
         }
-        if (artifactName != json.name) {
-            throw new IOException("Artifact name is '${json.name}' but expected name is '${artifactName}'")
+        if (artifactInfo.artifactName != json.name) {
+            throw new IOException("Artifact name is '${json.name}' but expected name is '${artifactInfo.artifactName}'")
         }
-        if (artifactVersion != json.version) {
-            throw new IOException("Artifact version is '${json.version}' but expected version is '${artifactVersion}'")
+        if (artifactInfo.artifactVersion != json.version) {
+            throw new IOException("Artifact version is '${json.version}' but expected version is '${artifactInfo.artifactVersion}'")
         }
 
         try {
             switch (artifactType) {
                 case 'plugin':
-                    verifyArtifact(zipFile, json)
+                    verifyArtifact(artifactInfo.zipFile, json)
                     withTransaction {
-                        handlePlugin(zipFile, json)
-                        writeActivity(username, json)
+                        handlePlugin(json)
+                        writeActivity(artifactInfo, json)
                     }
                     break
                 case 'archetype':
-                    verifyArtifact(zipFile, json)
+                    verifyArtifact(artifactInfo.zipFile, json)
                     withTransaction {
-                        handleArchetype(zipFile, json)
-                        writeActivity(username, json)
+                        handleArchetype(json)
+                        writeActivity(artifactInfo, json)
                     }
             }
         } catch (Exception e) {
-            throw new IOException("Release of ${artifactType}::${artifactName}-${artifactVersion} failed => $e", e)
+            throw new IOException("Release of ${artifactType}::${artifactInfo.artifactName}-${artifactInfo.artifactVersion} failed => $e", e)
         }
     }
 
@@ -129,9 +125,11 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         os.bytes = zipFile.getInputStream(artifactFileEntry).bytes
         os = new FileOutputStream(md5ChecksumPath)
         os.bytes = zipFile.getInputStream(md5ChecksumEntry).bytes
+
+        json.checksum = zipFile.getInputStream(md5ChecksumEntry).text
     }
 
-    private void handlePlugin(ZipFile zipFile, json) {
+    private void handlePlugin(json) {
         Plugin plugin = Plugin.findByName(json.name)
         if (!plugin) {
             plugin = new Plugin(name: json.name)
@@ -144,26 +142,14 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             platforms = json.platforms.join(',')
         }
 
-        json.authors.each {data ->
-            Author author = Author.findByEmail(data.email)
-            if (!author) {
-                author = new Author(
-                        name: data.name,
-                        email: data.email
-                )
-            }
-            if (!plugin.authors?.contains(author)) {
-                plugin.addToAuthors(author)
-            }
-        }
-
+        handleAuthors(plugin, json)
         plugin.save()
         makeRelease(plugin, json)
 
         // unpack docs (if any)
     }
 
-    private void handleArchetype(ZipFile zipFile, json) {
+    private void handleArchetype(json) {
         Archetype archetype = Archetype.findByName(json.name)
         if (!archetype) {
             archetype = new Archetype(name: json.name)
@@ -174,6 +160,14 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             license = json.license
         }
 
+        handleAuthors(archetype, json)
+        archetype.save()
+        makeRelease(archetype, json)
+
+        // unpack docs (if any)
+    }
+
+    private void handleAuthors(Artifact artifact, json) {
         json.authors.each {data ->
             Author author = Author.findByEmail(data.email)
             if (!author) {
@@ -182,15 +176,10 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                         email: data.email
                 )
             }
-            if (!archetype.authors?.contains(author)) {
-                archetype.addToAuthors(author)
+            if (!artifact.authors?.contains(author)) {
+                artifact.addToAuthors(author)
             }
         }
-
-        archetype.save()
-        makeRelease(archetype, json)
-
-        // unpack docs (if any)
     }
 
     private void makeRelease(Artifact pArtifact, json) {
@@ -209,16 +198,17 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         release.with {
             griffonVersion = json.griffonVersion
             comment = json.comment
+            checksum = json.checksum
             artifact = pArtifact
         }
         release.save()
     }
 
-    private void writeActivity(String username, json) {
+    private void writeActivity(ArtifactInfo artifactInfo, json) {
         new Activity(
-                username: username,
-                eventType: EventType.UPLOAD,
-                event: "${json.type}: ${json.name}-${json.version}"
+                username: artifactInfo.username,
+                eventType: artifactInfo.eventType,
+                event: [type: json.type, name: json.name, version: json.version].toString()
         ).save()
     }
 }

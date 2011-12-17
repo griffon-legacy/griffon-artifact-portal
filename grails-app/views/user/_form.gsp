@@ -38,15 +38,6 @@
   <g:textField name="fullName" required="" value="${userInstance?.fullName}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'membership.reason', 'error')} required">
-  <label for="reason">
-    <g:message code="user.membership.reason.label" default="Reason for joining"/>
-    <span class="required-indicator">*</span>
-  </label>
-  <g:textArea name="reason" cols="40" rows="5" maxlength="1000" required=""
-              value="${userInstance?.membership?.reason}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'captcha', 'error')} required">
   <label for="captcha">
     <g:message code="user.captcha.label" default="Please enter the text as shown below"/>

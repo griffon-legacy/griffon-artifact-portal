@@ -20,6 +20,7 @@ package org.codehaus.griffon.portal.ssh;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
+import org.codehaus.griffon.portal.api.ArtifactProcessor;
 
 import java.util.ArrayList;
 import java.util.List;

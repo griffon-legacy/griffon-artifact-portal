@@ -10,7 +10,7 @@
 <body>
 
 <div class="page-header">
-  <h1>${releaseName} <small>${releaseInstance.artifact.title}</small></h1>
+  <h1>${releaseName} <small><p>${releaseInstance.artifact.title}</p></small></h1>
 </div>
 
 <div class="row">
@@ -36,6 +36,29 @@
       </span>
     </div>
 
+    <div class="fieldcontain">
+      <span id="checksum-label"
+            class="property-label">${message(code: 'release.checksum.label', default: 'Checksum')}</span>
+      <span class="property-value" aria-labelledby="checksum-label">
+        <g:fieldValue bean="${releaseInstance}" field="checksum"/>
+      </span>
+    </div>
+
+    <div class="fieldcontain">
+      <span id="comment-label"
+            class="property-label">${message(code: 'release.comment.label', default: 'Comment')}</span>
+      <span class="property-value" aria-labelledby="comment-label">
+        <g:fieldValue bean="${releaseInstance}" field="comment"/>
+      </span>
+    </div>
+  </div>
+
+  <div class="span4">
+    <g:form controller="release" action="download">
+      <g:hiddenField name="id" value="${releaseInstance.id}"/>
+      <button class="btn success pull-right" type="submit" id="download" name="download">
+        ${message(code: 'griffon.portal.button.download.label', default: 'Download')}</button>
+    </g:form>
   </div>
 </div>
 </body>

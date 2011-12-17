@@ -14,7 +14,7 @@
 
 
 <div class="row">
-  <div class="span16">
+  <div class="span15">
     <div id="list-archetypes">
       <table>
         <thead>
@@ -29,7 +29,7 @@
           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
             <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: archetypeInstance, field: "name").toString())}</td>
             <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
-            <td>
+            <td class="pull-right">
               <div>
                 <%
                   def formParams = [name: archetypeInstance.name]

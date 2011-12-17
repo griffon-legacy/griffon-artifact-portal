@@ -19,7 +19,7 @@ package org.codehaus.griffon.portal.spring;
 import groovy.util.ConfigObject;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.codehaus.griffon.portal.ssh.ArtifactProcessorImpl;
+import org.codehaus.griffon.portal.api.ArtifactProcessorImpl;
 import org.codehaus.griffon.portal.ssh.PasswordAuthenticator;
 import org.codehaus.griffon.portal.ssh.ScpCommandFactory;
 import org.codehaus.groovy.grails.commons.GrailsApplication;

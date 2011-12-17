@@ -17,7 +17,6 @@
 package griffon.portal
 
 import grails.converters.JSON
-import grails.util.GrailsNameUtils
 import griffon.portal.values.EventType
 
 /**
@@ -62,13 +61,8 @@ class ApiController {
         Map data = [:]
         if (artifact) {
             data = asMap(artifact)
-            data.releases = []
-            Release.findAllByArtifact(artifact, SORT_SETTINGS).each {Release release ->
-                try {
-                    data.releases << asMap(release)
-                } catch (IOException ioe) {
-                    // ignore
-                }
+            data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
+                asMap(release)
             }
         } else {
             data = [
@@ -130,9 +124,9 @@ class ApiController {
         byte[] content = new FileInputStream(releasePath).bytes
 
         new Activity(
-                username: 'api',
+                username: 'GRIFFON_API',
                 eventType: EventType.DOWNLOAD,
-                event: "${params.type}: ${params.name}-${params.version}"
+                event: [type: params.type, name: params.name, version: params.version].toString()
         ).save()
 
         response.contentType = 'application/octet-stream'
@@ -170,18 +164,12 @@ class ApiController {
     }
 
     private Map asMap(Release release) {
-        Artifact artifact = release.artifact
-        String type = GrailsNameUtils.getShortName(artifact.getClass()).toLowerCase()
-        String basePath = "/WEB-INF/releases/${type}/${artifact.name}/${release.artifactVersion}/"
-        String fileName = "griffon-${artifact.name}-${release.artifactVersion}.zip.md5"
-        String releasePath = servletContext.getRealPath("${basePath}${fileName}")
-
         [
                 version: release.artifactVersion,
                 griffonVersion: release.griffonVersion,
                 date: release.dateCreated.format(TIMESTAMP_FORMAT),
                 comment: release.comment,
-                checksum: new FileInputStream(releasePath).text
+                checksum: release.checksum
         ]
     }
 }

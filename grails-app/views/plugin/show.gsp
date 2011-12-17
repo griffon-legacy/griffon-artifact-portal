@@ -9,7 +9,7 @@
 <body>
 
 <div class="page-header">
-  <h1>${pluginName} <small>${pluginInstance.title}</small></h1>
+  <h1>${pluginName} <small><p>${pluginInstance.title}</p></small></h1>
 </div>
 
 <div class="row">
@@ -75,7 +75,7 @@
           </ul>
         </div>
 
-        <div class="span2">
+        <div class="span3">
           <address>
             <strong>${author.name}</strong><br/>
             <a mailto="">${author.email}</a>
@@ -87,7 +87,7 @@
 </div>
 
 <div class="row">
-  <div class="span16">
+  <div class="span15">
     <div id="list-releases" class="scaffold-list" role="main">
       <table>
         <thead>
@@ -107,7 +107,7 @@
             <td>${fieldValue(bean: releaseInstance, field: "griffonVersion")}</td>
             <td><g:formatDate format="dd-MM-yyyy" date="${releaseInstance.dateCreated}"/></td>
 
-            <td>
+            <td class="pull-right">
               <div>
                 <g:form controller="release" action="dispatch">
                   <g:hiddenField name="id" value="${releaseInstance.id}"/>

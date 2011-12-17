@@ -25,7 +25,7 @@ class User {
     String email
     String fullName
     String captcha
-    Membership membership
+    Membership membership = new Membership()
     Profile profile
 
     Date dateCreated
@@ -51,7 +51,7 @@ class Membership {
     Status status = Status.PENDING
 
     static constraints = {
-        reason(nullable: false, blank: true, minSize: 20, maxSize: 1000)
+        reason(nullable: true, blank: false, maxSize: 1000)
         status(nullable: false)
     }
 

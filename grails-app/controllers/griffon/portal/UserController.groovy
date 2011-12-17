@@ -26,8 +26,7 @@ class UserController {
 
     def login() {
         User user = User.findWhere(username: params.username,
-                password: MD5.encode(params.password),
-                'membership.status': Membership.Status.ACCEPTED)
+                password: MD5.encode(params.password))
         if (user) {
             session.user = user
             redirect(controller: 'profile', action: 'show', params: [id: user.id])
@@ -48,7 +47,10 @@ class UserController {
 
     def subscribe() {
         User user = new User(params)
-        user.membership = new Membership(params)
+        user.profile = new Profile(
+                user: user,
+                gravatarEmail: user.email,
+        )
 
         if (!jcaptchaService.validateResponse('image', session.id, user.captcha)) {
             user.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')
@@ -63,7 +65,7 @@ class UserController {
             return
         }
 
-        [userInstance: user]
+        redirect(controller: 'profile', action: 'show', id: user.username)
     }
 
     def pending() {
@@ -76,10 +78,6 @@ class UserController {
     def approveOrReject() {
         User user = User.get(params.id)
         user.membership.status = params.status
-        user.profile = new Profile(
-                user: user,
-                gravatarEmail: user.email,
-        )
         user.save()
         redirect(action: 'pending')
     }

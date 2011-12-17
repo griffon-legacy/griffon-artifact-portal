@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.codehaus.griffon.portal.ssh;
-
-import org.apache.sshd.server.SshFile;
+package org.codehaus.griffon.portal.api;
 
 import java.io.IOException;
 
@@ -24,5 +22,5 @@ import java.io.IOException;
  * @author Andres Almiray
  */
 public interface ArtifactProcessor {
-    void process(SshFile file, String artifactName, String artifactVersion, String username) throws IOException;
+    void process(ArtifactInfo artifactInfo) throws IOException;
 }

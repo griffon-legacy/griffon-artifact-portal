@@ -43,7 +43,7 @@ jcaptchas {
 }
 
 avatarPlugin {
-    defaultGravatarUrl = 'http://yourdomain.com/images/default-gravatar-80.png'
+    defaultGravatarUrl = '/images/griffon-icon-128x128.grayscale.png'
     gravatarRating = 'G'
 }
 
