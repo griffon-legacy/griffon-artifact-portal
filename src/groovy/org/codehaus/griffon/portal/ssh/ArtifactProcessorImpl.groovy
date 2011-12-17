@@ -17,6 +17,7 @@
 package org.codehaus.griffon.portal.ssh
 
 import griffon.portal.util.MD5
+import griffon.portal.values.EventType
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
 import java.util.zip.ZipEntry
@@ -33,7 +34,7 @@ import griffon.portal.*
 class ArtifactProcessorImpl implements ArtifactProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactProcessorImpl)
 
-    void process(SshFile file, String artifactName, String artifactVersion) throws IOException {
+    void process(SshFile file, String artifactName, String artifactVersion, String username) throws IOException {
         ZipFile zipFile = new ZipFile(file.getAbsolutePath())
 
         boolean handled = false
@@ -41,7 +42,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             ZipEntry artifactEntry = zipFile.getEntry(artifact + '.json')
             if (artifactEntry) {
                 handled = true
-                handle(zipFile, artifactEntry, artifact, artifactName, artifactVersion)
+                handle(zipFile, artifactEntry, artifact, artifactName, artifactVersion, username)
                 break
             }
         }
@@ -51,7 +52,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
     }
 
-    private void handle(ZipFile zipFile, ZipEntry artifactEntry, String artifactType, String artifactName, String artifactVersion) {
+    private void handle(ZipFile zipFile, ZipEntry artifactEntry, String artifactType, String artifactName, String artifactVersion, String username) {
         def json = null
         try {
             json = new JsonSlurper().parseText(zipFile.getInputStream(artifactEntry).text)
@@ -74,12 +75,14 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                     verifyArtifact(zipFile, json)
                     withTransaction {
                         handlePlugin(zipFile, json)
+                        writeActivity(username, json)
                     }
                     break
                 case 'archetype':
                     verifyArtifact(zipFile, json)
                     withTransaction {
                         handleArchetype(zipFile, json)
+                        writeActivity(username, json)
                     }
             }
         } catch (Exception e) {
@@ -209,5 +212,13 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             artifact = pArtifact
         }
         release.save()
+    }
+
+    private void writeActivity(String username, json) {
+        new Activity(
+                username: username,
+                eventType: EventType.UPLOAD,
+                event: "${json.type}: ${json.name}-${json.version}"
+        ).save()
     }
 }

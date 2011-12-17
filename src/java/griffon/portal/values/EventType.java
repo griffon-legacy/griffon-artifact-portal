@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package org.codehaus.griffon.portal.ssh;
-
-import org.apache.sshd.server.SshFile;
-
-import java.io.IOException;
+package griffon.portal.values;
 
 /**
  * @author Andres Almiray
  */
-public interface ArtifactProcessor {
-    void process(SshFile file, String artifactName, String artifactVersion, String username) throws IOException;
+public enum EventType {
+    UPLOAD,
+    DOWNLOAD,
+    PROFILE_EDIT,
+    ARTIFACT_EDIT;
 }

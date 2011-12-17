@@ -17,6 +17,7 @@
 package org.codehaus.griffon.portal.ssh;
 
 import org.apache.sshd.common.util.DirectoryScanner;
+import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.SshFile;
 
 import java.io.IOException;
@@ -33,10 +34,17 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
     private static final Pattern FILE_PATTERN = Pattern.compile("^/tmp/" + ARTIFACT_REGEX + "$");
 
     private final ArtifactProcessor artifactProcessor;
+    private String username;
 
     public ScpCommand(String[] args, ArtifactProcessor artifactProcessor) {
         super(args);
         this.artifactProcessor = artifactProcessor;
+    }
+
+    @Override
+    public void start(Environment env) throws IOException {
+        username = env.getEnv().get(Environment.ENV_USER);
+        super.start(env);
     }
 
     protected void writeFile(String header, SshFile file) throws IOException {
@@ -50,7 +58,7 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
         matcher.find();
         String artifactName = matcher.group(1);
         String artifactVersion = matcher.group(2);
-        artifactProcessor.process(file, artifactName, artifactVersion);
+        artifactProcessor.process(file, artifactName, artifactVersion, username);
 
         ack();
         readAck(false);

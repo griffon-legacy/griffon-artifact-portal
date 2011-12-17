@@ -34,7 +34,6 @@ import java.util.List;
  */
 public class ScpCommandFactory implements CommandFactory {
     private final ArtifactProcessor artifactProcessor;
-    private CommandFactory delegate;
 
     public ScpCommandFactory(ArtifactProcessor artifactProcessor) {
         this.artifactProcessor = artifactProcessor;
@@ -53,9 +52,6 @@ public class ScpCommandFactory implements CommandFactory {
         try {
             return new ScpCommand(splitCommandString(command), artifactProcessor);
         } catch (IllegalArgumentException iae) {
-            if (delegate != null) {
-                return delegate.createCommand(command);
-            }
             throw iae;
         }
     }

@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package org.codehaus.griffon.portal.ssh;
+package griffon.portal
 
-import org.apache.sshd.server.SshFile;
-
-import java.io.IOException;
+import griffon.portal.values.EventType
 
 /**
  * @author Andres Almiray
  */
-public interface ArtifactProcessor {
-    void process(SshFile file, String artifactName, String artifactVersion, String username) throws IOException;
+class Activity {
+    String username
+    EventType eventType
+    String event
+    Date dateCreated
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        event(nullable: false, blank: false)
+    }
 }

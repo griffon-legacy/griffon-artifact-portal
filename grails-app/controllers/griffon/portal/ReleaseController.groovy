@@ -17,6 +17,7 @@
 package griffon.portal
 
 import grails.util.GrailsNameUtils
+import griffon.portal.values.EventType
 
 /**
  * @author Andres Almiray
@@ -63,6 +64,12 @@ class ReleaseController {
         String fileName = "griffon-${artifact.name}-${releaseInstance.artifactVersion}.zip"
         String releasePath = servletContext.getRealPath("${basePath}${fileName}")
         byte[] content = new FileInputStream(releasePath).bytes
+
+        new Activity(
+                username: session.user?.username ?: 'web',
+                eventType: EventType.DOWNLOAD,
+                event: "${type}: ${artifact.name}-${releaseInstance.artifactVersion}"
+        ).save()
 
         response.contentType = 'application/octet-stream'
         response.contentLength = content.length
