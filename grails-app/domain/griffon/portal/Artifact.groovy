@@ -30,7 +30,7 @@ class Artifact {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [authors: Author]
+    static hasMany = [authors: Author, tags: Tag]
 
     static constraints = {
         name(nullable: false, blank: false)
