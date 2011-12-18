@@ -145,6 +145,10 @@ class ApiController {
                 license: plugin.license,
                 toolkits: plugin.toolkits,
                 platforms: plugin.platforms,
+                dependencies: plugin.dependencies.inject([]) { l, entry ->
+                    l << [name: entry.key, version: entry.value]
+                    l
+                },
                 authors: plugin.authors.collect([]) { Author author ->
                     [name: author.name, email: author.email]
                 }

@@ -140,6 +140,10 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             license = json.license
             toolkits = json.toolkits.join(',')
             platforms = json.platforms.join(',')
+            dependencies = json.dependencies.inject([:]) {m, dep ->
+                m[dep.name] = dep.version
+                m
+            }
         }
 
         handleAuthors(plugin, json)

@@ -1,4 +1,4 @@
-<%@ page import="griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
+<%@ page import="grails.util.GrailsNameUtils; griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
 <!doctype html>
 <html>
 <head>
@@ -41,20 +41,33 @@
       <span id="platforms-label" class="property-label"><g:message code="plugin.platforms.label"
                                                                    default="Platforms"/></span>
       <g:set var="platforms" value="${pluginInstance.platforms.split(',')}"/>
-      <span class="property-value" aria-labelledby="platforms-label">
-        <g:if test="${pluginInstance.platforms.size() == 0}">
-          <g:set var="platforms" value="${Platform.getLowercaseNamesAsList()}"/>
+      <g:if test="${pluginInstance.platforms.size() == 0}">
+        <g:set var="platforms" value="${Platform.getLowercaseNamesAsList()}"/>
+      </g:if>
+      <ul class="media-grid">
+        <g:each in="${platforms}" var="platform">
+          <li>
+            <a href="#"><g:img dir="images" class="thumbnail" file="logo-${platform.trim()}.gif"
+                               width="16" height="16" alt="${platform.trim()}"/></a>
+          </li>
+        </g:each>
+      </ul>
+    </div>
+
+    <div class="fieldcontain">
+      <span id="dependencies-label" class="property-label"><g:message code="plugin.dependencies.label"
+                                                                      default="Dependencies"/></span>
+      <span class="property-value" aria-labelledby="dependencies-label">
+        <g:if test="${!pluginInstance.dependencies}">
+          NONE
         </g:if>
-        <ul class="media-grid">
-          <g:each in="${platforms}" var="platform">
-            <li>
-              <a href="#">
-                <g:img dir="images" class="thumbnail" file="logo-${platform.trim()}.gif"
-                       width="16" height="16" alt="${platform.trim()}"/>
-              </a>
-            </li>
-          </g:each>
-        </ul>
+        <% def linkParams = [:] %>
+        <g:each in="${pluginInstance.dependencies}" var="dependency">
+          <% linkParams.name = dependency.key %>
+          <g:link controller="plugin" action="show" params="${linkParams}">
+            ${GrailsNameUtils.getNaturalName(dependency.key)}
+          </g:link>
+        </g:each>
       </span>
     </div>
 
