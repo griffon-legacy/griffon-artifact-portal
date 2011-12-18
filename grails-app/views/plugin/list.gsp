@@ -16,7 +16,7 @@
 <div class="row">
   <div class="span15">
     <div id="list-plugins">
-      <table>
+      <table class="condensed-table zebra-striped">
         <thead>
         <tr>
           <th>${message(code: 'plugin.name.label', default: 'Name')}</th>
@@ -26,20 +26,18 @@
         </thead>
         <tbody>
         <g:each in="${pluginList}" status="i" var="pluginInstance">
-          <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+          <tr>
             <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: pluginInstance, field: "name").toString())}</td>
             <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
-            <td class="pull-right">
-              <div>
-                <%
-                  def formParams = [name: pluginInstance.name]
-                %>
-                <g:form controller="plugin" action="show" params="${formParams}" mapping="showPlugin">
-                  <g:hiddenField name="name" value="${pluginInstance.name}"/>
-                  <button class="btn primary small" type="submit" id="info" name="info">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                </g:form>
-              </div>
+            <td>
+              <%
+                def formParams = [name: pluginInstance.name]
+              %>
+              <g:form controller="plugin" action="show" params="${formParams}" mapping="showPlugin">
+                <g:hiddenField name="name" value="${pluginInstance.name}"/>
+                <button class="btn primary small" type="submit" id="info" name="info">
+                  ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
+              </g:form>
             </td>
           </tr>
         </g:each>

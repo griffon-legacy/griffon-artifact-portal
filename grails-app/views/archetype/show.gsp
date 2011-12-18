@@ -53,44 +53,39 @@
 
 <div class="row">
   <div class="span15">
-    <div id="list-releases" class="scaffold-list" role="main">
-      <table>
-        <thead>
+    <table class="condensed-table zebra-stripped">
+      <thead>
+      <tr>
+        <th>${message(code: 'release.artifactVersion.label', default: 'Version')}</th>
+        <th>${message(code: 'release.griffonVersion.label', default: 'Griffon Version')}</th>
+        <th>${message(code: 'release.dateCreated.label', default: 'Date')}</th>
+        <th>${message(code: 'release.checksum.label', default: 'Checksum')}</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <g:each in="${releaseList}" status="i" var="releaseInstance">
         <tr>
-          <th>${message(code: 'release.artifactVersion.label', default: 'Version')}</th>
-          <th>${message(code: 'release.griffonVersion.label', default: 'Griffon Version')}</th>
-          <th>${message(code: 'release.dateCreated.label', default: 'Date')}</th>
-          <th></th>
-
+          <td>${fieldValue(bean: releaseInstance, field: "artifactVersion")}</td>
+          <td>${fieldValue(bean: releaseInstance, field: "griffonVersion")}</td>
+          <td><g:formatDate format="dd-MM-yyyy" date="${releaseInstance.dateCreated}"/></td>
+          <td>${fieldValue(bean: releaseInstance, field: "checksum")}</td>
+          <td>
+            <g:form controller="release" action="dispatch">
+              <g:hiddenField name="id" value="${releaseInstance.id}"/>
+              <g:hiddenField id="release_${releaseInstance.id}" name="release_${releaseInstance.id}" value=""/>
+              <button class="btn primary small" type="submit" id="info" name="info"
+                      onclick="return adjustForm('${releaseInstance.id}', 'show');">
+                ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
+              <button class="btn success small" type="submit" id="download" name="download"
+                      onclick="return adjustForm('${releaseInstance.id}', 'download');">
+                ${message(code: 'griffon.portal.button.download.label', default: 'Download')}</button>
+            </g:form>
+          </td>
         </tr>
-        </thead>
-        <tbody>
-        <g:each in="${releaseList}" status="i" var="releaseInstance">
-          <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-
-            <td>${fieldValue(bean: releaseInstance, field: "artifactVersion")}</td>
-            <td>${fieldValue(bean: releaseInstance, field: "griffonVersion")}</td>
-            <td><g:formatDate format="dd-MM-yyyy" date="${releaseInstance.dateCreated}"/></td>
-
-            <td class="pull-right">
-              <div>
-                <g:form controller="release" action="dispatch">
-                  <g:hiddenField name="id" value="${releaseInstance.id}"/>
-                  <g:hiddenField id="release_${releaseInstance.id}" name="release_${releaseInstance.id}" value=""/>
-                  <button class="btn primary small" type="submit" id="info" name="info"
-                          onclick="return adjustForm('${releaseInstance.id}', 'show');">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                  <button class="btn success small" type="submit" id="download" name="download"
-                          onclick="return adjustForm('${releaseInstance.id}', 'download');">
-                    ${message(code: 'griffon.portal.button.download.label', default: 'Download')}</button>
-                </g:form>
-              </div>
-            </td>
-          </tr>
-        </g:each>
-        </tbody>
-      </table>
-    </div>
+      </g:each>
+      </tbody>
+    </table>
   </div>
 </div>
 

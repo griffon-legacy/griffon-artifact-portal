@@ -48,14 +48,15 @@ class User {
 
 class Membership {
     String reason
-    Status status = Status.PENDING
+    Status status = Status.NOT_REQUESTED
 
     static constraints = {
-        reason(nullable: true, blank: false, maxSize: 1000)
+        reason(nullable: true, blank: false, minSize: 20, maxSize: 1000)
         status(nullable: false)
     }
 
     static enum Status {
+        NOT_REQUESTED,
         PENDING,
         ACCEPTED,
         REJECTED

@@ -15,37 +15,33 @@
 
 <div class="row">
   <div class="span15">
-    <div id="list-archetypes">
-      <table>
-        <thead>
+    <table class="condensed-table zebra-striped">
+      <thead>
+      <tr>
+        <th>${message(code: 'archetype.name.label', default: 'Name')}</th>
+        <th>${message(code: 'archetype.title.label', default: 'Title')}</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <g:each in="${archetypeList}" status="i" var="archetypeInstance">
         <tr>
-          <th>${message(code: 'archetype.name.label', default: 'Name')}</th>
-          <th>${message(code: 'archetype.title.label', default: 'Title')}</th>
-          <th></th>
+          <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: archetypeInstance, field: "name").toString())}</td>
+          <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
+          <td>
+              <%
+                def formParams = [name: archetypeInstance.name]
+              %>
+              <g:form controller="archetype" action="show" params="${formParams}" mapping="showArchetype">
+                <g:hiddenField name="name" value="${archetypeInstance.name}"/>
+                <button class="btn primary small" type="submit" id="info" name="info">
+                  ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
+              </g:form>
+          </td>
         </tr>
-        </thead>
-        <tbody>
-        <g:each in="${archetypeList}" status="i" var="archetypeInstance">
-          <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-            <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: archetypeInstance, field: "name").toString())}</td>
-            <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
-            <td class="pull-right">
-              <div>
-                <%
-                  def formParams = [name: archetypeInstance.name]
-                %>
-                <g:form controller="archetype" action="show" params="${formParams}" mapping="showArchetype">
-                  <g:hiddenField name="name" value="${archetypeInstance.name}"/>
-                  <button class="btn primary small" type="submit" id="info" name="info">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                </g:form>
-              </div>
-            </td>
-          </tr>
-        </g:each>
-        </tbody>
-      </table>
-    </div>
+      </g:each>
+      </tbody>
+    </table>
   </div>
 </div>
 

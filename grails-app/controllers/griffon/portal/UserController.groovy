@@ -16,6 +16,7 @@
 
 package griffon.portal
 
+import grails.converters.JSON
 import griffon.portal.util.MD5
 
 /**
@@ -29,7 +30,7 @@ class UserController {
                 password: MD5.encode(params.passwd))
         if (user) {
             session.user = user
-            redirect(controller: 'profile', action: 'show', params: [id: user.id])
+            redirect(controller: 'profile', action: 'show', params: [id: user.username])
             return
         } else {
             redirect(action: 'signup')
@@ -65,7 +66,22 @@ class UserController {
             return
         }
 
+        session.user = user
         redirect(controller: 'profile', action: 'show', id: user.username)
+    }
+
+    def membership() {
+        User user = User.get(params.id)
+        user.membership.reason = params.reason
+        if (!user.save(flush: true)) {
+            render([code: 'ERROR'] as JSON)
+        } else {
+            if (user.membership.status != Membership.Status.PENDING) {
+                user.membership.status = Membership.Status.PENDING
+                user.save()
+            }
+            render([code: 'OK'] as JSON)
+        }
     }
 
     def pending() {
