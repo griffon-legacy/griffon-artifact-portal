@@ -6,8 +6,8 @@
   <g:set var="username" value="${profileInstance.user.username}"/>
   <title><g:message code="griffon.portal.Profile.show.label" args="[username]"/></title>
 
-  <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-
+  <r:require module="twitter"/>
+  <r:require module="upload"/>
 </head>
 
 <body>
@@ -42,29 +42,52 @@
         <div class="span4">
           <g:if test="${profileInstance.user.username == session.user?.username}">
             <g:if test="${profileInstance.user.membership.status == Membership.Status.ACCEPTED}">
-              <g:form controller="release" action="upload">
-                <button class="btn success pull-right" type="submit" id="upload" name="upload">
-                  ${message(code: 'griffon.portal.button.upload.label', default: 'Upload a Release')}</button>
-              </g:form>
+              <div id="modal-upload" class="modal hide fade">
+                <div class="modal-header">
+                  <a href="#" class="close">&times;</a>
+
+                  <h3>${message(code: 'griffon.portal.button.upload.label', default: 'Upload a Release')}</h3>
+                </div>
+
+                <g:form url="[controller: 'release', action: 'upload']"
+                        name="uploadForm" update="[failure: 'error']">
+                  <div class="modal-body">
+                    <p>Choose an artifact release package to upload</p>
+                    <g:hiddenField name="fileName" id="fileName" value=""/>
+                    <input type="file" size="50" name="upload-file" id="upload-file" placeholder="select a ZIP file"/>
+
+                    <div id="upload-message"></div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="submit" id="upload-submit"
+                            class="btn primary">${message(code: 'default.button.submit.label', default: 'Submit')}</button>
+                    <a href="#" id="upload-cancel"
+                       class="btn danger">${message(code: 'default.button.close.label', default: 'Close')}</a>
+                    <script language="javascript">
+                      $('#upload-cancel').click(function () {
+                        $('#modal-upload').modal('hide');
+                        $('#uploadForm').resetForm();
+                      });
+                    </script>
+                  </div>
+                </g:form>
+              </div>
+
+              <button class="btn primary pull-right" data-controls-modal="modal-upload" data-backdrop="static"
+                      data-keyboard="true" id="upload-apply">
+                ${message(code: 'griffon.portal.button.upload.label', default: 'Upload a Release')}</button>
+              <script language="javascript">
+                $('#upload-apply').click(function () {
+                  $('#upload-submit').show();
+                  $('#upload-file').show();
+                  $('#upload-message').html('');
+                  $('#upload-cancel').removeClass('success');
+                  $('#upload-cancel').addClass('danger');
+                });
+              </script>
             </g:if>
             <g:elseif test="${profileInstance.user.membership.status == Membership.Status.NOT_REQUESTED}">
-              <script language="javascript">
-                function handleMembershipResponse(response) {
-                  if (response.code == 'ERROR') {
-                    $('#membership-message').html('<p>An error occurred processing your membership. Please try again.</p>');
-                    $('#membership-message').show();
-                  } else if (response.code == 'OK') {
-                    $('#membership-message').hide();
-                    $('#membership-submit').hide();
-                    $('#reason').hide();
-                    $('#membership-cancel').toggleClass('danger success', true);
-                    $('#membership-apply').toggleClass('primary info', true);
-                    $('#membership-apply').attr('disabled', true);
-                    $('#membership-apply').val("${message(code: 'griffon.portal.button.membership.pending.label', default: 'Applied for Membership')}");
-                  }
-                }
-              </script>
-
               <div id="modal-membership" class="modal hide fade">
                 <div class="modal-header">
                   <a href="#" class="close">&times;</a>

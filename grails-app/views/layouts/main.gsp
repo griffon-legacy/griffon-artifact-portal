@@ -62,7 +62,7 @@
       </g:if>
       <g:else>
         <g:form controller="user" action="logout" class="pull-right">
-          <button class="btn" type="submit">Logout</button>
+          <button class="btn small" type="submit">Logout</button>
         </g:form>
       </g:else>
     </div>

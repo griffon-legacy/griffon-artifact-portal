@@ -16,13 +16,25 @@
 
 package griffon.portal
 
+import grails.converters.JSON
 import grails.util.GrailsNameUtils
 import griffon.portal.values.EventType
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import java.util.zip.ZipFile
+import javax.servlet.http.HttpServletRequest
+import org.codehaus.griffon.portal.api.ArtifactInfo
+import org.codehaus.griffon.portal.api.ArtifactProcessor
+import org.springframework.web.multipart.MultipartHttpServletRequest
 
 /**
  * @author Andres Almiray
  */
 class ReleaseController {
+    private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\.zip\$")
+
+    ArtifactProcessor artifactProcessor
+
     def dispatch() {
         def releaseId = params.id
         def actionToFollow = params['release_' + releaseId]
@@ -77,5 +89,45 @@ class ReleaseController {
         response.setHeader('Cache-Control', 'must-revalidate')
         response.setHeader('Content-disposition', "attachment; filename=${fileName}")
         response.outputStream << content
+    }
+
+    def upload() {
+        log.error(params.fileName)
+        Matcher matcher = ARTIFACT_PATTERN.matcher(params.fileName)
+        if (!matcher.find()) {
+            render([success: false, message: "Not allowed: " + params.fileName] as JSON)
+            return
+        }
+        String artifactName = matcher.group(1)
+        String artifactVersion = matcher.group(2)
+
+        try {
+            File tmpFile = createTemporaryFile()
+            InputStream inputStream = selectInputStream(request)
+            tmpFile << inputStream
+
+            artifactProcessor.process(new ArtifactInfo(
+                    new ZipFile(tmpFile.getAbsolutePath()),
+                    artifactName,
+                    artifactVersion,
+                    session.user.username,
+                    EventType.UPLOAD))
+        } catch (IOException ioe) {
+            render([success: false, message: ioe.message] as JSON)
+            return
+        }
+        render([success: true, message: "Succesfully uploaded ${params.fileName}"] as JSON)
+    }
+
+    private InputStream selectInputStream(HttpServletRequest request) {
+        if (request instanceof MultipartHttpServletRequest) {
+            request.getFile('upload-file').inputStream
+        } else {
+            request.inputStream
+        }
+    }
+
+    private File createTemporaryFile() {
+        File.createTempFile('grails', 'ajaxupload')
     }
 }

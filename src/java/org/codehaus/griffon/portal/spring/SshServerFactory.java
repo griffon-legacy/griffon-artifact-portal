@@ -19,7 +19,7 @@ package org.codehaus.griffon.portal.spring;
 import groovy.util.ConfigObject;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.codehaus.griffon.portal.api.ArtifactProcessorImpl;
+import org.codehaus.griffon.portal.api.ArtifactProcessor;
 import org.codehaus.griffon.portal.ssh.PasswordAuthenticator;
 import org.codehaus.griffon.portal.ssh.ScpCommandFactory;
 import org.codehaus.groovy.grails.commons.GrailsApplication;
@@ -35,6 +35,7 @@ import static griffon.util.ConfigUtils.getConfigValueAsString;
 public class SshServerFactory extends AbstractFactoryBean<SshServer> implements InitializingBean {
     private GrailsApplication grailsApplication;
     private PasswordAuthenticator passwordAuthenticator;
+    private ArtifactProcessor artifactProcessor;
 
     public void setGrailsApplication(GrailsApplication grailsApplication) {
         this.grailsApplication = grailsApplication;
@@ -42,6 +43,10 @@ public class SshServerFactory extends AbstractFactoryBean<SshServer> implements 
 
     public void setPasswordAuthenticator(PasswordAuthenticator passwordAuthenticator) {
         this.passwordAuthenticator = passwordAuthenticator;
+    }
+
+    public void setArtifactProcessor(ArtifactProcessor artifactProcessor) {
+        this.artifactProcessor = artifactProcessor;
     }
 
     @Override
@@ -61,7 +66,7 @@ public class SshServerFactory extends AbstractFactoryBean<SshServer> implements 
         SshServer sshd = getObject();
         sshd.setPort(getConfigValueAsInt(config, "sshd.port", 2222));
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(getConfigValueAsString(config, "sshd.keystorage", "plugin-portal.ser")));
-        sshd.setCommandFactory(new ScpCommandFactory(new ArtifactProcessorImpl()));
+        sshd.setCommandFactory(new ScpCommandFactory(artifactProcessor));
         sshd.setPasswordAuthenticator(passwordAuthenticator);
         sshd.start();
     }

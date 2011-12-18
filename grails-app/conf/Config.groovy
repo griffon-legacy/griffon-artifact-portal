@@ -49,6 +49,19 @@ avatarPlugin {
 
 grails.plugins.twitterbootstrap.fixtaglib = true
 
+grails.resources.modules = {
+    'jquery-form' {
+        resource url: '/js/jquery.form.js', disposition: 'head'
+    }
+    upload {
+        dependsOn 'jquery-form'
+        resource url: '/js/upload.js', disposition: 'head'
+    }
+    twitter {
+        resource url: '/js/twitter-widget.js', disposition: 'head'
+    }
+}
+
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
