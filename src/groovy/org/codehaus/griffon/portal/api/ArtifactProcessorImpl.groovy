@@ -19,11 +19,14 @@ package org.codehaus.griffon.portal.api
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
+import groovy.transform.Synchronized
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.twitter4j.grails.plugin.Twitter4jService
 import griffon.portal.*
 
 /**
@@ -32,20 +35,19 @@ import griffon.portal.*
 class ArtifactProcessorImpl implements ArtifactProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactProcessorImpl)
 
+    private Twitter4jService twitter4jService
+    GrailsApplication grailsApplication
+
     void process(ArtifactInfo artifactInfo) throws IOException {
-        boolean handled = false
         for (artifact in ['plugin', 'archetype']) {
             ZipEntry artifactEntry = artifactInfo.zipFile.getEntry(artifact + '.json')
             if (artifactEntry) {
-                handled = true
                 handle(artifactInfo, artifact, artifactEntry)
-                break
+                return
             }
         }
 
-        if (!handled) {
-            throw new IOException('Not a valid griffon artifact')
-        }
+        throw new IOException('Not a valid griffon artifact')
     }
 
     private void handle(ArtifactInfo artifactInfo, String artifactType, ZipEntry artifactEntry) {
@@ -149,8 +151,6 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         handleAuthors(plugin, json)
         plugin.save()
         makeRelease(plugin, json)
-
-        // unpack docs (if any)
     }
 
     private void handleArchetype(json) {
@@ -167,8 +167,6 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         handleAuthors(archetype, json)
         archetype.save()
         makeRelease(archetype, json)
-
-        // unpack docs (if any)
     }
 
     private void handleAuthors(Artifact artifact, json) {
@@ -206,6 +204,23 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             artifact = pArtifact
         }
         release.save()
+
+        try {
+            if (grailsApplication.config.twitter.enabled) {
+                String url = "http://${grailsApplication.config.grails.serverURL}/${json.type}/${json.name}"
+                getTwitter4jService().updateStatus("#griffon $json.name $json.version released $url")
+            }
+        } catch (Exception e) {
+            LOG.error("Could not update Twitter status for ${json.name}-${json.version}", e)
+        }
+    }
+
+    @Synchronized
+    private Twitter4jService getTwitter4jService() {
+        if (twitter4jService == null) {
+            twitter4jService = grailsApplication.mainContext.twitter4jService
+        }
+        twitter4jService
     }
 
     private void writeActivity(ArtifactInfo artifactInfo, json) {

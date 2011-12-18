@@ -62,10 +62,21 @@ grails.resources.modules = {
     }
 }
 
+twitter {
+    enabled = false
+    disableTwitter4jController = true
+    'default' {
+        debugEnabled           = false
+        OAuthConsumerKey       = '****'
+        OAuthConsumerSecret    = '****'
+        OAuthAccessToken       = '****'
+        OAuthAccessTokenSecret = '****'
+    }
+}
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
+grails.config.locations = ["classpath:${appName}-config.properties"]
 //                             "classpath:${appName}-config.groovy",
 //                             "file:${userHome}/.grails/${appName}-config.properties",
 //                             "file:${userHome}/.grails/${appName}-config.groovy"]

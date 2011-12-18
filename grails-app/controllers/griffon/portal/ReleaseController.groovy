@@ -92,7 +92,6 @@ class ReleaseController {
     }
 
     def upload() {
-        log.error(params.fileName)
         Matcher matcher = ARTIFACT_PATTERN.matcher(params.fileName)
         if (!matcher.find()) {
             render([success: false, message: "Not allowed: " + params.fileName] as JSON)
