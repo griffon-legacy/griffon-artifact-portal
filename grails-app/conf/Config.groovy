@@ -4,7 +4,6 @@
 //
 // ###################################################################
 
-
 twitter {
     enabled                    = false // enables Twitter status updates
     disableTwitter4jController = true
@@ -33,6 +32,20 @@ grails {
         ]
     }
 }
+
+template.forgot.credentials = '''
+    <html>
+    <body>
+    <h2>Hello there!</h2>
+
+    <p>Someone (probably you, from IP address <strong>${ipaddress}</strong>) requested a new
+    password for the Griffon Plugin Portal located at <a href="${serverURL}">${serverURL}</a>.</p>
+    <p>&nbsp;</p>
+    <p>A temporary password for user "<strong>${username}</strong>" has been created and was set to "<strong>${password}</strong>".
+    If this was your intent, you will need to log in and choose a new password now.</p>
+    </body>
+    </html>
+'''.stripIndent(4).trim()
 
 // ###################################################################
 //

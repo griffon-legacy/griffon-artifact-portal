@@ -32,7 +32,7 @@
           </div>
         </g:eachError>
       </g:hasErrors>
-      <g:form action="subscribe" name="subscriptionForm">
+      <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
         <fieldset class="form">
           <g:render template="form"/>
           <div class="fieldcontain required">

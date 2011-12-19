@@ -32,7 +32,7 @@
           </div>
         </g:eachError>
       </g:hasErrors>
-      <g:form action="forgot_password">
+      <g:form action="forgot_password" mapping="forgot_password">
         <fieldset class="form">
           <div class="fieldcontain ${hasErrors(bean: command, field: 'username', 'error')} required">
             <label for="username">

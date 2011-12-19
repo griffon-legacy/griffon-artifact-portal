@@ -197,7 +197,7 @@ class UserController {
         mailService.sendMail {
             to user.email
             subject 'Password Reset'
-            html template.createTemplate(FORGOT_CREDENTIALS_TEMPLATE).make(
+            html template.createTemplate(grailsApplication.config.template.forgot.credentials.toString()).make(
                     ipaddress: request.remoteAddr,
                     serverURL: serverURL,
                     username: user.username,
@@ -205,20 +205,6 @@ class UserController {
             ).toString()
         }
     }
-
-    private static final String FORGOT_CREDENTIALS_TEMPLATE = '''
-        <html>
-        <body>
-        <h2>Hello there!</h2>
-
-        <p>Someone (probably you, from IP address <strong>${ipaddress}</strong>) requested a new
-        password for the Griffon Plugin Portal located at <a href="${serverURL}">${serverURL}</a>.</p>
-        <p>&nbsp;</p>
-        <p>A temporary password for user "<strong>${username}</strong>" has been created and was set to "<strong>${password}</strong>".
-        If this was your intent, you will need to log in and choose a new password now.</p>
-        </body>
-        </html>
-    '''.stripIndent(8).trim()
 }
 
 class LoginCommand {

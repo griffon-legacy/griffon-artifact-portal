@@ -70,7 +70,7 @@
                 <li><g:link controller="profile" action="settings" id="${session.user.username}">Settings</g:link></li>
                 <li><a href="#">Help</a></li>
                 <li class="divider"></li>
-                <li><g:link controller="user" action="logout">Sign out</g:link></li>
+                <li><g:link controller="user" action="logout" mapping="logout">Sign out</g:link></li>
               </ul>
             </li>
           </g:if>
@@ -90,9 +90,11 @@
                   </div>
                 </li>
                 <li class="divider"></li>
-                <li><g:link controller="user" action="forgot_password">Forgot password?</g:link></li>
-                <li><g:link controller="user" action="forgot_username">Forgot username?</g:link></li>
-                <li><g:link controller="user" action="signup">Sign up for an account!</g:link></li>
+                <li><g:link controller="user" action="forgot_password"
+                            mapping="forgot_password">Forgot password?</g:link></li>
+                <li><g:link controller="user" action="forgot_username"
+                            mapping="forgot_username">Forgot username?</g:link></li>
+                <li><g:link controller="user" action="signup" mapping="signup">Sign up for an account!</g:link></li>
               </ul>
             </li>
           </g:else>
