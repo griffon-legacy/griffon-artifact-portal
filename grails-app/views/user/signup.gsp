@@ -3,35 +3,40 @@
 <html>
 <head>
   <meta name="layout" content="main">
-  <title><g:message code="griffon.portal.User.singup.label"/></title>
+  <title><g:message code="griffon.portal.User.signup.label"/></title>
 </head>
 
 <body>
 
 <div class="page-header">
-  <h1><g:message code="griffon.portal.User.singup.label"/> <small><g:message
-          code="griffon.portal.User.singup.message"/></small></h1>
+  <h1><g:message code="griffon.portal.User.signup.label"/> <small><g:message
+          code="griffon.portal.User.signup.message"/></small></h1>
 </div>
 
 <div class="row">
   <div class="span16">
     <div id="create-user" class="scaffold-create" role="main">
       <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert-message danger" id="output">
+          <a class="close" href="#" onclick="$('#output').hide()">×</a>
+
+          <p>${flash.message}</p>
+        </div>
       </g:if>
       <g:hasErrors bean="${userInstance}">
-        <ul class="errors" role="alert">
-          <g:eachError bean="${userInstance}" var="error">
-            <li
-              <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
-                    error="${error}"/></li>
-          </g:eachError>
-        </ul>
+        <% int errorIndex = 0 %>
+        <g:eachError bean="${userInstance}" var="error">
+          <div class="alert-message danger" id="error${errorIndex}">
+            <a class="close" href="#" onclick="$('#error${errorIndex++}').hide()">×</a>
+            <g:message error="${error}"/>
+          </div>
+        </g:eachError>
       </g:hasErrors>
       <g:form action="subscribe" name="subscriptionForm">
         <fieldset class="form">
           <g:render template="form"/>
           <div class="fieldcontain required">
+            <br clear="all"/>
             <label for="subscribe"></label>
             <button class="btn primary" type="submit" id="subscribe" name="subscribe">
               ${message(code: 'griffon.portal.button.signup.label', default: 'Sign up')}</button>

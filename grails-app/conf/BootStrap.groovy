@@ -1,8 +1,12 @@
+import com.grailsrocks.emailconfirmation.EmailConfirmationService
+import griffon.portal.Membership
+import griffon.portal.Profile
+import griffon.portal.User
 import griffon.portal.util.MD5
-import griffon.portal.values.Toolkit
-import griffon.portal.*
 
 class BootStrap {
+    EmailConfirmationService emailConfirmationService
+
     def init = { servletContext ->
         User user = new User(
                 fullName: 'Andres Almiray',
@@ -21,7 +25,35 @@ class BootStrap {
                 twitter: 'aalmiray'
         )
         user.save()
+
+        setupEmailConfirmationService()
     }
+
+    private void setupEmailConfirmationService() {
+        emailConfirmationService.onConfirmation = { String email, String uid ->
+            User user = User.findByEmail(email)
+            String nuid = MD5.encode(email)
+            if (nuid == uid) {
+                log.info("User with id $uid has confirmed their email address $email")
+                return [controller: 'profile', action: 'show', id: user.username]
+            }
+
+            return {
+                flash.message = "We could not confirm email (${email}) as valid."
+                redirect(controller: 'user', action: 'signup')
+            }
+        }
+
+        emailConfirmationService.onInvalid = { String uid ->
+            log.warn("User with id $uid failed to confirm email address after 30 days")
+        }
+
+        emailConfirmationService.onTimeout = { String email, String uid ->
+            log.warn("User with id $uid failed to confirm email address (${email}) after 30 days")
+            User.findByEmail(email)?.delete()
+        }
+    }
+
     def destroy = {
     }
 }

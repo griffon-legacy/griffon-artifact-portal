@@ -14,7 +14,7 @@
 
 
 <div class="row">
-  <div class="span15">
+  <div class="span16">
     <div id="list-plugins">
       <table class="condensed-table zebra-striped">
         <thead>

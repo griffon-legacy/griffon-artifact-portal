@@ -1,13 +1,17 @@
 body {
     background: #ffffff;
     color: #333333;
-    max-width: 940px;
-    margin: 0 auto;
+    max-width: 960px;
+    margin: 0px auto;
     overflow-x: hidden;
     -moz-box-shadow: 0 0 0.3em #7b2517;
     -webkit-box-shadow: 0 0 0.3em #7b2517;
     box-shadow: 0 0 0.3em #7b2517;
-    padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+    padding-top: 50px; /* 40px to make the container go all the way to the bottom of the topbar */
+}
+
+.container {
+    width: 960px;
 }
 
 .container > footer p {
@@ -17,13 +21,16 @@ body {
 /* The white background content wrapper */
 .content {
     background-color: #fff;
-    padding: 20px;
+    padding: -20px;
+    margin: 0 10px;
+    /*
     -webkit-border-radius: 0 0 6px 6px;
     -moz-border-radius: 0 0 6px 6px;
     border-radius: 0 0 6px 6px;
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
     box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    */
 }
 
 /* Page header tweaks */
@@ -33,6 +40,142 @@ body {
     margin: -20px -20px 20px;
 }
 
-.topbar .btn {
-    border: 0;
+#topbar .active-links {
+    position: absolute;
+    right: 8px;
+    top: 0;
+}
+
+#topbar .static-links {
+    float: left;
+}
+
+.profile-pic {
+    vertical-align: middle;
+    padding: 0px;
+    marging: 0px;
+}
+
+.screen-name {
+    color: #bababa;
+    cursor: pointer;
+    font-weight: normal;
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#search-form {
+    float: left;
+    margin: 6px 0 0 0;
+    *margin: 5px 0 0 0;
+    opacity: 1;
+    position: relative;
+}
+
+#search-form #search-query {
+    border: 1px solid black;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    font: 13px Arial, sans-serif;
+    width: 180px;
+    padding: 6px 25px 4px 6px;
+    color: #ccc;
+    background: #666;
+    -webkit-box-shadow: 0 1px 0 #444;
+    -moz-box-shadow: 0 1px 0 #444;
+    box-shadow: 0 1px 0 #444;
+}
+
+#search-form #search-query:hover {
+    background: #777;
+    color: #fff;
+}
+
+#search-form span.glass {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    display: block;
+    right: 0;
+    padding: 7px 8px 5px 8px;
+}
+
+#search-form span.glass i {
+    background-image: url(../images/sprite-icons.png);
+    background-position: -224px -96px;
+    width: 14px;
+    height: 14px;
+    display: block;
+    font-size: 0;
+}
+
+#search-form #search-query:focus, #search-form #search-query.focused {
+    outline: none;
+    background: #eee;
+    color: #333;
+    text-shadow: 0 1px 0 #fff;
+    border: 1px solid #eee;
+    -webkit-box-shadow: 0 0 3px #000;
+    -moz-box-shadow: 0 0 3px #000;
+    box-shadow: 0 0 3px #000;
+}
+
+#signup-link, .active #signin-link {
+    color: #fff;
+}
+
+a#signup-link, a#signin-link {
+    color: #BABABA;
+    position: relative;
+}
+
+a#signup-link em, a#signin-link em {
+    font-style: normal;
+    font-size: 10px;
+    margin-right: 4px;
+}
+
+a#signup-link strong {
+    color: #fc0;
+}
+
+a#signin-link strong {
+    color: #fff;
+}
+
+a#signin-link i {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    vertical-align: middle;
+    background: transparent url(../images/toggle_down_light.png) no-repeat;
+    position: relative;
+    left: 4px;
+    top: -1px;
+}
+
+.active a#signin-link i {
+    background-image: url(../images/toggle_up_light.png);
+}
+
+.signin-dropdown {
+    width: 220px;
+}
+
+#signin-form form {
+    padding: 10px;
+    cursor: auto;
+    width: 220px;
+}
+
+#signin-form .textbox input {
+    width: 180px;
+    marging: 10px;
+}
+
+#signin-form a {
+    color: #0084B4;
 }

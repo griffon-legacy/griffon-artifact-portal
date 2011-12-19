@@ -42,7 +42,9 @@
   <label for="captcha">
     <g:message code="user.captcha.label" default="Please enter the text as shown below"/>
   </label>
-  <g:textField name="captcha" required="true" value=""/><br clear="all"/><br clear="all"/>
+  <g:textField name="captcha" required="true" value=""/><br clear="all"/>
+  <br clear="all"/>
+  <br clear="all"/>
   <label for="captcha">
     <g:message code="default.empty.label" default=""/>
   </label>

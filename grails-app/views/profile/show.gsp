@@ -25,9 +25,9 @@
       </ul>
     </div>
 
-    <div class="span13">
+    <div class="span14">
       <div class="row">
-        <div class="span9">
+        <div class="span10">
           <address>
             <h1><g:fieldValue bean="${profileInstance.user}" field="username"/></h1>
             <g:fieldValue bean="${profileInstance.user}" field="fullName"/><br/>
@@ -141,19 +141,19 @@
 </div>
 
 <%
-  String listSpan = profileInstance.twitter ? 'span10' : 'span15'
+  String listSpan = profileInstance.twitter ? 'span11' : 'span16'
 %>
 
 <div class="row">
-  <div class="span5">
-    <g:if test="${profileInstance.twitter}">
+  <g:if test="${profileInstance.twitter}">
+    <div class="span5">
       <div class="row">
         <div class="span4">
           <widget:twitter username="${profileInstance.twitter}"/>
         </div>
       </div>
-    </g:if>
-  </div>
+    </div>
+  </g:if>
 
   <div class="<%=listSpan%>">
     <div class="row">

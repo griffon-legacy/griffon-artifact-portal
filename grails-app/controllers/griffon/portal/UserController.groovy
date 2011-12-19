@@ -16,29 +16,51 @@
 
 package griffon.portal
 
+import com.grailsrocks.emailconfirmation.EmailConfirmationService
 import grails.converters.JSON
 import griffon.portal.util.MD5
+import groovy.text.SimpleTemplateEngine
+import org.apache.commons.lang.RandomStringUtils
+import org.grails.mail.MailService
+import org.grails.plugin.jcaptcha.JcaptchaService
 
 /**
  * @author Andres Almiray
  */
 class UserController {
-    def jcaptchaService
+    JcaptchaService jcaptchaService
+    MailService mailService
+    EmailConfirmationService emailConfirmationService
 
-    def login() {
+    def login(LoginCommand command) {
+        if (!params.username || !params.passwd) {
+            // renders 1st hit
+            render(view: 'signin', model: [command: new LoginCommand()])
+            return
+        }
+
+        if (!command.validate()) {
+            // renders with errors
+            render(view: 'signin', model: [command: command])
+            return
+        }
+
         User user = User.findWhere(username: params.username,
                 password: MD5.encode(params.passwd))
         if (user) {
             session.user = user
+            session.profile = user.profile
             redirect(controller: 'profile', action: 'show', params: [id: user.username])
             return
         } else {
-            redirect(action: 'signup')
+            command.errors.rejectValue('username', 'griffon.portal.User.credentials.nomatch.message')
+            render(view: 'signin', model: [command: command])
         }
     }
 
     def logout() {
         session.user = null
+        session.profile = null
         redirect(uri: '/')
     }
 
@@ -66,8 +88,14 @@ class UserController {
             return
         }
 
-        session.user = user
-        redirect(controller: 'profile', action: 'show', id: user.username)
+        emailConfirmationService.sendConfirmation(
+                user.email,
+                'Please confirm',
+                [from: grailsApplication.config.grails.mail.default.from],
+                MD5.encode(user.email)
+        )
+
+        [userInstance: user]
     }
 
     def membership() {
@@ -96,5 +124,129 @@ class UserController {
         user.membership.status = params.status
         user.save()
         redirect(action: 'pending')
+    }
+
+    def forgot_password(ForgotPasswordCommand command) {
+        if (!params.username || !params.captcha) {
+            render(view: 'forgot_password', model: [command: new ForgotPasswordCommand()])
+            return
+        }
+
+        if (!command.validate()) {
+            render(view: 'forgot_password', model: [command: command])
+            return
+        }
+
+        if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
+            command.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')
+            render(view: 'forgot_password', model: [command: command])
+            return
+        }
+
+        User user = User.findByUsername(command.username)
+        if (!user) {
+            command.errors.rejectValue('username', 'griffon.portal.User.username.notfound.message')
+            render(view: 'forgot_password', model: [command: command])
+            return
+        }
+
+        sendCredentials(user)
+        flash.message = "Please check your email (${user.email}) for further instructions."
+        command.captcha = ''
+        [command: command]
+    }
+
+    def forgot_username(ForgotUsernameCommand command) {
+        if (!params.email || !params.captcha) {
+            render(view: 'forgot_username', model: [command: new ForgotUsernameCommand()])
+            return
+        }
+
+        if (!command.validate()) {
+            render(view: 'forgot_username', model: [command: command])
+            return
+        }
+
+        if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
+            command.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')
+            render(view: 'forgot_username', model: [command: command])
+            return
+        }
+
+        User user = User.findByEmail(command.email)
+        if (!user) {
+            command.errors.rejectValue('email', 'griffon.portal.User.email.notfound.message')
+            render(view: 'forgot_username', model: [command: command])
+            return
+        }
+
+        sendCredentials(user)
+        flash.message = "Please check your email (${user.email}) for further instructions."
+        command.captcha = ''
+        [command: command]
+    }
+
+    private void sendCredentials(User user) {
+        String newPassword = RandomStringUtils.randomAlphanumeric(8)
+        user.password = MD5.encode(newPassword)
+        user.save()
+
+        def serverURL = grailsApplication.config.grails.serverURL ?: 'http://localhost:8080/' + grailsApplication.metadata.'app.name'
+
+        SimpleTemplateEngine template = new SimpleTemplateEngine()
+        mailService.sendMail {
+            to user.email
+            subject 'Password Reset'
+            html template.createTemplate(FORGOT_CREDENTIALS_TEMPLATE).make(
+                    ipaddress: request.remoteAddr,
+                    serverURL: serverURL,
+                    username: user.username,
+                    password: newPassword
+            ).toString()
+        }
+    }
+
+    private static final String FORGOT_CREDENTIALS_TEMPLATE = '''
+        <html>
+        <body>
+        <h2>Hello there!</h2>
+
+        <p>Someone (probably you, from IP address <strong>${ipaddress}</strong>) requested a new
+        password for the Griffon Plugin Portal located at <a href="${serverURL}">${serverURL}</a>.</p>
+        <p>&nbsp;</p>
+        <p>A temporary password for user "<strong>${username}</strong>" has been created and was set to "<strong>${password}</strong>".
+        If this was your intent, you will need to log in and choose a new password now.</p>
+        </body>
+        </html>
+    '''.stripIndent(8).trim()
+}
+
+class LoginCommand {
+    String username
+    String passwd
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        passwd(nullable: false, blank: false)
+    }
+}
+
+class ForgotPasswordCommand {
+    String username
+    String captcha
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        captcha(nullable: false, blank: false)
+    }
+}
+
+class ForgotUsernameCommand {
+    String email
+    String captcha
+
+    static constraints = {
+        email(nullable: false, email: true)
+        captcha(nullable: false, blank: false)
     }
 }

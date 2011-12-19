@@ -1,6 +1,7 @@
 class UrlMappings {
     static mappings = {
         "/profile/$id"(controller: 'profile', action: 'show')
+        "/settings/$id"(controller: 'profile', action: 'settings')
         '/api/plugins'(controller: 'api', action: 'list') {
             type = 'plugin'
         }

@@ -52,7 +52,7 @@
 </div>
 
 <div class="row">
-  <div class="span15">
+  <div class="span16">
     <table class="condensed-table zebra-stripped">
       <thead>
       <tr>

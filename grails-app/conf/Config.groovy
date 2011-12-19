@@ -1,3 +1,50 @@
+// ###################################################################
+//
+//    EDIT THE FOLLOWING SETTINGS ACCORDING TO YOUR NEEDS
+//
+// ###################################################################
+
+
+twitter {
+    enabled                    = false // enables Twitter status updates
+    disableTwitter4jController = true
+    'default' {
+        debugEnabled           = false
+        OAuthConsumerKey       = '****'
+        OAuthConsumerSecret    = '****'
+        OAuthAccessToken       = '****'
+        OAuthAccessTokenSecret = '****'
+    }
+}
+
+grails.mail.default.from = 'theaviary@griffon.codehaus.org'
+
+grails {
+    mail {
+        host     = 'smtp.gmail.com'
+        port     = 465
+        username = 'changeme@gmail.com'
+        password = 'changeme'
+        props = [
+                'mail.smtp.auth': 'true',
+                'mail.smtp.socketFactory.port': '465',
+                'mail.smtp.socketFactory.class': 'javax.net.ssl.SSLSocketFactory',
+                'mail.smtp.socketFactory.fallback': 'false'
+        ]
+    }
+}
+
+// ###################################################################
+//
+//    !!! DO NOT EDIT BEYOND THIS POINT !!!
+//
+// ###################################################################
+
+avatarPlugin {
+    defaultGravatarUrl = '/images/griffon-icon-128x128.grayscale.png'
+    gravatarRating = 'G'
+}
+
 import com.octo.captcha.component.image.backgroundgenerator.GradientBackgroundGenerator
 import com.octo.captcha.component.image.color.SingleColorGenerator
 import com.octo.captcha.component.image.fontgenerator.RandomFontGenerator
@@ -42,10 +89,8 @@ jcaptchas {
     )
 }
 
-avatarPlugin {
-    defaultGravatarUrl = '/images/griffon-icon-128x128.grayscale.png'
-    gravatarRating = 'G'
-}
+grails.config.locations = ["classpath:${appName}-config.properties",
+                           "classpath:${appName}-config.groovy"]
 
 grails.plugins.twitterbootstrap.fixtaglib = true
 
@@ -61,30 +106,6 @@ grails.resources.modules = {
         resource url: '/js/twitter-widget.js', disposition: 'head'
     }
 }
-
-twitter {
-    enabled = false
-    disableTwitter4jController = true
-    'default' {
-        debugEnabled           = false
-        OAuthConsumerKey       = '****'
-        OAuthConsumerSecret    = '****'
-        OAuthAccessToken       = '****'
-        OAuthAccessTokenSecret = '****'
-    }
-}
-// locations to search for config files that get merged into the main config
-// config files can either be Java properties files or ConfigSlurper scripts
-
-grails.config.locations = ["classpath:${appName}-config.properties"]
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
-
-// if (System.properties["${appName}.config.location"]) {
-//    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-// }
-
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
