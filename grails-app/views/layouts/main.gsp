@@ -33,7 +33,7 @@
                 align="left"/>&nbsp;Griffon</a>
         <%
           def isHomeActive = {->
-            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile']) ? 'active' : ''
+            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api']) ? 'active' : ''
           }
           def isTabActive = { String tabName ->
             params?.controller == tabName ? 'active' : ''
@@ -46,6 +46,8 @@
                     href="${application.contextPath}/plugins">Plugins</a></li>
             <li id="global-nav-archetypes" class="<%=isTabActive('archetype')%>"><a
                     href="${application.contextPath}/archetypes">Archetypes</a></li>
+            <li id="global-nav-api" class="<%=isTabActive('api')%>"><a
+                    href="${application.contextPath}/api">API</a></li>
             <g:if test="${session.user}">
               <li id="global-nav-profile" class="<%=isTabActive('profile')%>"><a
                       href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
@@ -67,7 +69,7 @@
                       email="${session.profile.gravatarEmail}" size="16"/><span
                       class="screen-name">&nbsp;${session.user.username}</span></g:link>
               <ul class="dropdown-menu">
-                <li><g:link controller="profile" action="settings" id="${session.user.username}">Settings</g:link></li>
+                <li><g:link controller="profile" action="settings">Settings</g:link></li>
                 <li><a href="#">Help</a></li>
                 <li class="divider"></li>
                 <li><g:link controller="user" action="logout" mapping="logout">Sign out</g:link></li>

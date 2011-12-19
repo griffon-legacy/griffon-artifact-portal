@@ -31,6 +31,8 @@ class ApiController {
             info: 'GET',
             download: 'GET']
 
+    def index() {}
+
     def list() {
         List list = []
         switch (params.type) {

@@ -9,7 +9,9 @@ class UrlMappings {
         name forgot_username: "/forgot_username"(controller: 'user', action: 'forgot_username')
 
         "/profile/$id"(controller: 'profile', action: 'show')
-        "/settings/$id"(controller: 'profile', action: 'settings')
+        "/settings"(controller: 'profile', action: 'settings')
+
+        '/api'(controller: 'api', action: 'index')
         '/api/plugins'(controller: 'api', action: 'list') {
             type = 'plugin'
         }

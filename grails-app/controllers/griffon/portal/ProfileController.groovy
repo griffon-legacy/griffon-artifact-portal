@@ -66,4 +66,8 @@ class ProfileController {
                 archetypeList: archetypeList
         ]
     }
+
+    def settings() {
+        [profileInstance: session.user.profile]
+    }
 }
