@@ -195,15 +195,13 @@ class UserController {
         user.password = MD5.encode(newPassword)
         user.save()
 
-        def serverURL = grailsApplication.config.grails.serverURL ?: 'http://localhost:8080/' + grailsApplication.metadata.'app.name'
-
         SimpleTemplateEngine template = new SimpleTemplateEngine()
         mailService.sendMail {
             to user.email
             subject 'Password Reset'
             html template.createTemplate(grailsApplication.config.template.forgot.credentials.toString()).make(
                     ipaddress: request.remoteAddr,
-                    serverURL: serverURL,
+                    serverURL: grailsApplication.config.serverURL,
                     username: user.username,
                     password: newPassword
             ).toString()

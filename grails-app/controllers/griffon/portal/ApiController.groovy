@@ -44,7 +44,7 @@ class ApiController {
         }
 
         list = list.collect([]) { artifact ->
-            Map data = asMap(artifact)
+            Map data = asMap(artifact, false)
             data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
                 asMap(release)
             }
@@ -176,11 +176,16 @@ class ApiController {
         response.outputStream << content
     }
 
-    private Map asMap(Plugin plugin) {
-        [
+    private Map asMap(Plugin plugin, boolean includeDescription = true) {
+        Map map = [
                 name: plugin.name,
-                title: plugin.title,
-                description: plugin.description,
+                title: plugin.title
+        ]
+        if (includeDescription) {
+            map.description = plugin.description
+        }
+
+        map + [
                 license: plugin.license,
                 toolkits: plugin.toolkits,
                 platforms: plugin.platforms,
@@ -194,11 +199,16 @@ class ApiController {
         ]
     }
 
-    private Map asMap(Archetype archetype) {
-        [
+    private Map asMap(Archetype archetype, boolean includeDescription = true) {
+        Map map = [
                 name: archetype.name,
-                title: archetype.title,
-                description: archetype.description,
+                title: archetype.title]
+
+        if (includeDescription) {
+            map.description = archetype.description
+        }
+
+        map + [
                 license: archetype.license,
                 authors: archetype.authors.collect([]) { Author author ->
                     [name: author.name, email: author.email]
@@ -211,8 +221,8 @@ class ApiController {
                 version: release.artifactVersion,
                 griffonVersion: release.griffonVersion,
                 date: release.dateCreated.format(TIMESTAMP_FORMAT),
-                comment: release.comment,
-                checksum: release.checksum
+                checksum: release.checksum,
+                comment: release.comment
         ]
     }
 }

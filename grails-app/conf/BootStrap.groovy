@@ -3,11 +3,15 @@ import griffon.portal.Membership
 import griffon.portal.Profile
 import griffon.portal.User
 import griffon.portal.util.MD5
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class BootStrap {
     EmailConfirmationService emailConfirmationService
+    GrailsApplication grailsApplication
 
     def init = { servletContext ->
+        grailsApplication.config.serverURL = grailsApplication.config.grails.serverURL ?: 'http://localhost:8080/' + grailsApplication.metadata.'app.name'
+
         User user = new User(
                 fullName: 'Andres Almiray',
                 email: 'aalmiray@yahoo.com',
