@@ -24,8 +24,7 @@ class Profile {
     String gravatarEmail
     String website
     String twitter
-
-    static belongsTo = [user: User]
+    User user
 
     static constraints = {
         description(nullable: true, blank: false)

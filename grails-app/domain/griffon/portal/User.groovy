@@ -26,11 +26,11 @@ class User {
     String fullName
     String captcha
     Membership membership = new Membership()
-    Profile profile
 
     Date dateCreated
     Date lastUpdated
 
+    static hasOne = [profile: Profile]
     static embedded = ['membership']
     static transients = ['captcha']
 
@@ -40,7 +40,7 @@ class User {
         email(nullable: false, email: true, unique: true)
         fullName(nullable: false, blank: false)
         membership(nullable: false)
-        profile(nullable: true)
+        profile(nullable: true, unique: true)
     }
 
     String toString() { "${username}:${id}" }

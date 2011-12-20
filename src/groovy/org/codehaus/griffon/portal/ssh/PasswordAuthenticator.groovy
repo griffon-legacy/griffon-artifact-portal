@@ -17,17 +17,26 @@
 package org.codehaus.griffon.portal.ssh
 
 import griffon.portal.Membership
+import griffon.portal.Profile
 import griffon.portal.User
 import griffon.portal.util.MD5
 import org.apache.sshd.server.session.ServerSession
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * @author Andres Almiray
  */
 class PasswordAuthenticator implements org.apache.sshd.server.PasswordAuthenticator {
-    boolean authenticate(String pUsername, String pPassword, ServerSession serverSession) {
-        User.findWhere(username: pUsername,
-                password: MD5.encode(pPassword),
-                'membership.status': Membership.Status.ACCEPTED)?.profile != null
+    private static final Logger LOG = LoggerFactory.getLogger(PasswordAuthenticator)
+
+    boolean authenticate(String username, String password, ServerSession serverSession) {
+        User user = User.findWhere(username: username,
+                password: MD5.encode(password),
+                'membership.status': Membership.Status.ACCEPTED)
+        if (user) {
+            return Profile.findByUser(user) != null
+        }
+        false
     }
 }

@@ -26,6 +26,17 @@ class BootStrap {
         )
         user.save()
 
+        new User(
+                fullName: 'Griffon',
+                email: 'aalmiray@gmail.com',
+                username: 'griffon',
+                password: MD5.encode('foo'),
+                membership: new Membership(
+                        status: Membership.Status.PENDING,
+                        reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
+                )
+        ).save()
+
         setupEmailConfirmationService()
     }
 
