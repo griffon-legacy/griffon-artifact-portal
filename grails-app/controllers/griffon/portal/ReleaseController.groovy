@@ -57,6 +57,42 @@ class ReleaseController {
         [releaseInstance: releaseInstance]
     }
 
+    def display() {
+        if (!params.type || !params.name || !params.version) {
+            redirect(uri: '/')
+            return
+        }
+
+        Artifact artifact = null
+        switch (params.type) {
+            case 'plugin':
+                artifact = Plugin.findByName(params.name)
+                break
+            case 'archetype':
+                artifact = Archetype.findByName(params.name)
+                break
+        }
+
+        if (!artifact) {
+            redirect(uri: '/')
+            return
+        }
+
+        Release releaseInstance = Release.withCriteria(uniqueResult: true) {
+            and {
+                eq('artifactVersion', params.version)
+                eq('artifact', artifact)
+            }
+        }
+
+        if (!releaseInstance) {
+            redirect(uri: '/')
+            return
+        }
+
+        render(view: 'show', model: [releaseInstance: releaseInstance])
+    }
+
     def download() {
         if (!params.id) {
             redirect(uri: '/')

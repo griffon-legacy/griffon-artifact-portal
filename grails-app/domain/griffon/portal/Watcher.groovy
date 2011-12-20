@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
+package griffon.portal
+
 /**
  * @author Andres Almiray
  */
+class Watcher {
+    Artifact artifact
 
-beans = {
-    passwordAuthenticator(org.codehaus.griffon.portal.ssh.PasswordAuthenticator)
+    static hasMany = [users: User]
 
-    artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl) {
-        grailsApplication = ref('grailsApplication')
-        executorService = ref('executorService')
-        mailService = ref('mailService')
-    }
-
-    sshd(org.codehaus.griffon.portal.spring.SshServerFactory) {
-        grailsApplication = ref('grailsApplication')
-        passwordAuthenticator = ref('passwordAuthenticator')
-        artifactProcessor = ref('artifactProcessor')
+    static constraints = {
+        artifact(nullable: false, unique: true)
     }
 }

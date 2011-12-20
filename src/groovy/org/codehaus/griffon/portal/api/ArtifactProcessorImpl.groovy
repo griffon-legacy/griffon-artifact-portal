@@ -16,14 +16,19 @@
 
 package org.codehaus.griffon.portal.api
 
+import grails.plugin.executor.PersistenceContextExecutorWrapper
+import grails.util.GrailsNameUtils
+import grails.util.GrailsUtil
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
+import groovy.text.SimpleTemplateEngine
 import groovy.transform.Synchronized
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import org.grails.mail.MailService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.twitter4j.grails.plugin.Twitter4jService
@@ -37,6 +42,8 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
     private Twitter4jService twitter4jService
     GrailsApplication grailsApplication
+    PersistenceContextExecutorWrapper executorService
+    MailService mailService
 
     void process(ArtifactInfo artifactInfo) throws IOException {
         for (artifact in ['plugin', 'archetype']) {
@@ -72,14 +79,14 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                 case 'plugin':
                     verifyArtifact(artifactInfo.zipFile, json)
                     withTransaction {
-                        handlePlugin(json)
+                        handlePlugin(artifactInfo, json)
                         writeActivity(artifactInfo, json)
                     }
                     break
                 case 'archetype':
                     verifyArtifact(artifactInfo.zipFile, json)
                     withTransaction {
-                        handleArchetype(json)
+                        handleArchetype(artifactInfo, json)
                         writeActivity(artifactInfo, json)
                     }
             }
@@ -131,7 +138,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         json.checksum = zipFile.getInputStream(md5ChecksumEntry).text
     }
 
-    private void handlePlugin(json) {
+    private void handlePlugin(ArtifactInfo artifactInfo, json) {
         Plugin plugin = Plugin.findByName(json.name)
         if (!plugin) {
             plugin = new Plugin(name: json.name)
@@ -150,10 +157,10 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
         handleAuthors(plugin, json)
         plugin.save()
-        makeRelease(plugin, json)
+        makeRelease(artifactInfo, plugin, json)
     }
 
-    private void handleArchetype(json) {
+    private void handleArchetype(ArtifactInfo artifactInfo, json) {
         Archetype archetype = Archetype.findByName(json.name)
         if (!archetype) {
             archetype = new Archetype(name: json.name)
@@ -166,7 +173,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
         handleAuthors(archetype, json)
         archetype.save()
-        makeRelease(archetype, json)
+        makeRelease(artifactInfo, archetype, json)
     }
 
     private void handleAuthors(Artifact artifact, json) {
@@ -184,7 +191,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
     }
 
-    private void makeRelease(Artifact pArtifact, json) {
+    private void makeRelease(ArtifactInfo artifactInfo, Artifact pArtifact, json) {
         Release release = Release.withCriteria(uniqueResult: true) {
             and {
                 eq("artifactVersion", json.version)
@@ -212,6 +219,38 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             }
         } catch (Exception e) {
             LOG.error("Could not update Twitter status for ${json.name}-${json.version}", e)
+        }
+
+        Watcher watcher = Watcher.findByArtifact(pArtifact)
+        if (watcher?.users) {
+            List users = watcher.users.collect([]) { User user ->
+                [username: user.username, email: user.email]
+            }
+            String serverURL = grailsApplication.config.serverURL
+            SimpleTemplateEngine engine = new SimpleTemplateEngine()
+            def template = engine.createTemplate(grailsApplication.config.template.release.posted.toString())
+            executorService.withoutPersistence {
+                users.each { user ->
+                    try {
+                        mailService.sendMail {
+                            to user.email
+                            subject "[ANN] ${GrailsNameUtils.getNaturalName(json.type)} ${json.name}-${json.version} released"
+                            html template.make(
+                                    serverURL: serverURL,
+                                    capitalizedType: GrailsNameUtils.getNaturalName(json.type),
+                                    capitalizedName: GrailsNameUtils.getNaturalName(json.name),
+                                    name: json.name,
+                                    version: json.version,
+                                    type: json.type,
+                                    poster: artifactInfo.username,
+                                    username: user.username
+                            ).toString()
+                        }
+                    } catch (Exception e) {
+                        LOG.error("An error ocurred while sending release update (${json.name}-${json.version}) to ${user.email} (${user.username})", GrailsUtil.sanitize(e))
+                    }
+                }
+            }
         }
     }
 

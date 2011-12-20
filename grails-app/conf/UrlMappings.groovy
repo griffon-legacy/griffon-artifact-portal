@@ -50,6 +50,7 @@ class UrlMappings {
         name showArchetype: "/archetype/$name"(controller: 'archetype', action: 'show')
         "/release/show/$id"(controller: 'release', action: 'show')
         "/release/download/$id"(controller: 'release', action: 'download')
+        "/release/$type/$name/$version"(controller: 'release', action: 'display')
 
         "/$controller/$action?/$id?" {
             constraints {

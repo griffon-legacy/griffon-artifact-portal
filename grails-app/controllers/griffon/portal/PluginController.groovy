@@ -16,6 +16,7 @@
 
 package griffon.portal
 
+import grails.converters.JSON
 import grails.util.GrailsNameUtils
 
 /**
@@ -57,15 +58,43 @@ class PluginController {
             }
         }
 
+        boolean watching = false
+        User user = session.user ? User.get(session.user.id) : null
+        if (user) {
+            // use of elvis to avoid assigning null to a boolean (!!)
+            watching = Watcher.findByArtifact(pluginInstance)?.users?.contains(user) ?: false
+        }
+
         [
                 pluginName: GrailsNameUtils.getNaturalName(pluginName),
                 pluginInstance: pluginInstance,
                 authorList: authorList,
-                releaseList: Release.findAllByArtifact(pluginInstance, [sort: 'artifactVersion', order: 'desc'])
+                releaseList: Release.findAllByArtifact(pluginInstance, [sort: 'artifactVersion', order: 'desc']),
+                watching: watching
         ]
     }
 
     def list() {
         [pluginList: Plugin.list(sort: 'name', order: 'asc')]
+    }
+
+    def watch() {
+        User user = session.user ? User.get(session.user.id) : null
+        Artifact artifact = Artifact.get(params.id)
+        Watcher watcher = Watcher.findByArtifact(artifact) ?: new Watcher(artifact: artifact)
+
+        if (watcher.users?.contains(user)) {
+            watcher.removeFromUsers(user)
+            if (watcher.users.isEmpty()) {
+                watcher.delete()
+            } else {
+                watcher.save()
+            }
+            render([status: false] as JSON)
+        } else {
+            watcher.addToUsers(user)
+            watcher.save()
+            render([status: true] as JSON)
+        }
     }
 }

@@ -71,6 +71,22 @@
       </span>
     </div>
 
+    <g:if test="${session.user}">
+      <div class="fieldcontain">
+        <span id="watching-label" class="property-label">
+          <%-- preload images --%>
+          <g:img dir="images" file="watch_off.png" style="display: none"/>
+          <g:img dir="images" file="watch_on.png" style="display: none"/>
+          <g:remoteLink controller="plugin" action="watch" id="${pluginInstance.id}"
+                        onSuccess="toggleWatcher(data)"><g:img id="watching" name="watching"
+                                                               dir="images"
+                                                               file="watch_${watching? 'on' :'off'}.png"/></g:remoteLink>
+        </span>
+        <span class="property-value" aria-labelledby="watching-label">
+          Receive updates when a release is posted
+        </span>
+      </div>
+    </g:if>
   </div>
 
   <div class="span4">
@@ -99,8 +115,12 @@
   </div>
 </div>
 
+<br clear="all"/>
+<br clear="all"/>
+
 <div class="row">
   <div class="span16">
+    <h2>Releases</h2>
     <table class="condensed-table zebra-striped">
       <thead>
       <tr>
@@ -139,8 +159,19 @@
 
 <script>
   function adjustForm(releaseId, value) {
-    $('#release_' + releaseId).val(value)
+    $('#release_' + releaseId).val(value);
     return true;
+  }
+
+  function toggleWatcher(data) {
+    var src = $('#watching').attr('src');
+    src = src.substring(0, src.lastIndexOf('/'));
+    if (data.status) {
+      src += '/watch_on.png';
+    } else {
+      src += '/watch_off.png';
+    }
+    $('#watching').attr('src', src);
   }
 </script>
 </body>
