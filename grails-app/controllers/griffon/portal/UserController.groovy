@@ -48,6 +48,10 @@ class UserController {
         User user = User.findWhere(username: params.username,
                 password: MD5.encode(params.passwd))
         if (user) {
+            if (!user.profile) {
+                render(view: 'subscribe', model: [userInstance: user])
+                return
+            }
             session.user = user
             session.profile = user.profile
             redirect(controller: 'profile', action: 'show', params: [id: user.username])
