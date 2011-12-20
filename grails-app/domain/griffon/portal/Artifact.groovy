@@ -32,6 +32,8 @@ class Artifact {
 
     static hasMany = [authors: Author, tags: Tag]
 
+    static transients = ['type']
+
     static constraints = {
         name(nullable: false, blank: false)
         title(nullable: false, blank: false)
@@ -47,10 +49,14 @@ class Artifact {
         this.name = name.toLowerCase()
     }
 
+    String getType() {
+        GrailsNameUtils.getShortName(getClass()).toLowerCase()
+    }
+
     String toString() {
         [
                 id: id,
-                type: GrailsNameUtils.getShortName(getClass()).toLowerCase(),
+                type: type,
                 name: name,
                 title: title,
                 license: license,

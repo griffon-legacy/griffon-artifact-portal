@@ -48,22 +48,49 @@ class ProfileController {
             return
         }
 
-        List<Plugin> pluginList = Plugin.withCriteria(sort: 'name', order: 'asc') {
-            authors {
-                eq('email', profileInstance.user.email)
+        params.tab = params.tab ?: 'contributions'
+
+        List<Plugin> pluginList = []
+        List<Archetype> archetypeList = []
+
+        if (params.tab == 'contributions') {
+            pluginList = Plugin.withCriteria(sort: 'name', order: 'asc') {
+                authors {
+                    eq('email', profileInstance.user.email)
+                }
+            }
+
+            archetypeList = Archetype.withCriteria(sort: 'name', order: 'asc') {
+                authors {
+                    eq('email', profileInstance.user.email)
+                }
             }
         }
 
-        List<Archetype> archetypeList = Archetype.withCriteria(sort: 'name', order: 'asc') {
-            authors {
-                eq('email', profileInstance.user.email)
+        Map watchlistMap = [:]
+        if (params.tab == 'watchlist' && profileInstance.user.username == session.user?.username) {
+            List watchers = Watcher.withCriteria {
+                users {
+                    eq('username', profileInstance.user.username)
+                }
+            }
+            // now separate results for each artifact type
+            watchers.each { watcher ->
+                List list = watchlistMap.get(watcher.artifact.type, [])
+                list << watcher.artifact
+            }
+            // sort each list
+            watchlistMap.each { type, list ->
+                list.sort()
             }
         }
 
         [
                 profileInstance: profileInstance,
                 pluginList: pluginList,
-                archetypeList: archetypeList
+                archetypeList: archetypeList,
+                tab: params.tab,
+                watchlistMap: watchlistMap
         ]
     }
 
