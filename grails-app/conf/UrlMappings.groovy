@@ -12,24 +12,38 @@ class UrlMappings {
         "/settings"(controller: 'profile', action: 'settings')
 
         '/api'(controller: 'api', action: 'index')
-        '/api/plugins'(controller: 'api', action: 'list') {
+        '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
+        "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
+        "/api/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}
+        "/api/plugins/$name/download/$version"(controller: 'api', action: 'download') { type = 'plugin'}
+        '/api/archetypes'(controller: 'api', action: 'list') { type = 'archetype' }
+        "/api/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype' }
+        "/api/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype' }
+        "/api/archetypes/$name/download/$version"(controller: 'api', action: 'download') { type = 'archetype' }
+
+        '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
+        "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
+        "/repository/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}
+        "/repository/plugins/$name/$version/griffon-${name}-${version}.zip"(controller: 'api', action: 'download') {
             type = 'plugin'
+            md5 = false
         }
-        "/api/plugins/$name"(controller: 'api', action: 'info') {
+        "/repository/plugins/$name/$version/griffon-${name}-${version}.zip.md5"(controller: 'api', action: 'download') {
             type = 'plugin'
+            md5 = true
         }
-        "/api/plugins/$name/download/$version"(controller: 'api', action: 'download') {
-            type = 'plugin'
-        }
-        '/api/archetypes'(controller: 'api', action: 'list') {
+        '/repository/archetypes'(controller: 'api', action: 'list') { type = 'archetype'}
+        "/repository/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype'}
+        "/repository/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype'}
+        "/repository/archetypes/$name/$version/griffon-${name}-${version}.zip"(controller: 'api', action: 'download') {
             type = 'archetype'
+            md5 = false
         }
-        "/api/archetypes/$name"(controller: 'api', action: 'info') {
+        "/repository/archetypes/$name/$version/griffon-${name}-${version}.zip.md5"(controller: 'api', action: 'download') {
             type = 'archetype'
+            md5 = true
         }
-        "/api/archetypes/$name/download/$version"(controller: 'api', action: 'download') {
-            type = 'archetype'
-        }
+
         "/plugins"(controller: 'plugin', action: 'list')
         "/archetypes"(controller: 'archetype', action: 'list')
         name showPlugin: "/plugin/$name"(controller: 'plugin', action: 'show')

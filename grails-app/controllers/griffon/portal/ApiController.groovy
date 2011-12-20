@@ -44,7 +44,11 @@ class ApiController {
         }
 
         list = list.collect([]) { artifact ->
-            asMap(artifact)
+            Map data = asMap(artifact)
+            data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
+                asMap(release)
+            }
+            data
         }
 
         render list as JSON
@@ -63,16 +67,40 @@ class ApiController {
         Map data = [:]
         if (artifact) {
             data = asMap(artifact)
-            data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
-                asMap(release)
+            if (params.version) {
+                Release release = Release.withCriteria(uniqueResult: true) {
+                    and {
+                        eq('artifactVersion', params.version)
+                        eq('artifact', artifact)
+                    }
+                }
+                if (release) {
+                    data.release = asMap(release)
+                } else {
+                    response.status = 404
+                    data = [
+                            action: 'info',
+                            response: 'Not Found',
+                            params: [
+                                    type: params.type,
+                                    name: params.name,
+                                    name: params.version
+                            ]
+                    ]
+                }
+            } else {
+                data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
+                    asMap(release)
+                }
             }
         } else {
+            response.status = 404
             data = [
                     action: 'info',
                     response: 'Not Found',
                     params: [
                             type: params.type,
-                            name: params.name,
+                            name: params.name
                     ]
             ]
         }
@@ -89,6 +117,7 @@ class ApiController {
                 artifact = Archetype.findByName(params.name)
         }
         if (!artifact) {
+            response.status = 404
             render([
                     action: 'download',
                     response: 'Not Found',
@@ -108,6 +137,7 @@ class ApiController {
             }
         }
         if (!release) {
+            response.status = 404
             render([
                     action: 'download',
                     response: 'Not Found',
@@ -121,20 +151,27 @@ class ApiController {
         }
 
         String basePath = "/WEB-INF/releases/${params.type}/${params.name}/${params.version}/"
-        String fileName = "griffon-${params.name}-${params.version}.zip"
+        String fileName = "griffon-${params.name}-${params.version}.zip" + (params.md5 ? '.md5' : '')
         String releasePath = servletContext.getRealPath("${basePath}${fileName}")
-        byte[] content = new FileInputStream(releasePath).bytes
+        File file = new File(releasePath)
+        byte[] content = file.bytes
 
-        new Activity(
-                username: 'GRIFFON_API',
-                eventType: EventType.DOWNLOAD,
-                event: [type: params.type, name: params.name, version: params.version].toString()
-        ).save()
+        response.contentType = 'text/plain'
+        if (!params.md5) {
+            new Activity(
+                    username: 'GRIFFON_API',
+                    eventType: EventType.DOWNLOAD,
+                    event: [type: params.type, name: params.name, version: params.version].toString()
+            ).save()
 
-        response.contentType = 'application/octet-stream'
+            response.contentType = 'application/octet-stream'
+            response.setHeader('Cache-Control', 'must-revalidate')
+        }
+
+        Date lastModified = new Date(file.lastModified())
         response.contentLength = content.length
-        response.setHeader('Pragma', '')
-        response.setHeader('Cache-Control', 'must-revalidate')
+        response.setHeader('Accept-Ranges', 'bytes')
+        response.setHeader('Last-Modified', lastModified.format('EEE, dd MMM yyyy HH:mm:ss z'))
         response.setHeader('Content-disposition', "attachment; filename=${fileName}")
         response.outputStream << content
     }
