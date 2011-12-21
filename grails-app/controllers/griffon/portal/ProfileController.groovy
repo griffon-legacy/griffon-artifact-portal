@@ -16,7 +16,9 @@
 
 package griffon.portal
 
+import griffon.portal.util.MD5
 import griffon.portal.values.ProfileTab
+import griffon.portal.values.SettingsTab
 
 /**
  * @author Andres Almiray
@@ -98,6 +100,159 @@ class ProfileController {
     }
 
     def settings() {
-        [profileInstance: session.user.profile]
+        if (!session.user) {
+            redirect(uri: '/')
+            return
+        }
+
+        params.tab = params.tab ?: SettingsTab.PROFILE.name
+
+        def command = null
+        switch (params.tab) {
+            case SettingsTab.ACCOUNT.name:
+                command = new UpdateAccountCommand(
+                        fullName: session.user.fullName,
+                        email: session.user.email
+                )
+                break
+            case SettingsTab.PROFILE.name:
+                command = new UpdateProfileCommand(
+                        bio: session.profile.bio,
+                        gravatarEmail: session.profile.gravatarEmail,
+                        website: session.profile.website,
+                        twitter: session.profile.twitter
+                )
+                break
+            case SettingsTab.PASSWORD.name:
+                command = new UpdatePasswordCommand()
+                break
+        }
+
+        [
+                profileInstance: session.profile,
+                tab: params.tab,
+                command: command
+        ]
+    }
+
+    def update_account(UpdateAccountCommand command) {
+        if (!command.validate()) {
+            return render(view: 'settings', model: [
+                    profileInstance: Profile.get(params.profileId),
+                    command: command,
+                    tab: SettingsTab.ACCOUNT.name])
+        }
+
+        User user = User.get(params.userId)
+        user.fullName = command.fullName
+        user.email = command.email
+
+        if (!user.save(flush: true)) {
+            return render(view: 'settings', model: [
+                    profileInstance: Profile.get(params.profileId),
+                    command: command,
+                    tab: SettingsTab.ACCOUNT.name])
+        }
+        session.user = user
+
+        flash.message = "Account successfully updated"
+        redirect(action: 'settings', model: [name: user.username, tab: SettingsTab.ACCOUNT.name])
+    }
+
+    def update_profile(UpdateProfileCommand command) {
+        Profile profile = Profile.get(params.profileId)
+        if (!command.validate()) {
+            return render(view: 'settings', model: [
+                    profileInstance: profile,
+                    command: command,
+                    tab: SettingsTab.PROFILE.name])
+        }
+
+        profile.bio = command.bio
+        profile.gravatarEmail = command.gravatarEmail ?: profile.user.email
+        profile.website = command.website
+        profile.twitter = command.twitter
+
+        if (!profile.save(flush: true)) {
+            return render(view: 'settings', model: [
+                    profileInstance: profile,
+                    command: command,
+                    tab: SettingsTab.PROFILE.name])
+        }
+
+        session.profile = profile
+
+        flash.message = "Profile successfully updated"
+        redirect(action: 'settings', model: [name: profile.user.username, tab: SettingsTab.PROFILE.name])
+    }
+
+    def update_password(UpdatePasswordCommand command) {
+        if (!command.validate()) {
+            return render(view: 'settings', model: [
+                    profileInstance: Profile.get(params.profileId),
+                    command: command,
+                    tab: SettingsTab.PASSWORD.name])
+        }
+
+        User user = User.get(params.userId)
+        String passwd = MD5.encode(command.oldPassword)
+
+        if (passwd != user.password) {
+            command.errors.rejectValue('password', 'griffon.portal.User.credentials.nomatch.message')
+            return render(view: 'settings', model: [
+                    profileInstance: Profile.get(params.profileId),
+                    command: command,
+                    tab: SettingsTab.PASSWORD.name])
+        }
+
+        user.password = MD5.encode(command.newPassword)
+        user.profile = Profile.get(params.profileId)
+
+        if (!user.save(flush: true)) {
+            return render(view: 'settings', model: [
+                    profileInstance: Profile.get(params.profileId),
+                    command: command,
+                    tab: SettingsTab.PASSWORD.name])
+        }
+        session.user = user
+
+        flash.message = "Password successfully updated"
+        redirect(action: 'settings', model: [name: user.username, tab: SettingsTab.PASSWORD.name])
+    }
+}
+
+class UpdateAccountCommand {
+    String fullName
+    String email
+
+    static constraints = {
+        fullName(nullable: false, blank: false)
+        email(nullable: true, email: true, unique: true)
+    }
+}
+
+class UpdateProfileCommand {
+    String bio
+    String gravatarEmail
+    String website
+    String twitter
+
+    static constraints = {
+        bio(nullable: true, blank: false, maxSize: 500)
+        gravatarEmail(nullable: true, email: true)
+        website(nullable: true, blank: false, url: true)
+        twitter(nullable: true, blank: false)
+    }
+}
+
+class UpdatePasswordCommand {
+    String oldPassword
+    String newPassword
+    String newPassword2
+
+    static constraints = {
+        oldPassword(nullable: false, blank: false)
+        newPassword(nullable: false, blank: false)
+        newPassword2(nullable: false, blank: false)
     }
 }

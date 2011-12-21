@@ -20,16 +20,29 @@ package griffon.portal
  * @author Andres Almiray
  */
 class Profile {
-    String description
+    String bio
     String gravatarEmail
     String website
     String twitter
     User user
 
+    static belongsTo = User
+
     static constraints = {
-        description(nullable: true, blank: false)
-        gravatarEmail(nullable: true, blank: false)
+        bio(nullable: true, blank: false, maxSize: 500)
+        gravatarEmail(nullable: true, email: true)
         website(nullable: true, blank: false, url: true)
         twitter(nullable: true, blank: false)
+    }
+
+    String toString() {
+        [
+                id: id,
+                gravatarEmail: gravatarEmail,
+                website: website,
+                twitter: twitter,
+                bio: bio,
+                user: user
+        ]
     }
 }

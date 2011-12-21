@@ -1,3 +1,4 @@
+<%@ page import="griffon.portal.values.SettingsTab" %>
 <!doctype html>
 <html>
 <head>
@@ -12,33 +13,46 @@
 
 <div class="page-header">
   <div class="row">
-    <div class="span2">
+    <div class="span1">
       <ul class="media-grid">
         <li>
           <a href="#">
             <avatar:gravatar cssClass="avatar thumbnail"
-                             email="${profileInstance.gravatarEmail}" size="80"/>
+                             email="${profileInstance.gravatarEmail}" size="40"/>
           </a>
         </li>
       </ul>
     </div>
 
-    <div class="span14">
-      <address>
-        <h1><g:fieldValue bean="${profileInstance.user}" field="username"/></h1>
-        <g:fieldValue bean="${profileInstance.user}" field="fullName"/><br/>
-        <small><g:message code="user.membership.label" default="Member since"/></small> <g:formatDate
-              date="${profileInstance.user.dateCreated}" format="MMM dd, yyyy"/>
-      </address>
+    <div class="span15">
+      <h2><g:fieldValue bean="${profileInstance.user}" field="username"/>'s settings</h2>
     </div>
-
   </div>
 </div>
 
 <div class="row">
   <div class="span16">
-    <p>TBD</p>
+    <%
+      def tabClassFor = { SettingsTab settingsTab ->
+        tab == settingsTab.name ? 'active' : ''
+      }
+    %>
+    <ul class="tabs" role="navigation">
+      <g:each in="${SettingsTab.values()}" var="settingsTab">
+        <%
+          def linkParams = [tab: settingsTab.name, username: profileInstance.user.username]
+        %>
+        <li class="${tabClassFor(settingsTab)}"><g:link controller="profile" action="settings"
+                                                        mappingName="settings"
+                                                        params="${linkParams}">${settingsTab.capitalizedName}</g:link></li>
+      </g:each>
+    </ul>
   </div>
 </div>
+
+<div class="row">
+  <g:render template="${tab}"/>
+</div>
+
 </body>
 </html>

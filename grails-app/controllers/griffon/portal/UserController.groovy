@@ -74,10 +74,6 @@ class UserController {
 
     def subscribe() {
         User user = new User(params)
-        user.profile = new Profile(
-                user: user,
-                gravatarEmail: user.email,
-        )
 
         if (!jcaptchaService.validateResponse('image', session.id, user.captcha)) {
             user.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')

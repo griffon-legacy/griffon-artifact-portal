@@ -35,33 +35,34 @@
       <g:form action="login" name="loginForm" mapping="login">
         <fieldset class="form"><div
                 class="fieldcontain ${hasErrors(bean: command, field: 'username', 'error')} required">
-          <label for="username">
-            <g:message code="user.username.label" default="Username"/>
+        <label for="username">
+          <g:message code="user.username.label" default="Username"/>
+          <span class="required-indicator">*</span>
+        </label>
+        <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
+        </div>
+        <div class="fieldcontain ${hasErrors(bean: command, field: 'passwd', 'error')} required">
+          <label for="passwd">
+            <g:message code="user.password.label" default="Password"/>
             <span class="required-indicator">*</span>
           </label>
-          <g:textField name="username" required="" value="${command?.username}"/>
+          <g:passwordField id="passwd" name="passwd" required="" tabindex="2" value="${command?.passwd}"/>
         </div>
-          <div class="fieldcontain ${hasErrors(bean: command, field: 'passwd', 'error')} required">
-            <label for="passwd">
-              <g:message code="user.password.label" default="Password"/>
-              <span class="required-indicator">*</span>
-            </label>
-            <g:passwordField id="passwd" name="passwd" required="" value="${command?.passwd}"/>
-          </div>
 
-          <div class="fieldcontain required">
-            <br clear="all"/>
-            <label for="signin"></label>
-            <button class="btn primary" type="submit" id="signin" name="signin">
-              ${message(code: 'griffon.portal.button.signin.label', default: 'Sign in')}</button>
-            <button class="btn danger" onclick="${application.contextPath}">
-              ${message(code: 'default.button.cancel.label', default: 'Cancel')}</button>
-          </div>
-        </fieldset>
+        <div class="actions">
+          <button class="btn primary" type="submit" id="signin" name="signin" tabindex="3">
+            ${message(code: 'griffon.portal.button.signin.label', default: 'Sign in')}</button>
+          <button class="btn danger" onclick="${application.contextPath}" tabindex="4">
+            ${message(code: 'default.button.cancel.label', default: 'Cancel')}</button>
+        </div>
       </g:form>
     </div>
   </div>
 </div>
+
+<script language="javascript">
+  $('#username').focus();
+</script>
 
 </body>
 </html>

@@ -8,7 +8,11 @@ class UrlMappings {
         name forgot_password: "/forgot_password"(controller: 'user', action: 'forgot_password')
         name forgot_username: "/forgot_username"(controller: 'user', action: 'forgot_username')
 
-        "/profile/$id"(controller: 'profile', action: 'show')
+        name sesstings_update_account: "/settings/$username/update/account"(controller: 'profile', action: 'update_account')
+        name sesstings_update_profile: "/settings/$username/update/profile"(controller: 'profile', action: 'update_profile')
+        name sesstings_update_password: "/settings/$username/update/password"(controller: 'profile', action: 'update_password')
+        name settings: "/settings/$username/$tab"(controller: 'profile', action: 'settings')
+        //"/profile/$id"(controller: 'profile', action: 'show')
         "/settings"(controller: 'profile', action: 'settings')
 
         '/api'(controller: 'api', action: 'index')

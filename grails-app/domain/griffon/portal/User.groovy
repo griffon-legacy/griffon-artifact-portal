@@ -40,10 +40,19 @@ class User {
         email(nullable: false, email: true, unique: true)
         fullName(nullable: false, blank: false)
         membership(nullable: false)
-        profile(nullable: true, unique: true)
+        profile(nullable: true)
     }
 
-    String toString() { "${username}:${id}" }
+    String toString() {
+        [
+                id: id,
+                username: username,
+                email: email,
+                fullName: fullName,
+                membership: membership?.status,
+                profileId: profile?.id
+        ]
+    }
 }
 
 class Membership {

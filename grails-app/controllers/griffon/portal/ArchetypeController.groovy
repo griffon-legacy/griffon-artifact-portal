@@ -86,14 +86,14 @@ class ArchetypeController {
         if (watcher.users?.contains(user)) {
             watcher.removeFromUsers(user)
             if (watcher.users.isEmpty()) {
-                watcher.delete()
+                watcher.delete(flush: true)
             } else {
-                watcher.save()
+                watcher.save(flush: true)
             }
             render([status: false] as JSON)
         } else {
             watcher.addToUsers(user)
-            watcher.save()
+            watcher.save(flush: true)
             render([status: true] as JSON)
         }
     }

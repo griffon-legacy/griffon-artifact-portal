@@ -35,12 +35,10 @@
       <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
         <fieldset class="form">
           <g:render template="form"/>
-          <div class="fieldcontain required">
-            <br clear="all"/>
-            <label for="subscribe"></label>
-            <button class="btn primary" type="submit" id="subscribe" name="subscribe">
+          <div class="actions">
+            <button class="btn primary" type="submit" id="subscribe" name="subscribe" tabindex="7">
               ${message(code: 'griffon.portal.button.signup.label', default: 'Sign up')}</button>
-            <button class="btn danger" onclick="${application.contextPath}">
+            <button class="btn danger" onclick="${application.contextPath}" tabindex="8">
               ${message(code: 'default.button.cancel.label', default: 'Cancel')}</button>
           </div>
         </fieldset>
@@ -50,23 +48,17 @@
 </div>
 
 <script language="javascript">
-  function checkPasswords() {
-    var match = $('#password2').val() == $('#password').val()
-    if (match) {
-      $('#password2').parent().removeClass('error')
-    } else {
-      $('#password2').parent().addClass('error')
+  $('#username').focus()
+  $('#password2,#password').keyup(function () {
+    if ($('#password2').val() != '') {
+      if ($('#password2').val() != $('#password').val()) {
+        $('#nomatch').show();
+        $('#password2').parent().addClass('error');
+      } else {
+        $('#nomatch').hide();
+        $('#password2').parent().removeClass('error');
+      }
     }
-    return match;
-  }
-
-  $('#password2').blur(checkPasswords);
-  $('#subscriptionForm').submit(function () {
-    if (!checkPasswords()) {
-      alert("Passwords do not match!")
-      return false;
-    }
-    return true;
   });
 </script>
 
