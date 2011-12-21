@@ -35,21 +35,21 @@
           def isHomeActive = {->
             !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api']) ? 'active' : ''
           }
-          def isTabActive = { String tabName ->
+          def isMenuActive = { String tabName ->
             params?.controller == tabName ? 'active' : ''
           }
         %>
         <div id="global-nav">
           <ul id="global-actions">
             <li id="global-nav-home" class="<%=isHomeActive()%>"><a href="${application.contextPath}">Home</a></li>
-            <li id="global-nav-plugins" class="<%=isTabActive('plugin')%>"><a
+            <li id="global-nav-plugins" class="<%=isMenuActive('plugin')%>"><a
                     href="${application.contextPath}/plugins">Plugins</a></li>
-            <li id="global-nav-archetypes" class="<%=isTabActive('archetype')%>"><a
+            <li id="global-nav-archetypes" class="<%=isMenuActive('archetype')%>"><a
                     href="${application.contextPath}/archetypes">Archetypes</a></li>
-            <li id="global-nav-api" class="<%=isTabActive('api')%>"><a
+            <li id="global-nav-api" class="<%=isMenuActive('api')%>"><a
                     href="${application.contextPath}/api">API</a></li>
             <g:if test="${session.user}">
-              <li id="global-nav-profile" class="<%=isTabActive('profile')%>"><a
+              <li id="global-nav-profile" class="<%=isMenuActive('profile')%>"><a
                       href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
             </g:if>
           </ul>

@@ -16,6 +16,8 @@
 
 package griffon.portal
 
+import griffon.portal.values.ProfileTab
+
 /**
  * @author Andres Almiray
  */
@@ -48,18 +50,25 @@ class ProfileController {
             return
         }
 
-        params.tab = params.tab ?: 'contributions'
+        boolean loggedIn = profileInstance.user.username == session.user?.username
+
+        params.tab = params.tab ?: ProfileTab.PLUGINS.name
+        // don't let strangers see watchlists
+        if (!loggedIn && params.tab == ProfileTab.WATCHLIST.name) {
+            params.tab = ProfileTab.PLUGINS.name
+        }
 
         List<Plugin> pluginList = []
-        List<Archetype> archetypeList = []
-
-        if (params.tab == 'contributions') {
+        if (params.tab == ProfileTab.PLUGINS.name) {
             pluginList = Plugin.withCriteria(sort: 'name', order: 'asc') {
                 authors {
                     eq('email', profileInstance.user.email)
                 }
             }
+        }
 
+        List<Archetype> archetypeList = []
+        if (params.tab == ProfileTab.ARCHETYPES.name) {
             archetypeList = Archetype.withCriteria(sort: 'name', order: 'asc') {
                 authors {
                     eq('email', profileInstance.user.email)
@@ -67,22 +76,15 @@ class ProfileController {
             }
         }
 
-        Map watchlistMap = [:]
-        if (params.tab == 'watchlist' && profileInstance.user.username == session.user?.username) {
+        List watchlistList = []
+        if (params.tab == ProfileTab.WATCHLIST.name && loggedIn) {
             List watchers = Watcher.withCriteria {
                 users {
                     eq('username', profileInstance.user.username)
                 }
             }
-            // now separate results for each artifact type
-            watchers.each { watcher ->
-                List list = watchlistMap.get(watcher.artifact.type, [])
-                list << watcher.artifact
-            }
-            // sort each list
-            watchlistMap.each { type, list ->
-                list.sort()
-            }
+            watchers.collect(watchlistList) { watcher -> watcher.artifact }
+            watchlistList.sort(true) { it.name }
         }
 
         [
@@ -90,7 +92,8 @@ class ProfileController {
                 pluginList: pluginList,
                 archetypeList: archetypeList,
                 tab: params.tab,
-                watchlistMap: watchlistMap
+                watchlistList: watchlistList,
+                loggedIn: loggedIn
         ]
     }
 

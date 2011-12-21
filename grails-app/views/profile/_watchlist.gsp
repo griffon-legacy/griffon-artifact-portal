@@ -7,27 +7,41 @@
 <div class="<%=listSpan%>">
   <div class="row">
     <div class="<%=listSpan%>">
-      <h2>Plugins</h2>
-      <g:if test="${watchlistMap.plugin}">
+      <g:if test="${watchlistList}">
+      <%-- preload images --%>
+        <g:img dir="images" file="watch_off.png" style="display: none"/>
+        <g:img dir="images" file="watch_on.png" style="display: none"/>
         <table class="condensed-table zebra-striped">
           <thead>
           <tr>
-            <th>${message(code: 'plugin.name.label', default: 'Name')}</th>
-            <th>${message(code: 'plugin.title.label', default: 'Title')}</th>
+            <th></th>
+            <th>${message(code: 'artifact.type.label', default: 'Type')}</th>
+            <th>${message(code: 'artifact.name.label', default: 'Name')}</th>
+            <th>${message(code: 'artifact.title.label', default: 'Title')}</th>
             <th></th>
           </tr>
           </thead>
           <tbody>
-          <g:each in="${watchlistMap.plugin}" status="i" var="pluginInstance">
+          <g:each in="${watchlistList}" status="i" var="artifactInstance">
             <tr>
-              <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: pluginInstance, field: "name").toString())}</td>
-              <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
+              <%
+                def watchingId = "watching_${artifactInstance.type}_${artifactInstance.id}"
+              %>
+              <td><g:remoteLink controller="${artifactInstance.type}" action="watch" id="${artifactInstance.id}"
+                                onSuccess="toggleWatcher(data, '#${watchingId}')"><g:img id="${watchingId}"
+                                                                                         name="${watchingId}"
+                                                                                         dir="images"
+                                                                                         file="watch_on.png"/></g:remoteLink></td>
+              <td>${fieldValue(bean: artifactInstance, field: "type")}</td>
+              <td>${fieldValue(bean: artifactInstance, field: "capitalizedName")}</td>
+              <td>${fieldValue(bean: artifactInstance, field: "title")}</td>
               <td>
                 <%
-                  def formParams = [name: pluginInstance.name]
+                  def formParams = [name: artifactInstance.name]
+                  def mappingName = 'show' + artifactInstance.capitalizedType
                 %>
-                <g:form controller="plugin" action="show" params="${formParams}" mapping="showPlugin">
-                  <g:hiddenField name="name" value="${pluginInstance.name}"/>
+                <g:form controller="${artifactType}" action="show" params="${formParams}" mapping="${mappingName}">
+                  <g:hiddenField name="name" value="${artifactInstance.name}"/>
                   <button class="btn primary small" type="submit" id="info" name="info">
                     ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
                 </g:form>
@@ -38,46 +52,21 @@
         </table>
       </g:if>
       <g:else>
-        <p>You are not watching plugins at all.</p>
-      </g:else>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="<%=listSpan%>">
-      <h2>Archetypes</h2>
-      <g:if test="${watchlistMap.archetype}">
-        <table class="condensed-table zebra-striped">
-          <thead>
-          <tr>
-            <th>${message(code: 'archetype.name.label', default: 'Name')}</th>
-            <th>${message(code: 'archetype.title.label', default: 'Title')}</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-          <g:each in="${watchlistMap.archetype}" status="i" var="archetypeInstance">
-            <tr>
-              <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: archetypeInstance, field: "name").toString())}</td>
-              <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
-              <td>
-                <%
-                  formParams = [name: archetypeInstance.name]
-                %>
-                <g:form controller="archetype" action="show" params="${formParams}" mapping="showArchetype">
-                  <g:hiddenField name="name" value="${archetypeInstance.name}"/>
-                  <button class="btn primary small" type="submit" id="info" name="info">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                </g:form>
-              </td>
-            </tr>
-          </g:each>
-          </tbody>
-        </table>
-      </g:if>
-      <g:else>
-        <p>You are not watching archetypes at all.</p>
+        <p>You have no items in your watching list.</p>
       </g:else>
     </div>
   </div>
 </div>
+
+<script>
+  function toggleWatcher(data, watchingId) {
+    var src = $(watchingId).attr('src');
+    src = src.substring(0, src.lastIndexOf('/'));
+    if (data.status) {
+      src += '/watch_on.png';
+    } else {
+      src += '/watch_off.png';
+    }
+    $(watchingId).attr('src', src);
+  }
+</script>

@@ -1,3 +1,4 @@
+<%@ page import="griffon.portal.values.ProfileTab" %>
 <!doctype html>
 <html>
 <head>
@@ -28,25 +29,28 @@
     </div>
   </g:if>
 
-  <g:if test="${session.user}">
-    <div class="<%=listSpan%>">
-      <ul class="tabs">
-        <li class="${tab == 'contributions' ? 'active' : ''}"><g:link controller="profile" action="show"
-                                                                      id="${profileInstance.user.username}"
-                                                                      params="[tab: 'contributions']">Contributions</g:link></li>
-        <li class="${tab == 'watchlist' ? 'active' : ''}"><g:link controller="profile" action="show"
-                                                                  id="${profileInstance.user.username}"
-                                                                  params="[tab: 'watchlist']">Watch List</g:link></li>
-      </ul>
-    </div>
-  </g:if>
+  <%
+    def tabClassFor = { ProfileTab profileTab ->
+      tab == profileTab.name ? 'active' : ''
+    }
+  %>
 
-  <g:if test="${tab == 'contributions'}">
-    <g:render template="contributions"/>
-  </g:if>
-  <g:elseif test="${tab == 'watchlist'}">
-    <g:render template="watchlist"/>
-  </g:elseif>
+  <div class="<%=listSpan%>">
+    <ul class="tabs">
+      <%
+        def tabs = ProfileTab.values().flatten()
+        if (!loggedIn) tabs.remove ProfileTab.WATCHLIST
+      %>
+      <g:each in="${tabs}" var="profileTab">
+        <% def linkParams = [tab: profileTab.name] %>
+        <li class="${tabClassFor(profileTab)}"><g:link controller="profile" action="show"
+                                                       id="${profileInstance.user.username}"
+                                                       params="${linkParams}">${profileTab.capitalizedName}</g:link></li>
+      </g:each>
+    </ul>
+  </div>
+
+  <g:render template="${tab}"/>
 
 </div>
 

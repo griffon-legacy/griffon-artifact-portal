@@ -27,7 +27,7 @@
         </div>
 
         <div class="span4">
-          <g:if test="${profileInstance.user.username == session.user?.username}">
+          <g:if test="${loggedIn}">
             <g:if test="${profileInstance.user.membership.status == Membership.Status.ACCEPTED}">
               <div id="modal-upload" class="modal hide fade">
                 <div class="modal-header">

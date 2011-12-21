@@ -306,6 +306,8 @@
   </div>
 </section>
 
+<br clear="all"/><br clear="all"/>
+
 <section id="repository">
   <div class="page-header">
     <h1>Repository <small>Ivy style repository view</small></h1>
