@@ -25,7 +25,7 @@
                 <%
                   formParams = [name: archetypeInstance.name]
                 %>
-                <g:form controller="archetype" action="show" params="${formParams}" mapping="showArchetype">
+                <g:form controller="archetype" action="show" params="${formParams}" mapping="show_archetype">
                   <g:hiddenField name="name" value="${archetypeInstance.name}"/>
                   <button class="btn primary small" type="submit" id="info" name="info">
                     ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>

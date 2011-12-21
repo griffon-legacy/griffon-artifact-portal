@@ -297,3 +297,79 @@ a.skip {
     position: absolute;
     left: -9999px;
 }
+
+.artifact {
+    width: 560px;
+    background: #FFFFFF;
+    color: #333333;
+    margin: 0px auto;
+    overflow-x: hidden;
+    -moz-box-shadow: 0 0 0.3em #7b2517;
+    -webkit-box-shadow: 0 0 0.3em #7b2517;
+    box-shadow: 0 0 0.3em #7b2517;
+    padding-top: 50px;
+}
+
+.artifact a {
+    border: none;
+    text-decoration: none;
+    background: transparent;
+    color: #006dba;
+}
+
+.artifact .artifact-header {
+    margin: -50px 0px 0px 0px;
+    position: relative;
+}
+
+.artifact .artifact-header h4 {
+    padding-left: 10px;
+}
+
+.artifact .artifact-header small {
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+.artifact .artifact-detail {
+    padding-top: 0px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    font-size: 0.8em;
+}
+
+.artifact .more-info {
+    position: relative;
+    right: 10px;
+    top: 30px;
+}
+
+.artifact .artifact-detail .artifact-label {
+    color: #767676;
+    text-transform: uppercase;
+}
+
+.artifact ul.artifact-links {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 2.5em;
+    font-size: 0.9em;
+    margin: 0;
+    width: 100%;
+}
+
+.artifact ul.artifact-links li {
+    float: left;
+    margin-right: 1.0em;
+}
+
+.artifact .artifact-links a {
+    color: black;
+    border: inherit;
+    text-decoration: none;
+}
+
+.artifact .artifact-links img {
+    vertical-align: middle;
+}

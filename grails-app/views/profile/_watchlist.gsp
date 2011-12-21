@@ -27,7 +27,7 @@
               <%
                 def watchingId = "watching_${artifactInstance.type}_${artifactInstance.id}"
               %>
-              <td><g:remoteLink controller="${artifactInstance.type}" action="watch" id="${artifactInstance.id}"
+              <td><g:remoteLink controller="artifact" action="watch" id="${artifactInstance.id}" mapping="watch_artifact"
                                 onSuccess="toggleWatcher(data, '#${watchingId}')"><g:img id="${watchingId}"
                                                                                          name="${watchingId}"
                                                                                          dir="images"

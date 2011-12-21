@@ -16,7 +16,6 @@
 
 package griffon.portal
 
-import grails.converters.JSON
 import grails.util.GrailsNameUtils
 
 /**
@@ -76,25 +75,5 @@ class PluginController {
 
     def list() {
         [pluginList: Plugin.list(sort: 'name', order: 'asc')]
-    }
-
-    def watch() {
-        User user = session.user ? User.get(session.user.id) : null
-        Artifact artifact = Artifact.get(params.id)
-        Watcher watcher = Watcher.findByArtifact(artifact) ?: new Watcher(artifact: artifact)
-
-        if (watcher.users?.contains(user)) {
-            watcher.removeFromUsers(user)
-            if (watcher.users.isEmpty()) {
-                watcher.delete(flush: true)
-            } else {
-                watcher.save(flush: true)
-            }
-            render([status: false] as JSON)
-        } else {
-            watcher.addToUsers(user)
-            watcher.save(flush: true)
-            render([status: true] as JSON)
-        }
     }
 }

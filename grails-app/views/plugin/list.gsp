@@ -33,7 +33,7 @@
               <%
                 def formParams = [name: pluginInstance.name]
               %>
-              <g:form controller="plugin" action="show" params="${formParams}" mapping="showPlugin">
+              <g:form controller="plugin" action="show" params="${formParams}" mapping="show_plugin">
                 <g:hiddenField name="name" value="${pluginInstance.name}"/>
                 <button class="btn primary small" type="submit" id="info" name="info">
                   ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>

@@ -77,7 +77,7 @@
           <%-- preload images --%>
           <g:img dir="images" file="watch_off.png" style="display: none"/>
           <g:img dir="images" file="watch_on.png" style="display: none"/>
-          <g:remoteLink controller="plugin" action="watch" id="${pluginInstance.id}"
+          <g:remoteLink controller="artifact" action="watch" id="${pluginInstance.id}" mapping="watch_artifact"
                         onSuccess="toggleWatcher(data)"><g:img id="watching" name="watching"
                                                                dir="images"
                                                                file="watch_${watching? 'on' :'off'}.png"/></g:remoteLink>

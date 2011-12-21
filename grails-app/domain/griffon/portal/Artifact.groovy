@@ -27,6 +27,9 @@ class Artifact {
     String description
     String license
 
+    String source
+    String docs
+
     Date dateCreated
     Date lastUpdated
 
@@ -39,6 +42,8 @@ class Artifact {
         title(nullable: false, blank: false)
         description(nullable: false, blank: false)
         license(nullable: false, blank: false)
+        source(nullable: true, blank: false, url: true)
+        docs(nullable: true, blank: false)
     }
 
     static mapping = {
@@ -68,7 +73,9 @@ class Artifact {
                 name: name,
                 title: title,
                 license: license,
-                authors: authors*.toString()
+                authors: authors*.toString(),
+                source: source,
+                docs: docs
         ]
     }
 }
