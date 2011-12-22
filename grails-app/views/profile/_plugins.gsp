@@ -20,9 +20,11 @@
               <td>${fieldValue(bean: pluginInstance, field: "capitalizedName")}</td>
               <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
               <td>
-                <g:link controller="${pluginInstance.type}" action="show" params="[name: pluginInstance.name]"
-                        mapping="show_${pluginInstance.type}"
-                        class="btn small primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+                <div class="pull-right">
+                  <g:link controller="${pluginInstance.type}" action="show" params="[name: pluginInstance.name]"
+                          mapping="show_${pluginInstance.type}"
+                          class="btn small primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+                </div>
               </td>
             </tr>
           </g:each>

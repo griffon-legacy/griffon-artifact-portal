@@ -32,9 +32,14 @@
           <tr>
             <td>${fieldValue(bean: archetypeInstance, field: "capitalizedName")}</td>
             <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
-            <td><g:link controller="archetype" action="show" params="[name: archetypeInstance.name]" mapping="show_archetype"
+            <td>
+              <div class="pull-right">
+                <g:link controller="archetype" action="show" params="[name: archetypeInstance.name]"
+                        mapping="show_archetype"
                         class="btn primary small">
-              ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link></td>
+                  ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+              </div>
+            </td>
           </tr>
           </tr>
         </g:each>
