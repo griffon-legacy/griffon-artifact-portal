@@ -25,7 +25,8 @@ grails.project.dependency.resolution = {
     dependencies {
         compile 'org.apache.mina:mina-core:2.0.4',
                 'org.apache.sshd:sshd-core:0.6.0',
-                'org.apache.sshd:sshd-pam:0.6.0'
+                'org.apache.sshd:sshd-pam:0.6.0',
+                'org.pegdown:pegdown:1.1.0'
         compile('org.codehaus.griffon:griffon-rt:0.9.4') { transitive = false }
     }
 

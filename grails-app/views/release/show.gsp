@@ -1,3 +1,4 @@
+<%@ page import="org.pegdown.PegDownProcessor" %>
 <!doctype html>
 <html>
 <head>
@@ -13,7 +14,7 @@
 </div>
 
 <div class="row">
-  <div class="span10">
+  <div class="span12">
     <div class="fieldcontain">
       <span id="artifact-label" class="property-label"><%=releaseInstance.artifact.capitalizedType%></span>
       <g:link controller="${releaseInstance.artifact.type}" action="show" params="[name: releaseInstance.artifact.name]"
@@ -54,5 +55,28 @@
             class="btn success pull-right">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>
   </div>
 </div>
+
+<hr/>
+
+<div class="row">
+  <div class="span16">
+    <h2>Release Notes</h2>
+
+    <p>
+      <g:if test="${releaseInstance.releaseNotes}">
+        <%
+          String basePath = "/WEB-INF/releases/${releaseInstance.artifact.type}/${releaseInstance.artifact.name}/${releaseInstance.artifactVersion}/"
+          String fileName = 'README.html'
+          String releasePath = application.getRealPath("${basePath}${fileName}")
+          out << new File(releasePath).text
+        %>
+      </g:if>
+      <g:else>
+        No description available.
+      </g:else>
+    </p>
+  </div>
+</div>
+
 </body>
 </html>

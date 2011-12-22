@@ -48,6 +48,7 @@ class Artifact {
 
     static mapping = {
         tablePerHierarchy false
+        description type: 'text'
     }
 
     void setName(String name) {

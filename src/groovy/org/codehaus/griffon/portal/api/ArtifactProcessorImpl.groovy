@@ -29,6 +29,7 @@ import java.util.zip.ZipFile
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.grails.mail.MailService
+import org.pegdown.PegDownProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.twitter4j.grails.plugin.Twitter4jService
@@ -110,6 +111,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         String fileName = "griffon-${json.name}-${json.version}.zip"
         ZipEntry artifactFileEntry = zipFile.getEntry(fileName)
         ZipEntry md5ChecksumEntry = zipFile.getEntry("${fileName}.md5")
+        ZipEntry releaseNotesEntry = zipFile.getEntry("release_notes.md")
 
         if (artifactFileEntry == null) {
             throw new IOException("Release does not contain expected zip entry ${fileName}")
@@ -136,6 +138,14 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         os.bytes = zipFile.getInputStream(md5ChecksumEntry).bytes
 
         json.checksum = zipFile.getInputStream(md5ChecksumEntry).text
+        if (releaseNotesEntry != null) {
+            String releaseNotesPath = ServletContextHolder.servletContext.getRealPath("${basePath}/README.md")
+            os = new FileOutputStream(releaseNotesPath)
+            os.bytes = zipFile.getInputStream(releaseNotesEntry).bytes
+            String formattedReleaseNotesPath = ServletContextHolder.servletContext.getRealPath("${basePath}/README.html")
+            new File(formattedReleaseNotesPath).text = new PegDownProcessor().markdownToHtml(zipFile.getInputStream(releaseNotesEntry).text)
+            json.releaseNotes = true
+        }
     }
 
     private void handlePlugin(ArtifactInfo artifactInfo, json) {
@@ -209,6 +219,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             comment = json.comment
             checksum = json.checksum
             artifact = pArtifact
+            releaseNotes = json.releaseNotes ?: false
         }
         release.save()
 

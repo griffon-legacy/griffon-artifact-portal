@@ -24,6 +24,7 @@ class Release {
     String griffonVersion
     String comment
     String checksum
+    boolean releaseNotes
     Artifact artifact
 
     Date dateCreated
@@ -45,7 +46,8 @@ class Release {
                 comment: comment,
                 checksum: checksum,
                 date: dateCreated,
-                artifact: artifact
+                artifact: artifact,
+                releaseNotes: releaseNotes
         ]
     }
 }
