@@ -72,6 +72,8 @@ template.release.posted = '''
 //
 // ###################################################################
 
+grails.rateable.rater.evaluator = { session.user }
+
 avatarPlugin {
     defaultGravatarUrl = '/images/griffon-icon-128x128.grayscale.png'
     gravatarRating = 'G'

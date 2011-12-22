@@ -310,19 +310,32 @@ a.skip {
     padding-top: 50px;
 }
 
-.artifact a {
+.artifact .artifact-header {
+    margin: -60px 0px 0px 0px;
+    position: relative;;
+}
+
+.artifact .artifact-header a {
     border: none;
     text-decoration: none;
     background: transparent;
     color: #006dba;
 }
 
-.artifact .artifact-header {
-    margin: -50px 0px 0px 0px;
-    position: relative;
+.artifact .artifact-header .artifact-detail {
+    padding-left: 30px;
+    font-size: 0.8em;
+}
+
+.artifact .artifact-detail .artifact-label {
+    color: #767676;
+    text-transform: uppercase;
 }
 
 .artifact .artifact-header h4 {
+    position: relative;
+    top: 10px;
+    padding-bottom: 0px;
     padding-left: 10px;
 }
 
@@ -331,29 +344,16 @@ a.skip {
     font-size: 0.8em;
 }
 
-.artifact .artifact-detail {
-    padding-top: 0px;
-    padding-left: 20px;
-    padding-bottom: 0px;
-    font-size: 0.8em;
-}
-
-.artifact .more-info {
+.artifact .artifact-more-info {
     position: relative;
+    bottom: 10px;
     right: 10px;
-    top: 30px;
-}
-
-.artifact .artifact-detail .artifact-label {
-    color: #767676;
-    text-transform: uppercase;
 }
 
 .artifact ul.artifact-links {
     list-style-type: none;
     padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 2.5em;
+    padding-bottom: 0em;
     font-size: 0.9em;
     margin: 0;
     width: 100%;
@@ -372,6 +372,16 @@ a.skip {
 
 .artifact .artifact-links img {
     vertical-align: middle;
+}
+
+.artifact .artifact-ratings {
+    position: relative;
+    float: right;
+    top: -30px;
+    bottom: 0px;
+    left: -20px;
+    right: 0px;
+    margin: -10px;
 }
 
 .categories {

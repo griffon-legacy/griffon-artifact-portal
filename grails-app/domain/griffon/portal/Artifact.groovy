@@ -17,11 +17,12 @@
 package griffon.portal
 
 import grails.util.GrailsNameUtils
+import org.grails.rateable.Rateable
 
 /**
  * @author Andres Almiray
  */
-class Artifact {
+class Artifact implements Rateable {
     String name
     String title
     String description

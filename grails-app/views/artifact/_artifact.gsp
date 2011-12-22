@@ -1,22 +1,17 @@
 <!-- BEGIN: ARTIFACT -->
-<div class="artifact pull-right">
+<div class="artifact ">
+  <g:render template="/shared/rating_offline" model="[artifactInstance: artifactInstance, login: false]"/>
+
   <div class="artifact-header">
-    <h4><g:link controller="${artifactInstance.type}" action="show"
-                id="${artifactInstance.name}">${artifactInstance.capitalizedName}</g:link></h4>
+    <h4><g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
+                mapping="show_${artifactInstance.type}">${artifactInstance.capitalizedName}</g:link></h4>
     <small>${artifactInstance.title}</small>
-  </div>
 
-  <div class="more-info">
-    <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
-            mapping="show_${artifactInstance.type}"
-            class="btn small primary pull-right">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
-  </div>
+    <div class="artifact-detail">
+      <div><span class="artifact-label">Tags:</span></div>
 
-  <div class="artifact-detail">
-    <div><span class="artifact-label">Tags:</span></div>
-
-    <div><span class="artifact-label">License:</span> ${artifactInstance.license}</div>
-
+      <div><span class="artifact-label">License:</span> ${artifactInstance.license}</div>
+    </div>
   </div>
 
   <ul class="artifact-links">
@@ -39,6 +34,12 @@
       </g:else>
     </li>
   </ul>
+
+  <div class="artifact-more-info">
+    <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
+            mapping="show_${artifactInstance.type}"
+            class="btn small primary pull-right">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+  </div>
 </div>
 <br clear="all"/>
 <br clear="all"/>

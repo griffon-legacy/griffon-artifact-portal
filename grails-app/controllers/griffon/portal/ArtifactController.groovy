@@ -128,18 +128,16 @@ class ArtifactController {
         List<Artifact> artifacts = []
 
         Map queryParams = [
-                sort: 'name',
-                order: 'asc',
                 max: 5,
                 offset: params.offset ?: 0
         ]
 
         switch (params.type) {
             case 'plugin':
-
+                artifacts = Plugin.listOrderByAverageRating(queryParams)
                 break
             case 'archetype':
-
+                artifacts = Archetype.listOrderByAverageRating(queryParams)
                 break
         }
 
