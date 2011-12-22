@@ -16,8 +16,6 @@
 
 package griffon.portal.values;
 
-import grails.util.GrailsNameUtils;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,17 +23,22 @@ import java.util.List;
  * @author Andres Almiray
  */
 public enum Category {
-    ALL,
-    HIGHEST_VOTED,
-    RECENTLY_UPDATED,
-    NEWEST;
+    ALL("All"),
+    HIGHEST_VOTED("Highest Voted"),
+    RECENTLY_UPDATED("Recently Updated"),
+    NEWEST("Newest");
+    private final String capitalizedName;
+
+    private Category(String capitalizedName) {
+        this.capitalizedName = capitalizedName;
+    }
 
     public String getName() {
         return name().toLowerCase();
     }
 
     public String getCapitalizedName() {
-        return GrailsNameUtils.getNaturalName(getName());
+        return capitalizedName;
     }
 
     private static String[] NAMES;

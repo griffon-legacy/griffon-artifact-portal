@@ -1,4 +1,3 @@
-<%@ page import="grails.util.GrailsNameUtils" %>
 <!doctype html>
 <html>
 <head>
@@ -12,38 +11,39 @@
   <h1>Plugins</h1>
 </div>
 
-
 <div class="row">
-  <div class="span16">
-    <div id="list-plugins">
-      <table class="condensed-table zebra-striped">
-        <thead>
-        <tr>
-          <th>${message(code: 'plugin.name.label', default: 'Name')}</th>
-          <th>${message(code: 'plugin.title.label', default: 'Title')}</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <g:each in="${pluginList}" status="i" var="pluginInstance">
+  <div class="span5">
+    <g:render template="/shared/categories"/>
+  </div>
+
+  <div class="span11">
+    <g:if test="${pluginList}">
+      <div id="list-plugins">
+        <table class="condensed-table zebra-striped">
+          <thead>
           <tr>
-            <td>${GrailsNameUtils.getNaturalName(fieldValue(bean: pluginInstance, field: "name").toString())}</td>
-            <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
-            <td>
-              <%
-                def formParams = [name: pluginInstance.name]
-              %>
-              <g:form controller="plugin" action="show" params="${formParams}" mapping="show_plugin">
-                <g:hiddenField name="name" value="${pluginInstance.name}"/>
-                <button class="btn primary small" type="submit" id="info" name="info">
-                  ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-              </g:form>
-            </td>
+            <th>${message(code: 'plugin.name.label', default: 'Name')}</th>
+            <th>${message(code: 'plugin.title.label', default: 'Title')}</th>
+            <th></th>
           </tr>
-        </g:each>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+          <g:each in="${pluginList}" status="i" var="pluginInstance">
+            <tr>
+              <td>${fieldValue(bean: pluginInstance, field: "capitalizedName")}</td>
+              <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
+              <td><g:link controller="plugin" action="show" params="[name: pluginInstance.name]" mapping="show_plugin"
+                          class="btn primary small">
+                ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link></td>
+            </tr>
+          </g:each>
+          </tbody>
+        </table>
+      </div>
+    </g:if>
+    <g:else>
+      <h2>No plugins available</h2>
+    </g:else>
   </div>
 </div>
 

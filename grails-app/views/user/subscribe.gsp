@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Griffon Plugin Portal - Subscription</title>
+  <title>Griffon Artifact Portal - Subscription</title>
   <meta name="layout" content="main"/>
 </head>
 

@@ -35,12 +35,6 @@ class ReleaseController {
 
     ArtifactProcessor artifactProcessor
 
-    def dispatch() {
-        def releaseId = params.id
-        def actionToFollow = params['release_' + releaseId]
-        redirect(action: actionToFollow, id: releaseId)
-    }
-
     def show() {
         if (!params.id) {
             redirect(uri: '/')

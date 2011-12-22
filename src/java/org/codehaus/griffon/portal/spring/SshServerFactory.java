@@ -65,7 +65,7 @@ public class SshServerFactory extends AbstractFactoryBean<SshServer> implements 
         ConfigObject config = grailsApplication.getConfig();
         SshServer sshd = getObject();
         sshd.setPort(getConfigValueAsInt(config, "sshd.port", 2222));
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(getConfigValueAsString(config, "sshd.keystorage", "plugin-portal.ser")));
+        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(getConfigValueAsString(config, "sshd.keystorage", "artifact-portal.ser")));
         sshd.setCommandFactory(new ScpCommandFactory(artifactProcessor));
         sshd.setPasswordAuthenticator(passwordAuthenticator);
         sshd.start();

@@ -86,16 +86,10 @@
           <td><g:formatDate format="dd-MM-yyyy" date="${releaseInstance.dateCreated}"/></td>
           <td>${fieldValue(bean: releaseInstance, field: "checksum")}</td>
           <td>
-            <g:form controller="release" action="dispatch">
-              <g:hiddenField name="id" value="${releaseInstance.id}"/>
-              <g:hiddenField id="release_${releaseInstance.id}" name="release_${releaseInstance.id}" value=""/>
-              <button class="btn primary small" type="submit" id="info" name="info"
-                      onclick="return adjustForm('${releaseInstance.id}', 'show');">
-                ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-              <button class="btn success small" type="submit" id="download" name="download"
-                      onclick="return adjustForm('${releaseInstance.id}', 'download');">
-                ${message(code: 'griffon.portal.button.download.label', default: 'Download')}</button>
-            </g:form>
+            <g:link controller="release" action="show" params="[id: releaseInstance.id]" mapping="show_release"
+                    class="btn primary small">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+            <g:link controller="release" action="download" params="[id: releaseInstance.id]" mapping="download_release"
+                    class="btn success small">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>
           </td>
         </tr>
       </g:each>
@@ -105,11 +99,6 @@
 </div>
 
 <script>
-  function adjustForm(releaseId, value) {
-    $('#release_' + releaseId).val(value)
-    return true;
-  }
-
   function toggleWatcher(data) {
     var src = $('#watching').attr('src');
     src = src.substring(0, src.lastIndexOf('/'));

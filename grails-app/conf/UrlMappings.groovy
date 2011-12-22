@@ -48,14 +48,14 @@ class UrlMappings {
             md5 = true
         }
 
-        "/category/$action/plugins"(controller: 'artifact') {
+        name categories_plugin: "/category/$action/plugins"(controller: 'artifact') {
             type = 'plugin'
             constraints {
                 action(inList: griffon.portal.values.Category.getNamesAsList())
             }
         }
 
-        "/category/$action/archetypes"(controller: 'artifact') {
+        name categories_archetype: "/category/$action/archetypes"(controller: 'artifact') {
             type = 'archetype'
             constraints {
                 action(inList: griffon.portal.values.Category.getNamesAsList())
@@ -69,7 +69,7 @@ class UrlMappings {
         name show_archetype: "/archetype/$name"(controller: 'archetype', action: 'show')
         name show_docs: "/docs/$type/$name"(controller: 'docs', action: 'show')
         name show_release: "/release/show/$id"(controller: 'release', action: 'show')
-        "/release/download/$id"(controller: 'release', action: 'download')
+        name download_release: "/release/download/$id"(controller: 'release', action: 'download')
         "/release/$type/$name/$version"(controller: 'release', action: 'display')
 
         "/$controller/$action?/$id?" {

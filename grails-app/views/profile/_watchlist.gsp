@@ -27,7 +27,8 @@
               <%
                 def watchingId = "watching_${artifactInstance.type}_${artifactInstance.id}"
               %>
-              <td><g:remoteLink controller="artifact" action="watch" id="${artifactInstance.id}" mapping="watch_artifact"
+              <td><g:remoteLink controller="artifact" action="watch" id="${artifactInstance.id}"
+                                mapping="watch_artifact"
                                 onSuccess="toggleWatcher(data, '#${watchingId}')"><g:img id="${watchingId}"
                                                                                          name="${watchingId}"
                                                                                          dir="images"
@@ -36,15 +37,9 @@
               <td>${fieldValue(bean: artifactInstance, field: "capitalizedName")}</td>
               <td>${fieldValue(bean: artifactInstance, field: "title")}</td>
               <td>
-                <%
-                  def formParams = [name: artifactInstance.name]
-                  def mappingName = 'show' + artifactInstance.capitalizedType
-                %>
-                <g:form controller="${artifactType}" action="show" params="${formParams}" mapping="${mappingName}">
-                  <g:hiddenField name="name" value="${artifactInstance.name}"/>
-                  <button class="btn primary small" type="submit" id="info" name="info">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                </g:form>
+                <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
+                        mapping="show_${artifactInstance.type}"
+                        class="btn small primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
               </td>
             </tr>
           </g:each>

@@ -22,14 +22,9 @@
               <td>${fieldValue(bean: archetypeInstance, field: "capitalizedName")}</td>
               <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
               <td>
-                <%
-                  formParams = [name: archetypeInstance.name]
-                %>
-                <g:form controller="archetype" action="show" params="${formParams}" mapping="show_archetype">
-                  <g:hiddenField name="name" value="${archetypeInstance.name}"/>
-                  <button class="btn primary small" type="submit" id="info" name="info">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                </g:form>
+                <g:link controller="${archetypeInstance.type}" action="show" params="[name: archetypeInstance.name]"
+                        mapping="show_${archetypeInstance.type}"
+                        class="btn small primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
               </td>
             </tr>
           </g:each>

@@ -1,4 +1,3 @@
-<%@ page import="grails.util.GrailsNameUtils; griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
 <!doctype html>
 <html>
 <head>
@@ -15,15 +14,12 @@
 
 <div class="row">
   <div class="span10">
-    <%
-      def artifactType = GrailsNameUtils.getShortName(releaseInstance.artifact.class)
-      def linkParams = [name: releaseInstance.artifact.name]
-    %>
     <div class="fieldcontain">
-      <span id="artifact-label" class="property-label"><%=artifactType%></span>
-      <g:link controller="${artifactType.toLowerCase()}" action="show" params="${linkParams}">
+      <span id="artifact-label" class="property-label"><%=releaseInstance.artifact.capitalizedType%></span>
+      <g:link controller="${releaseInstance.artifact.type}" action="show" params="[name: releaseInstance.artifact.name]"
+              mapping="show_${releaseInstance.artifact.type}">
         <span class="property-value" aria-labelledby="artifact-label">
-          ${GrailsNameUtils.getNaturalName(fieldValue(bean: releaseInstance.artifact, field: "name").toString())}
+          ${fieldValue(bean: releaseInstance.artifact, field: "capitalizedName")}
         </span>
       </g:link>
     </div>
@@ -54,11 +50,8 @@
   </div>
 
   <div class="span4">
-    <g:form controller="release" action="download">
-      <g:hiddenField name="id" value="${releaseInstance.id}"/>
-      <button class="btn success pull-right" type="submit" id="download" name="download">
-        ${message(code: 'griffon.portal.button.download.label', default: 'Download')}</button>
-    </g:form>
+    <g:link controller="release" action="download" params="[id: releaseInstance.id]" mapping="download_release"
+            class="btn success pull-right">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>
   </div>
 </div>
 </body>

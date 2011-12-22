@@ -15,7 +15,7 @@
 
 <div class="row">
   <div class="span5">
-    Some content goes here.
+    <g:render template="/shared/categories"/>
   </div>
 
   <div class="span11">

@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 <head>
-  <title>Griffon Plugin Portal - API</title>
+  <title>Griffon Artifact Portal - API</title>
   <meta name="layout" content="main"/>
 </head>
 
 <body>
 <div class="page-header">
-  <h1>Griffon Portal API</h1>
+  <h1>Griffon Artifact Portal API</h1>
 </div>
 
 <div class="row">
@@ -80,7 +80,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i http://localhost:8080/griffon-plugin-portal/api/plugins/bogus</code><br clear="all"/><br clear="all"/>
+      <code>$ curl -i http://localhost:8080/griffon-artifact-portal/api/plugins/bogus</code><br clear="all"/><br clear="all"/>
       <pre class="prettyprint">
         HTTP/1.1 404 Not Found
         Server: Apache-Coyote/1.1

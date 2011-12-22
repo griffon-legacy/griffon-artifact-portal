@@ -20,14 +20,9 @@
               <td>${fieldValue(bean: pluginInstance, field: "capitalizedName")}</td>
               <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
               <td>
-                <%
-                  def formParams = [name: pluginInstance.name]
-                %>
-                <g:form controller="plugin" action="show" params="${formParams}" mapping="show_plugin">
-                  <g:hiddenField name="name" value="${pluginInstance.name}"/>
-                  <button class="btn primary small" type="submit" id="info" name="info">
-                    ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</button>
-                </g:form>
+                <g:link controller="${pluginInstance.type}" action="show" params="[name: pluginInstance.name]"
+                        mapping="show_${pluginInstance.type}"
+                        class="btn small primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
               </td>
             </tr>
           </g:each>

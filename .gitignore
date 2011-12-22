@@ -1,11 +1,11 @@
-griffon-plugin-portal-grailsPlugins.iml
-griffon-plugin-portal.iml
-griffon-plugin-portal.ipr
-griffon-plugin-portal.iws
+griffon-artifact-portal-grailsPlugins.iml
+griffon-artifact-portal.iml
+griffon-artifact-portal.ipr
+griffon-artifact-portal.iws
 .idea
 .gradle
 target
-plugin-portal.ser
+artifact-portal.ser
 .settings
 .project
 .classpath

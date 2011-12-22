@@ -299,7 +299,7 @@ a.skip {
 }
 
 .artifact {
-    width: 560px;
+    width: 620px;
     background: #FFFFFF;
     color: #333333;
     margin: 0px auto;
@@ -372,4 +372,37 @@ a.skip {
 
 .artifact .artifact-links img {
     vertical-align: middle;
+}
+
+.categories {
+    width: 280px;
+    background: #FFFFFF;
+    color: #333333;
+    margin: 0px auto;
+    overflow-x: hidden;
+    -moz-box-shadow: 0 0 0.3em #7b2517;
+    -webkit-box-shadow: 0 0 0.3em #7b2517;
+    box-shadow: 0 0 0.3em #7b2517;
+    padding-top: 0px;
+}
+
+.categories ul.categories-links {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 2.5em;
+    font-size: 0.9em;
+    margin: 0;
+    width: 100%;
+}
+
+.categories .categories-links a {
+    color: black;
+    border: inherit;
+    text-decoration: none;
+}
+
+.label a, .label a:hover {
+    text-decoration: none;
+    color: #fff;
 }

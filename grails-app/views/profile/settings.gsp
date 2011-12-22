@@ -39,12 +39,9 @@
     %>
     <ul class="tabs" role="navigation">
       <g:each in="${SettingsTab.values()}" var="settingsTab">
-        <%
-          def linkParams = [tab: settingsTab.name, username: profileInstance.user.username]
-        %>
         <li class="${tabClassFor(settingsTab)}"><g:link controller="profile" action="settings"
                                                         mappingName="settings"
-                                                        params="${linkParams}">${settingsTab.capitalizedName}</g:link></li>
+                                                        params="[tab: settingsTab.name, username: profileInstance.user.username]">${settingsTab.capitalizedName}</g:link></li>
       </g:each>
     </ul>
   </div>

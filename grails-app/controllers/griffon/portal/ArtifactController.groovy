@@ -68,6 +68,34 @@ class ArtifactController {
         ]
     }
 
+    def recently_updated() {
+        Date now = (new Date()).clearTime()
+        List<Artifact> artifacts = []
+
+        Map queryParams = [
+                sort: 'name',
+                order: 'asc',
+                max: 5,
+                offset: params.offset ?: 0
+        ]
+
+        switch (params.type) {
+            case 'plugin':
+                artifacts = Plugin.findAllByLastUpdatedBetween(now - 14, now + 1, queryParams)
+                break
+            case 'archetype':
+                artifacts = Archetype.findAllByLastUpdatedBetween(now - 14, now + 1, queryParams)
+                break
+        }
+
+        render(view: 'list',
+                model: [
+                        artifactList: artifacts,
+                        artifactTotal: artifacts.size(),
+                        categoryType: Category.findByName(params.action)
+                ])
+    }
+
     def newest() {
         Date now = (new Date()).clearTime()
         List<Artifact> artifacts = []
@@ -88,10 +116,38 @@ class ArtifactController {
                 break
         }
 
-        [
-                artifactList: artifacts,
-                artifactTotal: artifacts.size(),
-                categoryType: Category.findByName(params.action)
+        render(view: 'list',
+                model: [
+                        artifactList: artifacts,
+                        artifactTotal: artifacts.size(),
+                        categoryType: Category.findByName(params.action)
+                ])
+    }
+
+    def highest_voted() {
+        List<Artifact> artifacts = []
+
+        Map queryParams = [
+                sort: 'name',
+                order: 'asc',
+                max: 5,
+                offset: params.offset ?: 0
         ]
+
+        switch (params.type) {
+            case 'plugin':
+
+                break
+            case 'archetype':
+
+                break
+        }
+
+        render(view: 'list',
+                model: [
+                        artifactList: artifacts,
+                        artifactTotal: artifacts.size(),
+                        categoryType: Category.findByName(params.action)
+                ])
     }
 }
