@@ -54,11 +54,15 @@ class UserController {
             }
             session.user = user
             session.profile = user.profile
-            redirect(controller: 'profile', action: 'show', params: [id: user.username])
+            if (params.originalURI) {
+                redirect(uri: params.originalURI)
+            } else {
+                redirect(controller: 'profile', action: 'show', params: [id: user.username])
+            }
             return
         } else {
             command.errors.rejectValue('username', 'griffon.portal.User.credentials.nomatch.message')
-            render(view: 'signin', model: [command: command])
+            render(view: 'signin', model: [command: command, originalURI: params.orinialURI])
         }
     }
 

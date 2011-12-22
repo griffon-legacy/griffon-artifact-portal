@@ -1,7 +1,3 @@
-<g:if test="${session.user}">
-  <g:render template="/shared/watching" model="[artifactInstance: artifactInstance, watching:watching]"/>
-</g:if>
-
 <div class="fieldcontain">
   <span id="license-label" class="property-label"><g:message code="artifact.license.label"
                                                              default="License"/></span>
@@ -23,6 +19,10 @@
     </g:else>
   </span>
 </div>
+
+<g:if test="${session.user}">
+  <g:render template="/shared/watching" model="[artifactInstance: artifactInstance, watching:watching]"/>
+</g:if>
 
 <div class="fieldcontain">
   <span id="rating-label" class="property-label"><g:message code="artifact.rating.label"

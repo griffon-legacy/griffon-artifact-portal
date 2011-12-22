@@ -33,6 +33,7 @@
         </g:eachError>
       </g:hasErrors>
       <g:form action="login" name="loginForm" mapping="login">
+        <g:hiddenField name="originalURI" value="${params.originalURI}"/>
         <fieldset class="form"><div
                 class="fieldcontain ${hasErrors(bean: command, field: 'username', 'error')} required">
         <label for="username">
