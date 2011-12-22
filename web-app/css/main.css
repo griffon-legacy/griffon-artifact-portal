@@ -384,6 +384,12 @@ a.skip {
     margin: -10px;
 }
 
+.artifact-show .artifact-ratings {
+    position: relative;
+    float: left;
+    left: 10px;
+}
+
 .categories {
     width: 280px;
     background: #FFFFFF;

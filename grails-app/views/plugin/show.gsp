@@ -4,6 +4,13 @@
 <head>
   <meta name="layout" content="main">
   <title><g:message code="griffon.portal.Plugin.show.label" args="[pluginName]"/></title>
+  <style type="text/css">
+  .artifact-show .artifact-ratings {
+    position: relative;
+    float: left;
+    left: 10px;
+  }
+  </style>
 </head>
 
 <body>
@@ -14,14 +21,6 @@
 
 <div class="row">
   <div class="span10">
-
-    <div class="fieldcontain">
-      <span id="license-label" class="property-label"><g:message code="artifact.license.label"
-                                                                 default="License"/></span>
-      <span class="property-value" aria-labelledby="license-label">
-        <g:fieldValue bean="${pluginInstance}" field="license"/>
-      </span>
-    </div>
 
     <div class="fieldcontain">
       <span id="toolkits-label" class="property-label"><g:message code="plugin.toolkits.label"
@@ -69,23 +68,7 @@
       </span>
     </div>
 
-    <g:if test="${session.user}">
-      <g:render template="/shared/wacthing" model="[artifactInstance: pluginInstance, watching:watching]"/>
-    </g:if>
-
-    <div class="fieldcontain">
-      <span id="source-label" class="property-label"><g:message code="artifact.source.label"
-                                                                default="Source"/></span>
-      <span class="property-value" aria-labelledby="source-label">
-        <g:if test="${pluginInstance.source}">
-          <a href="<g:fieldValue bean="${pluginInstance}" field="source"/>"><g:fieldValue bean="${pluginInstance}"
-                                                                                          field="source"/></a>
-        </g:if>
-        <g:else>
-          No source link specified
-        </g:else>
-      </span>
-    </div>
+    <g:render template="/shared/header_properties" model="[artifactInstance: pluginInstance]"/>
   </div>
 
   <div class="span4">

@@ -1,6 +1,6 @@
 <!-- BEGIN: RATING_OFFLINE -->
 <%
-  def rating = artifactInstance.averageRating ?: 4i
+  def rating = artifactInstance.averageRating ?: 0i
   List ratings = (1..5).collect([]) { i ->
     float remainder = i - rating
     if (rating >= i) {

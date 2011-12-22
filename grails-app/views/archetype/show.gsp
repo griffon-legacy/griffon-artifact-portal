@@ -1,4 +1,4 @@
-<%@ page import="org.pegdown.PegDownProcessor; griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
+<%@ page import="org.pegdown.PegDownProcessor" %>
 <!doctype html>
 <html>
 <head>
@@ -15,17 +15,7 @@
 <div class="row">
   <div class="span10">
 
-    <div class="fieldcontain">
-      <span id="license-label" class="property-label"><g:message code="artifact.license.label"
-                                                                 default="License"/></span>
-      <span class="property-value" aria-labelledby="license-label">
-        <g:fieldValue bean="${archetypeInstance}" field="license"/>
-      </span>
-    </div>
-
-    <g:if test="${session.user}">
-      <g:render template="/shared/wacthing" model="[artifactInstance: archetypeInstance, watching:watching]"/>
-    </g:if>
+    <g:render template="/shared/header_properties" model="[artifactInstance: archetypeInstance]"/>
   </div>
 
   <div class="span4">
@@ -40,9 +30,9 @@
     <h2>Description</h2>
 
     <p>
-      <g:if test="${pluginInstance.description}">
+      <g:if test="${archetypeInstance.description}">
         <%
-          out << new PegDownProcessor().markdownToHtml(pluginInstance.description)
+          out << new PegDownProcessor().markdownToHtml(archetypeInstance.description)
         %>
       </g:if>
       <g:else>
