@@ -8,7 +8,7 @@
     <small>${artifactInstance.title}</small>
 
     <div class="artifact-detail">
-      <div><span class="artifact-label">Tags:</span></div>
+      <div><span class="artifact-label">Tags:</span> ${artifactInstance.tags.join(', ')}</div>
 
       <div><span class="artifact-label">License:</span> ${artifactInstance.license}</div>
     </div>

@@ -25,6 +25,15 @@
 </g:if>
 
 <div class="fieldcontain">
+  <span id="tags-label" class="property-label"><g:message code="artifact.tags.label"
+                                                            default="Tags"/></span>
+
+  <span class="property-value" aria-labelledby="tags-label">
+    ${artifactInstance.tags.join(', ')}
+  </span>
+</div>
+
+<div class="fieldcontain">
   <span id="rating-label" class="property-label"><g:message code="artifact.rating.label"
                                                             default="Rating"/></span>
 

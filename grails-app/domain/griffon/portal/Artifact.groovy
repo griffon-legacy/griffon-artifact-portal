@@ -18,11 +18,12 @@ package griffon.portal
 
 import grails.util.GrailsNameUtils
 import org.grails.rateable.Rateable
+import org.grails.taggable.Taggable
 
 /**
  * @author Andres Almiray
  */
-class Artifact implements Rateable {
+class Artifact implements Rateable, Taggable {
     String name
     String title
     String description
@@ -34,7 +35,7 @@ class Artifact implements Rateable {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [authors: Author, tags: Tag]
+    static hasMany = [authors: Author]
 
     static transients = ['type', 'capitalizedName', 'capitalizedType']
 
