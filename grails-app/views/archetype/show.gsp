@@ -1,4 +1,3 @@
-<%@ page import="org.pegdown.PegDownProcessor" %>
 <!doctype html>
 <html>
 <head>
@@ -31,9 +30,7 @@
 
     <p>
       <g:if test="${archetypeInstance.description}">
-        <%
-          out << new PegDownProcessor().markdownToHtml(archetypeInstance.description)
-        %>
+        <markdown:renderHtml>${archetypeInstance.description}</markdown:renderHtml>
       </g:if>
       <g:else>
         No description available.

@@ -1,4 +1,4 @@
-<%@ page import="org.pegdown.PegDownProcessor; grails.util.GrailsNameUtils; griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
+<%@ page import="grails.util.GrailsNameUtils; griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
 <!doctype html>
 <html>
 <head>
@@ -84,9 +84,7 @@
 
     <p>
       <g:if test="${pluginInstance.description}">
-        <%
-          out << new PegDownProcessor().markdownToHtml(pluginInstance.description)
-        %>
+        <markdown:renderHtml>${pluginInstance.description}</markdown:renderHtml>
       </g:if>
       <g:else>
         No description available.
