@@ -41,6 +41,7 @@
           <span class="required-indicator">*</span>
         </label>
         <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
+        <span class="help-inline"><g:link controller="user" action="signup" mapping="signup">Don't have an account?</g:link></span>
         </div>
         <div class="fieldcontain ${hasErrors(bean: command, field: 'passwd', 'error')} required">
           <label for="passwd">
@@ -48,13 +49,13 @@
             <span class="required-indicator">*</span>
           </label>
           <g:passwordField id="passwd" name="passwd" required="" tabindex="2" value="${command?.passwd}"/>
+          <span class="help-inline"><g:link controller="user" action="forgot_password"
+                                            mapping="forgot_password">Forgot your password?</g:link></span>
         </div>
 
         <div class="actions">
           <button class="btn primary" type="submit" id="signin" name="signin" tabindex="3">
             ${message(code: 'griffon.portal.button.signin.label', default: 'Sign in')}</button>
-          <button class="btn danger" onclick="${application.contextPath}" tabindex="4">
-            ${message(code: 'default.button.cancel.label', default: 'Cancel')}</button>
         </div>
       </g:form>
     </div>

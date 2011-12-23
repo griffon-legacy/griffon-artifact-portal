@@ -38,8 +38,6 @@
           <div class="actions">
             <button class="btn primary" type="submit" id="subscribe" name="subscribe" tabindex="7">
               ${message(code: 'griffon.portal.button.signup.label', default: 'Sign up')}</button>
-            <button class="btn danger" onclick="${application.contextPath}" tabindex="8">
-              ${message(code: 'default.button.cancel.label', default: 'Cancel')}</button>
           </div>
         </fieldset>
       </g:form>

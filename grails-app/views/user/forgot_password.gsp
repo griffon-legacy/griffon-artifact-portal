@@ -55,13 +55,9 @@
             <jcaptcha:jpeg name="image"/>
           </div>
 
-          <div class="fieldcontain required">
-            <br clear="all"/>
-            <label for="next"></label>
+          <div class="actions">
             <button class="btn primary" type="submit" id="next" name="next">
               ${message(code: 'default.button.next.label', default: 'Next')}</button>
-            <button class="btn danger" onclick="${application.contextPath}">
-              ${message(code: 'default.button.cancel.label', default: 'Cancel')}</button>
           </div>
         </fieldset>
       </g:form>
