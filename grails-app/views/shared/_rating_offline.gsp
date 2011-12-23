@@ -18,11 +18,12 @@
       <g:each in="${ratings}" var="props">
         <td><div class="${props.css}">
           <g:if test="${login}">
-            <a href="${application.contextPath}/signin?originalURI=${request.forwardURI - application.contextPath}"
-               style="${props.style}">a</a>
+            <g:link controller="user" action="login" mapping="signin"
+                    params="[originalURI: (request.forwardURI - application.contextPath)]"
+                    style="${props.style}"/>
           </g:if>
           <g:else>
-            <a style="${props.style}">a</a>
+            <a style="${props.style}"></a>
           </g:else>
         </div></td>
       </g:each>
