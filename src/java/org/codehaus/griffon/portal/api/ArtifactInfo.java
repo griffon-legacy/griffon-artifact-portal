@@ -16,8 +16,6 @@
 
 package org.codehaus.griffon.portal.api;
 
-import griffon.portal.values.EventType;
-
 import java.util.zip.ZipFile;
 
 /**
@@ -28,14 +26,12 @@ public final class ArtifactInfo {
     private final String artifactName;
     private final String artifactVersion;
     private final String username;
-    private final EventType eventType;
 
-    public ArtifactInfo(ZipFile zipFile, String artifactName, String artifactVersion, String username, EventType eventType) {
+    public ArtifactInfo(ZipFile zipFile, String artifactName, String artifactVersion, String username) {
         this.zipFile = zipFile;
         this.artifactVersion = artifactVersion;
         this.artifactName = artifactName;
         this.username = username;
-        this.eventType = eventType;
     }
 
     public ZipFile getZipFile() {
@@ -52,9 +48,5 @@ public final class ArtifactInfo {
 
     public String getUsername() {
         return username;
-    }
-
-    public EventType getEventType() {
-        return eventType;
     }
 }

@@ -68,7 +68,7 @@
       </span>
     </div>
 
-    <g:render template="/shared/header_properties" model="[artifactInstance: pluginInstance]"/>
+    <g:render template="/shared/header_properties" model="[artifactInstance: pluginInstance, downloads: downloads]"/>
   </div>
 
   <div class="span4">

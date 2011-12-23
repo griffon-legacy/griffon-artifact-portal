@@ -16,7 +16,6 @@
 
 package org.codehaus.griffon.portal.ssh;
 
-import griffon.portal.values.EventType;
 import org.apache.sshd.common.util.DirectoryScanner;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.SshFile;
@@ -62,7 +61,7 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
         matcher.find();
         String artifactName = matcher.group(1);
         String artifactVersion = matcher.group(2);
-        artifactProcessor.process(new ArtifactInfo(new ZipFile(file.getAbsolutePath()), artifactName, artifactVersion, username, EventType.UPLOAD));
+        artifactProcessor.process(new ArtifactInfo(new ZipFile(file.getAbsolutePath()), artifactName, artifactVersion, username));
 
         ack();
         readAck(false);

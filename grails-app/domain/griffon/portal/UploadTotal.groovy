@@ -16,19 +16,17 @@
 
 package griffon.portal
 
-import griffon.portal.values.EventType
-
 /**
  * @author Andres Almiray
  */
-class Activity {
-    String username
-    EventType eventType
-    String event
+class UploadTotal {
+    Release release
+    String type
+    int total = 0
     Date dateCreated
+    Date lastUpdated
 
     static constraints = {
-        username(nullable: false, blank: false)
-        event(nullable: false, blank: false)
+        release(nullable: false)
     }
 }

@@ -18,7 +18,6 @@ package griffon.portal
 
 import grails.converters.JSON
 import grails.util.GrailsNameUtils
-import griffon.portal.values.EventType
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import java.util.zip.ZipFile
@@ -48,7 +47,10 @@ class ReleaseController {
             return
         }
 
-        [releaseInstance: releaseInstance]
+        [
+                releaseInstance: releaseInstance,
+                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i
+        ]
     }
 
     def display() {
@@ -84,7 +86,10 @@ class ReleaseController {
             return
         }
 
-        render(view: 'show', model: [releaseInstance: releaseInstance])
+        render(view: 'show', model: [
+                releaseInstance: releaseInstance,
+                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i
+        ])
     }
 
     def download() {
@@ -107,11 +112,11 @@ class ReleaseController {
         String releasePath = servletContext.getRealPath("${basePath}${fileName}")
         byte[] content = new FileInputStream(releasePath).bytes
 
-        new Activity(
+        new Download(
                 username: session.user?.username ?: 'GRIFFON_WEB',
-                eventType: EventType.DOWNLOAD,
-                event: [type: type, name: artifact.name, version: releaseInstance.artifactVersion].toString()
-        ).save()
+                release: releaseInstance,
+                type: type
+        ).saveIt()
 
         response.contentType = 'application/octet-stream'
         response.contentLength = content.length
@@ -139,8 +144,7 @@ class ReleaseController {
                     new ZipFile(tmpFile.getAbsolutePath()),
                     artifactName,
                     artifactVersion,
-                    session.user.username,
-                    EventType.UPLOAD))
+                    session.user.username))
         } catch (IOException ioe) {
             render([success: false, message: ioe.message] as JSON)
             return

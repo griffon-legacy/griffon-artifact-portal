@@ -64,12 +64,22 @@ class PluginController {
             watching = Watcher.findByArtifact(pluginInstance)?.users?.contains(user) ?: false
         }
 
+        def downloads = DownloadTotal.withCriteria() {
+            and {
+                eq('type', 'plugin')
+                release {
+                    eq('artifact', pluginInstance)
+                }
+            }
+        }.total.sum()
+
         [
                 pluginName: GrailsNameUtils.getNaturalName(pluginName),
                 pluginInstance: pluginInstance,
                 authorList: authorList,
                 releaseList: Release.findAllByArtifact(pluginInstance, [sort: 'artifactVersion', order: 'desc']),
-                watching: watching
+                watching: watching,
+                downloads: downloads ?: 0i
         ]
     }
 

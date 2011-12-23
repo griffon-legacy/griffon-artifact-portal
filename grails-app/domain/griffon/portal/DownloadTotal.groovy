@@ -19,36 +19,14 @@ package griffon.portal
 /**
  * @author Andres Almiray
  */
-class Release {
-    String artifactVersion
-    String griffonVersion
-    String comment
-    String checksum
-    boolean releaseNotes
-    Artifact artifact
-
+class DownloadTotal {
+    Release release
+    String type
+    int total = 0
     Date dateCreated
     Date lastUpdated
 
     static constraints = {
-        artifactVersion(nullable: false, blank: false)
-        griffonVersion(nullable: false, blank: false)
-        comment(nullable: false, blank: false)
-        checksum(nullable: false, blank: false)
-        artifact(nullable: false)
-    }
-
-
-    String toString() {
-        [
-                id: id,
-                artifactVersion: artifactVersion,
-                griffonVersion: griffonVersion,
-                comment: comment,
-                checksum: checksum,
-                date: dateCreated,
-                artifact: artifact,
-                releaseNotes: releaseNotes
-        ]
+        release(nullable: false)
     }
 }

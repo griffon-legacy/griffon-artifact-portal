@@ -81,14 +81,12 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                     verifyArtifact(artifactInfo.zipFile, json)
                     withTransaction {
                         handlePlugin(artifactInfo, json)
-                        writeActivity(artifactInfo, json)
                     }
                     break
                 case 'archetype':
                     verifyArtifact(artifactInfo.zipFile, json)
                     withTransaction {
                         handleArchetype(artifactInfo, json)
-                        writeActivity(artifactInfo, json)
                     }
             }
         } catch (Exception e) {
@@ -223,6 +221,12 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
         release.save()
 
+        new Upload(
+                username: artifactInfo.username,
+                release: release,
+                type: json.type
+        ).saveIt()
+
         try {
             if (grailsApplication.config.twitter.enabled) {
                 String url = "http://${grailsApplication.config.grails.serverURL}/${json.type}/${json.name}"
@@ -271,13 +275,5 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             twitter4jService = grailsApplication.mainContext.twitter4jService
         }
         twitter4jService
-    }
-
-    private void writeActivity(ArtifactInfo artifactInfo, json) {
-        new Activity(
-                username: artifactInfo.username,
-                eventType: artifactInfo.eventType,
-                event: [type: json.type, name: json.name, version: json.version].toString()
-        ).save()
     }
 }

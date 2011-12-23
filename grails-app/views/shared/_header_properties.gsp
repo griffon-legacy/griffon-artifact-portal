@@ -30,7 +30,14 @@
 
   <span class="property-value" aria-labelledby="tags-label">
     ${artifactInstance.tags.join(', ')}
-  </span>
+  </span><br/>
+</div>
+
+<div class="fieldcontain">
+  <span id="downloads-label" class="property-label"><g:message code="artifact.downloads.label"
+                                                          default="Downloads"/></span>
+
+  <span class="property-value" aria-labelledby="downloads-label">  ${downloads}</span>
 </div>
 
 <div class="fieldcontain">
@@ -48,3 +55,4 @@
     </g:else>
   </div>
 </div>
+

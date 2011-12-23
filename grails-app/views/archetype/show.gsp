@@ -15,7 +15,7 @@
 <div class="row">
   <div class="span10">
 
-    <g:render template="/shared/header_properties" model="[artifactInstance: archetypeInstance]"/>
+    <g:render template="/shared/header_properties" model="[artifactInstance: archetypeInstance, downloads: downloads]"/>
   </div>
 
   <div class="span4">

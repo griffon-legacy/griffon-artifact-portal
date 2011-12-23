@@ -150,26 +150,21 @@ class ArtifactController {
     }
 
     def most_downloaded() {
-        List<Artifact> artifacts = []
-
         Map queryParams = [
+                sort: 'total',
+                order: 'desc',
                 max: 5,
                 offset: params.offset ?: 0
         ]
 
-        switch (params.type) {
-            case 'plugin':
-                artifacts = Plugin.list(queryParams)
-                break
-            case 'archetype':
-                artifacts = Archetype.list(queryParams)
-                break
+        List<DownloadTotal> downloadList = DownloadTotal.withCriteria(queryParams) {
+            eq('type', params.type)
         }
 
-        render(view: 'list',
+        render(view: 'most_downloaded',
                 model: [
-                        artifactList: artifacts,
-                        artifactTotal: artifacts.size(),
+                        downloadList: downloadList,
+                        downloadTotal: downloadList.size(),
                         categoryType: Category.findByName(params.action)
                 ])
     }

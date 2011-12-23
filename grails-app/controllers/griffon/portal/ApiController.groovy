@@ -17,7 +17,6 @@
 package griffon.portal
 
 import grails.converters.JSON
-import griffon.portal.values.EventType
 
 /**
  * @author Andres Almiray
@@ -158,11 +157,11 @@ class ApiController {
 
         response.contentType = 'text/plain'
         if (!params.md5) {
-            new Activity(
+            new Download(
                     username: 'GRIFFON_API',
-                    eventType: EventType.DOWNLOAD,
-                    event: [type: params.type, name: params.name, version: params.version].toString()
-            ).save()
+                    release: release,
+                    type: params.type
+            ).saveIt()
 
             response.contentType = 'application/octet-stream'
             response.setHeader('Cache-Control', 'must-revalidate')

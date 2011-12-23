@@ -70,7 +70,7 @@ class UrlMappings {
         name show_docs: "/docs/$type/$name"(controller: 'docs', action: 'show')
         name show_release: "/release/show/$id"(controller: 'release', action: 'show')
         name download_release: "/release/download/$id"(controller: 'release', action: 'download')
-        "/release/$type/$name/$version"(controller: 'release', action: 'display')
+        name display_release: "/release/$type/$name/$version"(controller: 'release', action: 'display')
 
         "/$controller/$action?/$id?" {
             constraints {

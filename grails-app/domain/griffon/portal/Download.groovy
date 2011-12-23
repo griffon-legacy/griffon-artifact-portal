@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-package griffon.portal.values;
+package griffon.portal
 
 /**
  * @author Andres Almiray
  */
-public enum EventType {
-    UPLOAD,
-    DOWNLOAD,
-    PROFILE_EDIT,
-    ARTIFACT_EDIT;
+class Download {
+    String username
+    Release release
+    String type
+    Date dateCreated
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        release(nullable: false)
+    }
+
+    def saveIt() {
+        save()
+        DownloadTotal total = DownloadTotal.findByRelease(release) ?: new DownloadTotal(release: release, type: type)
+        total.total += 1
+        total.save()
+    }
 }

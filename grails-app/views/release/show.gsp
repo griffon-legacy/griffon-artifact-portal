@@ -48,6 +48,14 @@
         <g:fieldValue bean="${releaseInstance}" field="comment"/>
       </span>
     </div>
+
+    <div class="fieldcontain">
+      <span id="downloads-label"
+            class="property-label">${message(code: 'release.downloads.label', default: 'Downloads')}</span>
+      <span class="property-value" aria-labelledby="downloads-label">
+        ${downloads}
+      </span>
+    </div>
   </div>
 
   <div class="span4">

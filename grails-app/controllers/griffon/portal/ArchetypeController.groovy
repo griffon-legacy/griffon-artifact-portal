@@ -64,12 +64,22 @@ class ArchetypeController {
             watching = Watcher.findByArtifact(archetypeInstance)?.users?.contains(user) ?: false
         }
 
+        def downloads = DownloadTotal.withCriteria() {
+            and {
+                eq('type', 'archetype')
+                release {
+                    eq('artifact', archetypeInstance)
+                }
+            }
+        }.total.sum()
+
         [
                 archetypeName: GrailsNameUtils.getNaturalName(archetypeName),
                 archetypeInstance: archetypeInstance,
                 authorList: authorList,
                 releaseList: Release.findAllByArtifact(archetypeInstance, [sort: 'artifactVersion', order: 'desc']),
-                watching: watching
+                watching: watching,
+                downloads: downloads ?: 0i
         ]
     }
 
