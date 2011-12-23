@@ -148,4 +148,29 @@ class ArtifactController {
                         categoryType: Category.findByName(params.action)
                 ])
     }
+
+    def most_downloaded() {
+        List<Artifact> artifacts = []
+
+        Map queryParams = [
+                max: 5,
+                offset: params.offset ?: 0
+        ]
+
+        switch (params.type) {
+            case 'plugin':
+                artifacts = Plugin.list(queryParams)
+                break
+            case 'archetype':
+                artifacts = Archetype.list(queryParams)
+                break
+        }
+
+        render(view: 'list',
+                model: [
+                        artifactList: artifacts,
+                        artifactTotal: artifacts.size(),
+                        categoryType: Category.findByName(params.action)
+                ])
+    }
 }

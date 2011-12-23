@@ -3,13 +3,13 @@
 <html>
 <head>
   <meta name="layout" content="main">
-  <title>Plugins - ${categoryType.capitalizedName}</title>
+  <title>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}</title>
 </head>
 
 <body>
 
 <div class="page-header">
-  <h1>${categoryType.capitalizedName} ${GrailsNameUtils.getNaturalName(params.type)}s</h1>
+  <h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}</h1>
 </div>
 
 
