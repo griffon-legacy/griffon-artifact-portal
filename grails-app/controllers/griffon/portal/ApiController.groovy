@@ -160,7 +160,16 @@ class ApiController {
             new Download(
                     username: 'GRIFFON_API',
                     release: release,
-                    type: params.type
+                    type: params.type,
+                    userAgent: request.getHeader('user-agent'),
+                    ipAddress: request.remoteAddr,
+                    osName: request.getHeader('x-os-name'),
+                    osArch: request.getHeader('x-os-arch'),
+                    osVersion: request.getHeader('x-os-version'),
+                    javaVersion: request.getHeader('x-java-version'),
+                    javaVmVersion: request.getHeader('x-java-vm-version'),
+                    javaVmName: request.getHeader('x-java-vm-name'),
+                    griffonVersion: request.getHeader('x-griffon-version')
             ).saveIt()
 
             response.contentType = 'application/octet-stream'

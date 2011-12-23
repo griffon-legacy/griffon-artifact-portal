@@ -25,9 +25,28 @@ class Download {
     String type
     Date dateCreated
 
+    String userAgent
+    String ipAddress
+    String osName
+    String osArch
+    String osVersion
+    String javaVersion
+    String javaVmVersion
+    String javaVmName
+    String griffonVersion
+
     static constraints = {
         username(nullable: false, blank: false)
         release(nullable: false)
+        userAgent(nullable: true, blank: true)
+        ipAddress(nullable: true, blank: true)
+        osName(nullable: true, blank: true)
+        osArch(nullable: true, blank: true)
+        osVersion(nullable: true, blank: true)
+        javaVersion(nullable: true, blank: true)
+        javaVmVersion(nullable: true, blank: true)
+        javaVmName(nullable: true, blank: true)
+        griffonVersion(nullable: true, blank: true)
     }
 
     def saveIt() {
