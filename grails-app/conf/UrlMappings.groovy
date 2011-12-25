@@ -64,6 +64,12 @@ class UrlMappings {
 
         name watch_artifact: "/artifact/watch/$id"(controller: 'artifact', action: 'watch')
         name tag_artifact: "/artifact/tag/$id"(controller: 'artifact', action: 'tag')
+        name list_tagged_plugins: "/tags/plugins/$tagName"(controller: 'artifact', action: 'list_tagged') {
+            type = 'plugin'
+        }
+        name list_tagged_archetypes: "/tags/archetypes/$tagName"(controller: 'artifact', action: 'list_tagged') {
+            type = 'archetype'
+        }
         "/plugins"(controller: 'plugin', action: 'list')
         "/archetypes"(controller: 'archetype', action: 'list')
         name show_plugin: "/plugin/$name"(controller: 'plugin', action: 'show')

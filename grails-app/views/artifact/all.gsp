@@ -19,39 +19,42 @@
   </div>
 
   <div class="span11">
-    <div class="row">
-      <div class="span11">
-        <g:each in="${'A'..'Z'}" var="c">
-          <g:if test="${artifactMap[c]}">
-            <strong><a href="#section_${c}">${c}</a></strong>
-          </g:if>
-          <g:else>
-            ${c}
-          </g:else>
-        </g:each>
-      </div>
-    </div>
-
-    <g:each in="${'A'..'Z'}" var="c">
-      <g:if test="${artifactMap[c]}">
-        <br clear="all"/>
-        <br clear="all"/>
-
-        <div class="row">
-          <div class="span11">
-            <section id="#section_${c}">
-              <h5>${c}</h5>
-              <ul>
-                <g:each in="${artifactMap[c]}" var="artifact">
-                  <li><g:link controller="${params.type}"
-                              params="[name: artifact.name]">${artifact.name}</g:link> - ${artifact.title}</li>
-                </g:each>
-              </ul>
-            </section>
-          </div>
+    <g:if test="${artifactMap}">
+      <div class="row">
+        <div class="span11">
+          <g:each in="${'A'..'Z'}" var="c">
+            <g:if test="${artifactMap[c]}">
+              <strong><a href="#section_${c}">${c}</a></strong>
+            </g:if>
+            <g:else>
+              ${c}
+            </g:else>
+          </g:each>
         </div>
-      </g:if>
-    </g:each>
+      </div>
+      <br clear="all"/>
+      <br clear="all"/>
+      <g:each in="${'A'..'Z'}" var="c">
+        <g:if test="${artifactMap[c]}">
+          <div class="row">
+            <div class="span11">
+              <section id="#section_${c}">
+                <h5>${c}</h5>
+                <ul>
+                  <g:each in="${artifactMap[c]}" var="artifact">
+                    <li><g:link controller="${params.type}"
+                                params="[name: artifact.name]">${artifact.name}</g:link> - ${artifact.title}</li>
+                  </g:each>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </g:if>
+      </g:each>
+    </g:if>
+    <g:else>
+      <p><g:message code="categories.${categoryType.name}.unavailable" args="[params.type]"/></p>
+    </g:else>
   </div>
 </div>
 

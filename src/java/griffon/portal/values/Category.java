@@ -27,7 +27,9 @@ public enum Category {
     HIGHEST_VOTED("Highest Voted"),
     RECENTLY_UPDATED("Recently Updated"),
     MOST_DOWNLOADED("Most Downloaded"),
-    NEWEST("Newest");
+    NEWEST("Newest"),
+    TAGGED("Tagged");
+
     private final String capitalizedName;
 
     private Category(String capitalizedName) {

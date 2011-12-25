@@ -9,7 +9,7 @@
 <body>
 
 <div class="page-header">
-  <h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}</h1>
+  <h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}<g:if test="${params.tagName}">: ${params.tagName}</g:if></h1>
 </div>
 
 
@@ -19,7 +19,12 @@
   </div>
 
   <div class="span11">
-    <g:render template="artifact" collection="${artifactList}" var="artifactInstance"/>
+    <g:if test="${artifactList}">
+      <g:render template="artifact" collection="${artifactList}" var="artifactInstance"/>
+    </g:if>
+    <g:else>
+      <p><g:message code="categories.${categoryType.name}.unavailable" args="[params.type]"/></p>
+    </g:else>
   </div>
 </div>
 

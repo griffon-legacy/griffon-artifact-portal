@@ -434,3 +434,22 @@ a.skip {
     float: left;
     margin-left: 0.5em;
 }
+
+.tags .tagCloud {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-bottom: 0em;
+    margin: 0;
+    width: 100%;
+}
+
+.tags .tagCloud li {
+    float: left;
+    margin-right: 1.0em;
+}
+
+.tags .tagCloud a {
+    color: black;
+    border: inherit;
+    text-decoration: none;
+}

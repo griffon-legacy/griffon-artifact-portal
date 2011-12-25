@@ -45,6 +45,23 @@ class ArtifactController {
         }
     }
 
+    def tag() {
+        Artifact artifact = Artifact.get(params.id)
+        if (params.tags) {
+            artifact.setTags(params.tags.split(',')*.trim())
+        } else if (artifact.tags) {
+            artifact.setTags([])
+        }
+
+        if (!artifact.save(flush: true)) {
+            render([code: 'ERROR'] as JSON)
+        } else {
+            render([code: 'OK', tags: artifact.tags.sort().join(', ')] as JSON)
+        }
+    }
+
+    // --== CATEGORIES == --
+
     def all() {
         List<Artifact> artifacts = []
         switch (params.type) {
@@ -175,18 +192,55 @@ class ArtifactController {
                 ])
     }
 
-    def tag() {
-        Artifact artifact = Artifact.get(params.id)
-        if (params.tags) {
-            artifact.setTags(params.tags.split(',')*.trim())
-        } else if (artifact.tags) {
-            artifact.setTags([])
+    def tagged() {
+        Map tagMap = [:]
+
+        switch (params.type) {
+            case 'plugin':
+                Plugin.getAllTags().inject(tagMap) { map, tag ->
+                    map[tag] = Plugin.countByTag(tag)
+                    map
+                }
+                break
+            case 'archetype':
+                Archetype.getAllTags().inject(tagMap) { map, tag ->
+                    map[tag] = Archetype.countByTag(tag)
+                    map
+                }
+                break
         }
 
-        if (!artifact.save(flush: true)) {
-            render([code: 'ERROR'] as JSON)
-        } else {
-            render([code: 'OK', tags: artifact.tags.join(', ')] as JSON)
+        [
+                tagMap: tagMap,
+                categoryType: Category.findByName(params.action)
+        ]
+    }
+
+    def list_tagged() {
+        List<Artifact> artifacts = []
+
+        Map queryParams = [
+                sort: 'name',
+                order: 'asc',
+                max: 5,
+                offset: params.offset ?: 0
+        ]
+
+        switch (params.type) {
+            case 'plugin':
+                artifacts = Plugin.findAllByTag(params.tagName, queryParams)
+                break
+            case 'archetype':
+                artifacts = Archetype.findAllByTag(params.tagName, queryParams)
+                break
         }
+
+        render(view: 'list',
+                model: [
+                        hasDownloads: false,
+                        artifactList: artifacts,
+                        artifactTotal: artifacts.size(),
+                        categoryType: Category.TAGGED
+                ])
     }
 }
