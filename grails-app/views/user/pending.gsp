@@ -1,15 +1,15 @@
-<%@ page import="griffon.portal.Membership; griffon.portal.User" %>
+<%@ page import="griffon.portal.auth.Membership; griffon.portal.auth.User" %>
 <!doctype html>
 <html>
 <head>
   <meta name="layout" content="main">
-  <title><g:message code="griffon.portal.User.pending.label"/></title>
+  <title><g:message code="griffon.portal.auth.User.pending.label"/></title>
 </head>
 
 <body>
 
 <div class="page-header">
-  <h1><g:message code="griffon.portal.User.pending.label"/></h1>
+  <h1><g:message code="griffon.portal.auth.User.pending.label"/></h1>
 </div>
 
 <div class="row">

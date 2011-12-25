@@ -16,6 +16,8 @@
 
 package griffon.portal
 
+import griffon.portal.auth.User
+
 /**
  * @author Andres Almiray
  */

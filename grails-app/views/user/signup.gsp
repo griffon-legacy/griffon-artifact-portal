@@ -1,16 +1,16 @@
-<%@ page import="griffon.portal.User" %>
+<%@ page import="griffon.portal.auth.User" %>
 <!doctype html>
 <html>
 <head>
   <meta name="layout" content="main">
-  <title><g:message code="griffon.portal.User.signup.label"/></title>
+  <title><g:message code="griffon.portal.auth.User.signup.label"/></title>
 </head>
 
 <body>
 
 <div class="page-header">
-  <h1><g:message code="griffon.portal.User.signup.label"/> <small><g:message
-          code="griffon.portal.User.signup.message"/></small></h1>
+  <h1><g:message code="griffon.portal.auth.User.signup.label"/> <small><g:message
+          code="griffon.portal.auth.User.signup.message"/></small></h1>
 </div>
 
 <div class="row">

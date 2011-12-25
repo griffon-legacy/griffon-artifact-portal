@@ -1,4 +1,4 @@
-<%@ page import="griffon.portal.User" %>
+<%@ page import="griffon.portal.auth.User" %>
 <!doctype html>
 <html>
 <head>
@@ -9,8 +9,8 @@
 <body>
 
 <div class="page-header">
-  <h1><g:message code="griffon.portal.User.forgot_password.label"/></h1>
-  <g:message code="griffon.portal.User.forgot_password.message"/>
+  <h1><g:message code="griffon.portal.auth.User.forgot_password.label"/></h1>
+  <g:message code="griffon.portal.auth.User.forgot_password.message"/>
 </div>
 
 <div class="row">

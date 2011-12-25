@@ -18,6 +18,7 @@ package griffon.portal
 
 import com.grailsrocks.emailconfirmation.EmailConfirmationService
 import grails.converters.JSON
+import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import groovy.text.SimpleTemplateEngine
 import org.apache.commons.lang.RandomStringUtils
@@ -61,7 +62,7 @@ class UserController {
             }
             return
         } else {
-            command.errors.rejectValue('username', 'griffon.portal.User.credentials.nomatch.message')
+            command.errors.rejectValue('username', 'griffon.portal.auth.User.credentials.nomatch.message')
             render(view: 'signin', model: [command: command, originalURI: params.orinialURI])
         }
     }

@@ -18,6 +18,8 @@ package griffon.portal
 
 import grails.converters.JSON
 import grails.util.GrailsNameUtils
+import griffon.portal.stats.Download
+import griffon.portal.stats.DownloadTotal
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import java.util.zip.ZipFile

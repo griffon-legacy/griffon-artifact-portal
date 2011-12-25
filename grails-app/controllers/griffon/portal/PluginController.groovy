@@ -17,6 +17,8 @@
 package griffon.portal
 
 import grails.util.GrailsNameUtils
+import griffon.portal.auth.User
+import griffon.portal.stats.DownloadTotal
 
 /**
  * @author Andres Almiray

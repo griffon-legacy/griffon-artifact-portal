@@ -1,7 +1,7 @@
 import com.grailsrocks.emailconfirmation.EmailConfirmationService
-import griffon.portal.Membership
 import griffon.portal.Profile
-import griffon.portal.User
+import griffon.portal.auth.Membership
+import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import org.codehaus.groovy.grails.commons.GrailsApplication
 

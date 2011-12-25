@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package griffon.portal
+package griffon.portal.stats
+
+import griffon.portal.Release
 
 /**
  * @author Andres Almiray

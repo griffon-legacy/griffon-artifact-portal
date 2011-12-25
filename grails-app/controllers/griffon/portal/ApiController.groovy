@@ -17,6 +17,7 @@
 package griffon.portal
 
 import grails.converters.JSON
+import griffon.portal.stats.Download
 
 /**
  * @author Andres Almiray

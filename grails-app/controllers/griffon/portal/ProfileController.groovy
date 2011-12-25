@@ -16,6 +16,7 @@
 
 package griffon.portal
 
+import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import griffon.portal.values.ProfileTab
 import griffon.portal.values.SettingsTab
@@ -198,7 +199,7 @@ class ProfileController {
         String passwd = MD5.encode(command.oldPassword)
 
         if (passwd != user.password) {
-            command.errors.rejectValue('password', 'griffon.portal.User.credentials.nomatch.message')
+            command.errors.rejectValue('password', 'griffon.portal.auth.User.credentials.nomatch.message')
             return render(view: 'settings', model: [
                     profileInstance: Profile.get(params.profileId),
                     command: command,

@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package griffon.portal
+package griffon.portal.stats
+
+import griffon.portal.Release
 
 /**
  * @author Andres Almiray
  */
-class Upload {
-    String username
+class DownloadTotal {
     Release release
     String type
+    int total = 0
     Date dateCreated
+    Date lastUpdated
 
     static constraints = {
-        username(nullable: false, blank: false)
         release(nullable: false)
-    }
-
-    def saveIt() {
-        save()
-        UploadTotal total = UploadTotal.findByRelease(release) ?: new UploadTotal(release: release, type: type)
-        total.total += 1
-        total.save()
     }
 }

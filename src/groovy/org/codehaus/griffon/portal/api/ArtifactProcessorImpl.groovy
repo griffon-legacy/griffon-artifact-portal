@@ -19,6 +19,8 @@ package org.codehaus.griffon.portal.api
 import grails.plugin.executor.PersistenceContextExecutorWrapper
 import grails.util.GrailsNameUtils
 import grails.util.GrailsUtil
+import griffon.portal.auth.User
+import griffon.portal.stats.Upload
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper

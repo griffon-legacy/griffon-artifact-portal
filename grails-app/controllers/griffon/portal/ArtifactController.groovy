@@ -17,6 +17,8 @@
 package griffon.portal
 
 import grails.converters.JSON
+import griffon.portal.auth.User
+import griffon.portal.stats.DownloadTotal
 import griffon.portal.values.Category
 
 /**

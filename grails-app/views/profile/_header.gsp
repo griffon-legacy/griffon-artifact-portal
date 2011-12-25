@@ -1,4 +1,4 @@
-<%@ page import="griffon.portal.Membership" %>
+<%@ page import="griffon.portal.auth.Membership; " %>
 <div class="page-header">
   <div class="row">
     <div class="span2">
@@ -79,7 +79,7 @@
                 <div class="modal-header">
                   <a href="#" class="close">&times;</a>
 
-                  <h3>${message(code: 'griffon.portal.User.membership.label', default: 'Developer Membership')}</h3>
+                  <h3>${message(code: 'griffon.portal.auth.User.membership.label', default: 'Developer Membership')}</h3>
                 </div>
 
                 <g:formRemote url="[controller: 'user', action: 'membership']"

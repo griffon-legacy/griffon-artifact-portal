@@ -16,9 +16,9 @@
 
 package org.codehaus.griffon.portal.ssh
 
-import griffon.portal.Membership
 import griffon.portal.Profile
-import griffon.portal.User
+import griffon.portal.auth.Membership
+import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import org.apache.sshd.server.session.ServerSession
 import org.slf4j.Logger
