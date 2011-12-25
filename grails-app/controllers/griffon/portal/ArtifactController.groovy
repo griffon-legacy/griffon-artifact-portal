@@ -168,4 +168,19 @@ class ArtifactController {
                         categoryType: Category.findByName(params.action)
                 ])
     }
+
+    def tag() {
+        Artifact artifact = Artifact.get(params.id)
+        if (params.tags) {
+            artifact.setTags(params.tags.split(',')*.trim())
+        } else if (artifact.tags) {
+            artifact.setTags([])
+        }
+
+        if (!artifact.save(flush: true)) {
+            render([code: 'ERROR'] as JSON)
+        } else {
+            render([code: 'OK', tags: artifact.tags.join(', ')] as JSON)
+        }
+    }
 }

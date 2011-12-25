@@ -24,20 +24,13 @@
   <g:render template="/shared/watching" model="[artifactInstance: artifactInstance, watching:watching]"/>
 </g:if>
 
-<div class="fieldcontain">
-  <span id="tags-label" class="property-label"><g:message code="artifact.tags.label"
-                                                            default="Tags"/></span>
-
-  <span class="property-value" aria-labelledby="tags-label">
-    ${artifactInstance.tags.join(', ')}
-  </span><br/>
-</div>
+<g:render template="/shared/tags" model="[artifactInstance: artifactInstance]"/>
 
 <div class="fieldcontain">
   <span id="downloads-label" class="property-label"><g:message code="artifact.downloads.label"
-                                                          default="Downloads"/></span>
+                                                               default="Downloads"/></span>
 
-  <span class="property-value" aria-labelledby="downloads-label">  ${downloads}</span>
+  <span class="property-value" aria-labelledby="downloads-label">${downloads}</span>
 </div>
 
 <div class="fieldcontain">
