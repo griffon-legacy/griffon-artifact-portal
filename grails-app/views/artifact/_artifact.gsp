@@ -1,10 +1,17 @@
 <!-- BEGIN: ARTIFACT -->
+<%
+  String downloads = ''
+  if (hasDownloads) {
+    downloads = " (${artifactInstance.total})"
+    artifactInstance = artifactInstance.release.artifact
+  }
+%>
 <div class="artifact ">
   <g:render template="/shared/rating_offline" model="[artifactInstance: artifactInstance, login: false]"/>
 
   <div class="artifact-header">
     <h4><g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
-                mapping="show_${artifactInstance.type}">${artifactInstance.capitalizedName}</g:link></h4>
+                mapping="show_${artifactInstance.type}">${artifactInstance.capitalizedName}</g:link>${downloads}</h4>
     <small>${artifactInstance.title}</small>
 
     <div class="artifact-detail">

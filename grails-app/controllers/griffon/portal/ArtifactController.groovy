@@ -90,6 +90,7 @@ class ArtifactController {
 
         render(view: 'list',
                 model: [
+                        hasDownloads: false,
                         artifactList: artifacts,
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
@@ -118,6 +119,7 @@ class ArtifactController {
 
         render(view: 'list',
                 model: [
+                        hasDownloads: false,
                         artifactList: artifacts,
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
@@ -143,6 +145,7 @@ class ArtifactController {
 
         render(view: 'list',
                 model: [
+                        hasDownloads: false,
                         artifactList: artifacts,
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
@@ -161,10 +164,11 @@ class ArtifactController {
             eq('type', params.type)
         }
 
-        render(view: 'most_downloaded',
+        render(view: 'list',
                 model: [
-                        downloadList: downloadList,
-                        downloadTotal: downloadList.size(),
+                        hasDownloads: true,
+                        artifactList: downloadList,
+                        artifactTotal: downloadList.size(),
                         categoryType: Category.findByName(params.action)
                 ])
     }
