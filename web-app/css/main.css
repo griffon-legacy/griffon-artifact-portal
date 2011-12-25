@@ -411,7 +411,7 @@ a.skip {
     width: 100%;
 }
 
-.categories .categories-links a {
+.categories a {
     color: black;
     border: inherit;
     text-decoration: none;

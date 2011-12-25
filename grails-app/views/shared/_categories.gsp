@@ -1,39 +1,39 @@
 <%@ page import="griffon.portal.values.Category" %>
 <div class="categories">
-  <table>
+  <table class="condensed-table">
     <thead>
+    <th></th>
     <th>Plugins</th>
     </thead>
     <tbody>
+    <g:each in="${Category.values()}" var="category">
+      <tr>
+        <td style="text-align: right; border: 0">
+          <g:link controller="artifact" action="${category.name}"
+                  mapping="categories_plugin"><g:img dir="images/categories" file="${category.name}.png"/></g:link>
+        </td>
+        <td style="border: 0">
+          <g:link controller="artifact" action="${category.name}"
+                  mapping="categories_plugin">${category.capitalizedName}</g:link>
+        </td>
+      </tr>
+    </g:each>
     <tr>
-      <td>
-        <ul class="categories-links">
-          <g:each in="${Category.values()}" var="category">
-            <li><g:link controller="artifact" action="${category.name}"
-                        mapping="categories_plugin"><g:img dir="images/categories"
-                                                           file="${category.name}.png"/> ${category.capitalizedName}</g:link></li>
-          </g:each>
-        </ul>
-      </td>
+      <th></th>
+      <th>Archetypes</th>
     </tr>
-    </tbody>
-  </table>
-  <table>
-    <thead>
-    <th>Archetypes</th>
-    </thead>
-    <tbody>
-    <tr>
-      <td>
-        <ul class="categories-links">
-          <g:each in="${Category.values()}" var="category">
-            <li><g:link controller="artifact" action="${category.name}"
-                        mapping="categories_archetype"><g:img dir="images/categories"
-                                                              file="${category.name}.png"/> ${category.capitalizedName}</g:link></li>
-          </g:each>
-        </ul>
-      </td>
-    </tr>
+    <g:each in="${Category.values()}" var="category">
+      <tr>
+        <td style="text-align: right; border: 0">
+          <g:link controller="artifact" action="${category.name}"
+                  mapping="categories_archetype"><g:img dir="images/categories" file="${category.name}.png"/></g:link>
+        </td>
+        <td style="border: 0">
+          <g:link controller="artifact" action="${category.name}"
+                  mapping="categories_archetype">${category.capitalizedName}</g:link>
+        </td>
+      </tr>
+    </g:each>
     </tbody>
   </table>
 </div>
