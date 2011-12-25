@@ -20,7 +20,7 @@
 
   <div class="span11">
     <g:if test="${artifactList}">
-      <g:render template="artifact" collection="${artifactList}" var="artifactInstance"/>
+      <g:render template="artifact_box" collection="${artifactList}" var="artifactInstance"/>
     </g:if>
     <g:else>
       <p><g:message code="categories.${categoryType.name}.unavailable" args="[params.type]"/></p>

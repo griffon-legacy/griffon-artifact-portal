@@ -29,7 +29,7 @@
       </div>
     </g:if>
     <g:else>
-      <p><g:message code="categories.tagged.unavailable" args="[params.type]"/></p>
+      <p><g:message code="categories.${categoryType.name}.unavailable" args="[params.type]"/></p>
     </g:else>
   </div>
 </div>

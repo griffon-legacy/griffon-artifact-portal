@@ -1,4 +1,4 @@
-<%@ page import="griffon.portal.auth.Membership; " %>
+<%@ page import="griffon.portal.auth.Membership" %>
 <div class="page-header">
   <div class="row">
     <div class="span2">

@@ -1,3 +1,4 @@
+<!-- BEGIN: HEADER -->
 <div class="fieldcontain">
   <span id="license-label" class="property-label"><g:message code="artifact.license.label"
                                                              default="License"/></span>
@@ -21,10 +22,10 @@
 </div>
 
 <g:if test="${session.user}">
-  <g:render template="/shared/watching" model="[artifactInstance: artifactInstance, watching:watching]"/>
+  <g:render template="/artifact/common/watching" model="[artifactInstance: artifactInstance, watching:watching]"/>
 </g:if>
 
-<g:render template="/shared/tags" model="[artifactInstance: artifactInstance]"/>
+<g:render template="/artifact/common/tags" model="[artifactInstance: artifactInstance]"/>
 
 <div class="fieldcontain">
   <span id="downloads-label" class="property-label"><g:message code="artifact.downloads.label"
@@ -48,4 +49,4 @@
     </g:else>
   </div>
 </div>
-
+<!-- END: HEADER -->

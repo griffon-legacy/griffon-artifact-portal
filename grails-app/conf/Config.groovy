@@ -129,6 +129,9 @@ grails.config.locations = ["classpath:${appName}-config.properties",
 grails.plugins.twitterbootstrap.fixtaglib = true
 
 grails.resources.modules = {
+    portal {
+        resource url: '/js/portal.js'
+    }
     'jquery-form' {
         resource url: '/js/jquery.form.js', disposition: 'head'
     }

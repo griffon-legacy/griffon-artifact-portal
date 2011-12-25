@@ -12,7 +12,7 @@
 
 <body>
 
-<g:render template="header"/>
+<g:render template="profile/header"/>
 
 <%
   String listSpan = profileInstance.twitter ? 'span11' : 'span16'
@@ -50,7 +50,7 @@
     </ul>
   </div>
 
-  <g:render template="${tab}"/>
+  <g:render template="profile/${tab}"/>
 
 </div>
 

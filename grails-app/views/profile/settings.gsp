@@ -48,7 +48,7 @@
 </div>
 
 <div class="row">
-  <g:render template="${tab}"/>
+  <g:render template="settings/${tab}"/>
 </div>
 
 </body>

@@ -68,11 +68,11 @@
       </span>
     </div>
 
-    <g:render template="/shared/header_properties" model="[artifactInstance: pluginInstance, downloads: downloads]"/>
+    <g:render template="/artifact/common/artifact_header_properties" model="[artifactInstance: pluginInstance, downloads: downloads]"/>
   </div>
 
   <div class="span4">
-    <g:render template="/shared/authored_by" bean="${authorList}" model="[authorList: authorList]"/>
+    <g:render template="/artifact/common/authored_by" bean="${authorList}" model="[authorList: authorList]"/>
   </div>
 </div>
 
@@ -97,7 +97,7 @@
 
 <div class="row">
   <div class="span16">
-    <g:render template="/shared/release_table" model="[releaseList: releaseList]"/>
+    <g:render template="/artifact/common/release_table" model="[releaseList: releaseList]"/>
   </div>
 </div>
 

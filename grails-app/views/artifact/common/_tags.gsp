@@ -1,9 +1,11 @@
+<!-- BEGIN: TAGS -->
 <div class="fieldcontain">
   <span id="tags-label" class="property-label">
     <g:if test="${!session.user}">
       <g:link controller="user" action="login" mapping="signin"
-              params="[originalURI: (request.forwardURI - application.contextPath)]"><g:img dir="images"
-                                                                                            file="tag.png"/></g:link>
+              params="[originalURI: (request.forwardURI - application.contextPath)]" title="Add or remove tags"><g:img
+              dir="images"
+              file="tag.png" style="vertical-align: middle"/></g:link>
     </g:if>
     <g:else>
       <div id="modal-tags" class="modal hide fade">
@@ -47,7 +49,8 @@
         </g:formRemote>
       </div>
       <a href="#" data-controls-modal="modal-tags" data-backdrop="static"
-         data-keyboard="true" id="tags-apply"><g:img dir="images" file="tag.png"/></a>
+         data-keyboard="true" id="tags-apply" title="Add or remove tags"><g:img dir="images" file="tag.png"
+                                                                                style="vertical-align: middle"/></a>
       <script language="javascript">
         $('#tags-apply').click(function () {
           $('#tags-submit').show();
@@ -55,20 +58,6 @@
           $('#tags-cancel').removeClass('success');
           $('#tags-cancel').addClass('danger');
         });
-
-        function handleTagsResponse(data) {
-          if (data.code == 'ERROR') {
-            $('#tags-message').html('<p>An error occurred processing your request. Please try again.</p>');
-            $('#tags-message').show();
-          } else if (data.code == 'OK') {
-            $('#tags-message').hide();
-            $('#tags-submit').hide();
-            $('#tags-cancel').toggleClass('danger success', true);
-            $('#tags-apply').toggleClass('primary info', true);
-            $('#tags-apply').attr('disabled', true);
-            $('#artifact-tags').html(data.tags);
-          }
-        }
       </script>
     </g:else>
   &nbsp;<g:message code="artifact.tags.label" default="Tags"/></span>
@@ -77,3 +66,4 @@
     <div id="artifact-tags">${artifactInstance.tags.join(', ')}<g:if test="${!artifactInstance.tags}"><br/></g:if></div>
   </span>
 </div>
+<!-- END: TAGS -->

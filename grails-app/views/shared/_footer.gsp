@@ -1,0 +1,1 @@
+<p>&copy; Griffon 2011</p>

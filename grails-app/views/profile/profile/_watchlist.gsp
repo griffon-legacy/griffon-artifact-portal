@@ -29,10 +29,10 @@
               %>
               <td><g:remoteLink controller="artifact" action="watch" id="${artifactInstance.id}"
                                 mapping="watch_artifact"
-                                onSuccess="toggleWatcher(data, '#${watchingId}')"><g:img id="${watchingId}"
-                                                                                         name="${watchingId}"
-                                                                                         dir="images"
-                                                                                         file="watch_on.png"/></g:remoteLink></td>
+                                onSuccess="toggleWatcher(data, '${watchingId}')"><g:img id="${watchingId}"
+                                                                                        name="${watchingId}"
+                                                                                        dir="images"
+                                                                                        file="watch_on.png"/></g:remoteLink></td>
               <td>${fieldValue(bean: artifactInstance, field: "type")}</td>
               <td>${fieldValue(bean: artifactInstance, field: "capitalizedName")}</td>
               <td>${fieldValue(bean: artifactInstance, field: "title")}</td>
@@ -54,16 +54,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  function toggleWatcher(data, watchingId) {
-    var src = $(watchingId).attr('src');
-    src = src.substring(0, src.lastIndexOf('/'));
-    if (data.status) {
-      src += '/watch_on.png';
-    } else {
-      src += '/watch_off.png';
-    }
-    $(watchingId).attr('src', src);
-  }
-</script>
