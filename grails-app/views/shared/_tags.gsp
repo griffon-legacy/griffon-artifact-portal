@@ -74,6 +74,6 @@
   &nbsp;<g:message code="artifact.tags.label" default="Tags"/></span>
 
   <span class="property-value" aria-labelledby="tags-label">
-    <div id="artifact-tags">${artifactInstance.tags.join(', ')}</div>
+    <div id="artifact-tags">${artifactInstance.tags.join(', ')}<g:if test="${!artifactInstance.tags}"><br/></g:if></div>
   </span>
 </div>

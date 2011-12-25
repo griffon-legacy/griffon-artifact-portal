@@ -139,12 +139,9 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
         json.checksum = zipFile.getInputStream(md5ChecksumEntry).text
         if (releaseNotesEntry != null) {
-            String releaseNotesPath = ServletContextHolder.servletContext.getRealPath("${basePath}/README.md")
-            os = new FileOutputStream(releaseNotesPath)
-            os.bytes = zipFile.getInputStream(releaseNotesEntry).bytes
             String formattedReleaseNotesPath = ServletContextHolder.servletContext.getRealPath("${basePath}/README.html")
             new File(formattedReleaseNotesPath).text = new PegDownProcessor().markdownToHtml(zipFile.getInputStream(releaseNotesEntry).text)
-            json.releaseNotes = true
+            json.releaseNotes = zipFile.getInputStream(releaseNotesEntry).text
         }
     }
 
@@ -219,7 +216,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             comment = json.comment
             checksum = json.checksum
             artifact = pArtifact
-            releaseNotes = json.releaseNotes ?: false
+            releaseNotes = json.releaseNotes ?: ''
         }
         release.save()
 

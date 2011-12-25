@@ -24,7 +24,7 @@ class Release {
     String griffonVersion
     String comment
     String checksum
-    boolean releaseNotes
+    String releaseNotes
     Artifact artifact
 
     Date dateCreated
@@ -38,6 +38,9 @@ class Release {
         artifact(nullable: false)
     }
 
+    static mapping = {
+        releaseNotes type: 'text'
+    }
 
     String toString() {
         [
@@ -47,8 +50,7 @@ class Release {
                 comment: comment,
                 checksum: checksum,
                 date: dateCreated,
-                artifact: artifact,
-                releaseNotes: releaseNotes
+                artifact: artifact
         ]
     }
 }
