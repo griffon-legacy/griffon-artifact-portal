@@ -1,7 +1,7 @@
 /*
  * twitter-text-js 1.4.10
  *
- * Copyright 2011 Twitter, Inc.
+ * Copyright 2011-2012 Twitter, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this work except in compliance with the License.
