@@ -70,10 +70,10 @@ class UrlMappings {
         name list_tagged_archetypes: "/tags/archetypes/$tagName"(controller: 'artifact', action: 'list_tagged') {
             type = 'archetype'
         }
-        "/plugins"(controller: 'plugin', action: 'list')
-        "/archetypes"(controller: 'archetype', action: 'list')
-        name show_plugin: "/plugin/$name"(controller: 'plugin', action: 'show')
-        name show_archetype: "/archetype/$name"(controller: 'archetype', action: 'show')
+        "/plugins"(controller: 'artifact', action: 'all') { type = 'plugin' }
+        "/archetypes"(controller: 'archetype', action: 'all') { type = 'archetype'}
+        name show_plugin: "/plugin/$name/$tab?"(controller: 'plugin', action: 'show')
+        name show_archetype: "/archetype/$name/$tab?"(controller: 'archetype', action: 'show')
         name show_docs: "/docs/$type/$name"(controller: 'docs', action: 'show')
         name show_release: "/release/show/$id"(controller: 'release', action: 'show')
         name download_release: "/release/download/$id"(controller: 'release', action: 'download')

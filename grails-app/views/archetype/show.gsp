@@ -1,3 +1,4 @@
+<%@ page import="griffon.portal.values.ArtifactTab" %>
 <!doctype html>
 <html>
 <head>
@@ -7,14 +8,18 @@
 
 <body>
 
-<div class="page-header">
-  <h1>${archetypeName} <small><p>${archetypeInstance.title}</p></small></h1>
+<div class="row">
+  <div class="span16">
+    <div class="page-header">
+      <h1>${archetypeName} <small><p>${archetypeInstance.title}</p></small></h1>
+    </div>
+  </div>
 </div>
 
 <div class="row">
-  <div class="span10">
-
-    <g:render template="/artifact/common/artifact_header_properties" model="[artifactInstance: archetypeInstance, downloads: downloads]"/>
+  <div class="span12">
+    <g:render template="/artifact/common/artifact_header_properties"
+              model="[artifactInstance: archetypeInstance, downloads: downloads]"/>
   </div>
 
   <div class="span4">
@@ -22,28 +27,27 @@
   </div>
 </div>
 
-<hr/>
+<%
+  def tabClassFor = { ArtifactTab artifactTab ->
+    tab == artifactTab.name ? 'active' : ''
+  }
+%>
 
 <div class="row">
   <div class="span16">
-    <h2>Description</h2>
-
-    <p>
-      <g:if test="${archetypeInstance.description}">
-        <markdown:renderHtml>${archetypeInstance.description}</markdown:renderHtml>
-      </g:if>
-      <g:else>
-        No description available.
-      </g:else>
-    </p>
+    <ul class="tabs">
+      <g:each in="${ArtifactTab.values()}" var="artifactTab">
+        <li class="${tabClassFor(artifactTab)}"><g:link controller="archetype" action="show"
+                                                        mapping="show_archetype"
+                                                        params="[name: archetypeInstance.name, tab: artifactTab.name]">${artifactTab.capitalizedName}</g:link></li>
+      </g:each>
+    </ul>
   </div>
 </div>
 
-<hr/>
-
 <div class="row">
   <div class="span16">
-    <g:render template="/artifact/common/release_table" model="[releaseList: releaseList]"/>
+    <g:render template="/artifact/tabs/$tab" model="[artifactInstance: archetypeInstance]"/>
   </div>
 </div>
 

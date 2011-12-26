@@ -42,10 +42,9 @@
         if (!loggedIn) tabs.remove ProfileTab.WATCHLIST
       %>
       <g:each in="${tabs}" var="profileTab">
-        <% def linkParams = [tab: profileTab.name] %>
         <li class="${tabClassFor(profileTab)}"><g:link controller="profile" action="show"
                                                        id="${profileInstance.user.username}"
-                                                       params="${linkParams}">${profileTab.capitalizedName}</g:link></li>
+                                                       params="[tab: profileTab.name]">${profileTab.capitalizedName}</g:link></li>
       </g:each>
     </ul>
   </div>

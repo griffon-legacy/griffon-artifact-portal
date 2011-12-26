@@ -16,10 +16,12 @@
         <div id="global-nav">
           <ul id="global-actions">
             <li id="global-nav-home" class="<%=isHomeActive()%>"><a href="${application.contextPath}">Home</a></li>
-            <li id="global-nav-plugins" class="<%=isMenuActive('plugin')%>"><a
-                    href="${application.contextPath}/plugins">Plugins</a></li>
-            <li id="global-nav-archetypes" class="<%=isMenuActive('archetype')%>"><a
-                    href="${application.contextPath}/archetypes">Archetypes</a></li>
+            <li id="global-nav-plugins" class="<%=isMenuActive('plugin')%>"><g:link controller="artifact"
+                                                                                    action="all"
+                                                                                    mapping="categories_plugin">Plugins</g:link></li>
+            <li id="global-nav-archetypes" class="<%=isMenuActive('archetype')%>"><g:link controller="artifact"
+                                                                                          action="all"
+                                                                                          mapping="categories_archetype">Archetypes</g:link></li>
             <li id="global-nav-api" class="<%=isMenuActive('api')%>"><a
                     href="${application.contextPath}/api">API</a></li>
             <g:if test="${session.user}">

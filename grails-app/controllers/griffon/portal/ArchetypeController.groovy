@@ -19,6 +19,7 @@ package griffon.portal
 import grails.util.GrailsNameUtils
 import griffon.portal.auth.User
 import griffon.portal.stats.DownloadTotal
+import griffon.portal.values.ArtifactTab
 
 /**
  * @author Andres Almiray
@@ -41,6 +42,8 @@ class ArchetypeController {
             redirect(uri: '/')
             return
         }
+
+        params.tab = params.tab ?: ArtifactTab.DESCRIPTION.name
 
         List authorList = archetypeInstance.authors.collect([]) {Author author ->
             User user = User.findWhere(email: author.email)
@@ -75,17 +78,19 @@ class ArchetypeController {
             }
         }.total.sum()
 
+        List releaseList = []
+        if (params.tab == ArtifactTab.RELEASES.name) {
+            releaseList = Release.findAllByArtifact(archetypeInstance, [sort: 'artifactVersion', order: 'desc'])
+        }
+
         [
                 archetypeName: GrailsNameUtils.getNaturalName(archetypeName),
                 archetypeInstance: archetypeInstance,
                 authorList: authorList,
-                releaseList: Release.findAllByArtifact(archetypeInstance, [sort: 'artifactVersion', order: 'desc']),
+                releaseList: releaseList,
                 watching: watching,
-                downloads: downloads ?: 0i
+                downloads: downloads ?: 0i,
+                tab: params.tab
         ]
-    }
-
-    def list() {
-        [archetypeList: Archetype.list(sort: 'name', order: 'asc')]
     }
 }

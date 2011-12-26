@@ -1,6 +1,5 @@
 <%@ page import="griffon.portal.stats.DownloadTotal" %>
 <!-- BEGIN: RELEASE_TABLE -->
-<h2>Releases</h2>
 <table class="condensed-table zebra-stripped">
   <thead>
   <tr>
