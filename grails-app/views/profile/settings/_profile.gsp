@@ -16,7 +16,7 @@
     </g:eachError>
   </g:hasErrors>
 
-  <g:form controller="profile" mapping="sesstings_update_profile" params="[username: profileInstance.user.username, tab: tab]">
+  <g:form controller="profile" mapping="settings_update_profile" params="[username: profileInstance.user.username, tab: tab]">
     <g:hiddenField name="profileId" value="${profileInstance.id}"/>
     <g:hiddenField name="userId" value="${profileInstance.user.id}"/>
 

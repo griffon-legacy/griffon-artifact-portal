@@ -127,6 +127,13 @@ class ProfileController {
             case SettingsTab.PASSWORD.name:
                 command = new UpdatePasswordCommand()
                 break
+            case SettingsTab.NOTIFICATIONS.name:
+                command = new UpdateNotificationsCommand(
+                        watchlist: session.profile.notifications.watchlist,
+                        content: session.profile.notifications.content,
+                        comments: session.profile.notifications.comments
+                )
+                break
         }
 
         [
@@ -220,6 +227,32 @@ class ProfileController {
         flash.message = "Password successfully updated"
         redirect(action: 'settings', model: [name: user.username, tab: SettingsTab.PASSWORD.name])
     }
+
+    def update_notifications(UpdateNotificationsCommand command) {
+        Profile profile = Profile.get(params.profileId)
+        if (!command.validate()) {
+            return render(view: 'settings', model: [
+                    profileInstance: profile,
+                    command: command,
+                    tab: SettingsTab.NOTIFICATIONS.name])
+        }
+
+        profile.notifications.watchlist = command.watchlist
+        profile.notifications.content = command.content
+        profile.notifications.comments = command.comments
+
+        if (!profile.save(flush: true)) {
+            return render(view: 'settings', model: [
+                    profileInstance: profile,
+                    command: command,
+                    tab: SettingsTab.NOTIFICATIONS.name])
+        }
+
+        session.profile = profile
+
+        flash.message = "Notifications successfully updated"
+        redirect(action: 'settings', model: [name: profile.user.username, tab: SettingsTab.NOTIFICATIONS.name])
+    }
 }
 
 class UpdateAccountCommand {
@@ -255,5 +288,17 @@ class UpdatePasswordCommand {
         oldPassword(nullable: false, blank: false)
         newPassword(nullable: false, blank: false)
         newPassword2(nullable: false, blank: false)
+    }
+}
+
+class UpdateNotificationsCommand {
+    boolean watchlist
+    boolean content
+    boolean comments
+
+    static constraints = {
+        watchlist(nullable: false, blank: false)
+        content(nullable: false, blank: false)
+        comments(nullable: false, blank: false)
     }
 }

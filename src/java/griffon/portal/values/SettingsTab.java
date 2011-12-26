@@ -27,7 +27,8 @@ import java.util.List;
 public enum SettingsTab {
     ACCOUNT,
     PROFILE,
-    PASSWORD;
+    PASSWORD,
+    NOTIFICATIONS;
 
     public String getName() {
         return name().toLowerCase();

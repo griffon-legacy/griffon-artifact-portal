@@ -238,13 +238,15 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         Watcher watcher = Watcher.findByArtifact(pArtifact)
         if (watcher?.users) {
             List users = watcher.users.collect([]) { User user ->
-                [username: user.username, email: user.email]
+                [username: user.username, email: user.email, notify: user.profile.notifications.watchlist]
             }
             String serverURL = grailsApplication.config.serverURL
             SimpleTemplateEngine engine = new SimpleTemplateEngine()
             def template = engine.createTemplate(grailsApplication.config.template.release.posted.toString())
             executorService.withoutPersistence {
                 users.each { user ->
+                    if (!user.notify || artifactInfo.username == user.username) return
+
                     try {
                         mailService.sendMail {
                             to user.email

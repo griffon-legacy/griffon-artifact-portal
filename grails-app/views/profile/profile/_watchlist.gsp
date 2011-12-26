@@ -1,4 +1,4 @@
-<%@ page import="grails.util.GrailsNameUtils" %>
+<%@ page import="griffon.portal.values.SettingsTab; grails.util.GrailsNameUtils" %>
 
 <%
   String listSpan = profileInstance.twitter ? 'span11' : 'span16'
@@ -7,6 +7,16 @@
 <div class="<%=listSpan%>">
   <div class="row">
     <div class="<%=listSpan%>">
+      <%
+        def notificationsState = profileInstance.notifications.watchlist ? 'enabled' : 'disabled'
+        def notificationsClass = profileInstance.notifications.watchlist ? 'success' : 'important'
+      %>
+      <p>
+        Your watchlist is currently <span
+              class="label ${notificationsClass}">${notificationsState}</span>. You can change this in your <g:link
+              controller="profile" action="settings" mapping="settings"
+              params="[username: profileInstance.user.username, tab: SettingsTab.NOTIFICATIONS.name]">settings</g:link>.
+      </p>
       <g:if test="${watchlistList}">
       <%-- preload images --%>
         <g:img dir="images" file="watch_off.png" style="display: none"/>

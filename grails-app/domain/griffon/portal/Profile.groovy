@@ -27,8 +27,11 @@ class Profile {
     String website
     String twitter
     User user
+    Notifications notifications = new Notifications()
 
     static belongsTo = User
+
+    static embedded = ['notifications']
 
     static constraints = {
         bio(nullable: true, blank: false, maxSize: 500)
@@ -45,6 +48,20 @@ class Profile {
                 twitter: twitter,
                 bio: bio,
                 user: user
+        ]
+    }
+}
+
+class Notifications {
+    boolean watchlist = true
+    boolean content = true
+    boolean comments = true
+
+    String toString() {
+        [
+                watchlist: watchlist,
+                content: content,
+                comments: comments
         ]
     }
 }
