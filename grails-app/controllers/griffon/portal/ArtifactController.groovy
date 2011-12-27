@@ -16,15 +16,20 @@
 
 package griffon.portal
 
+import com.naleid.grails.MarkdownService
 import grails.converters.JSON
 import griffon.portal.auth.User
 import griffon.portal.stats.DownloadTotal
+import griffon.portal.values.ArtifactTab
 import griffon.portal.values.Category
 
 /**
  * @author Andres Almiray
  */
 class ArtifactController {
+    MarkdownService markdownService
+    NotifyService notifyService
+
     def watch() {
         User user = session.user ? User.get(session.user.id) : null
         Artifact artifact = Artifact.get(params.id)
@@ -58,6 +63,37 @@ class ArtifactController {
         } else {
             render([code: 'OK', tags: artifact.tags.sort().join(', ')] as JSON)
         }
+    }
+
+    def preview_comment() {
+        try {
+            render([
+                    code: 'OK',
+                    html: markdownService.markdown(params.commentPreview)
+            ] as JSON)
+        } catch (Exception e) {
+            render([
+                    code: 'ERROR'
+            ] as JSON)
+        }
+    }
+
+    def post_comment() {
+        String html = markdownService.markdown(params.commentSource)
+        Artifact artifact = null
+        switch (params.type) {
+            case 'plugin':
+                artifact = Plugin.findByName(params.name)
+                break
+            case 'archetype':
+                artifact = Archetype.findByName(params.name)
+                break
+        }
+        artifact.addComment(session.user, html)
+
+        notifyService.notifyOnNewComment(artifact, session.user)
+
+        redirect(controller: artifact.type, action: 'show', params: [name: params.name, tab: ArtifactTab.COMMENTS.name])
     }
 
     // --== CATEGORIES == --

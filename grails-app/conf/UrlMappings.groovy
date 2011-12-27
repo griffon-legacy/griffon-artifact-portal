@@ -63,6 +63,8 @@ class UrlMappings {
             }
         }
 
+        name comment_preview: '/artifact/comment/preview'(controller: 'artifact', action: 'preview_comment')
+        name comment_post: "/artifact/comment/post/$name"(controller: 'artifact', action: 'post_comment')
         name watch_artifact: "/artifact/watch/$id"(controller: 'artifact', action: 'watch')
         name tag_artifact: "/artifact/tag/$id"(controller: 'artifact', action: 'tag')
         name list_tagged_plugins: "/tags/plugins/$tagName"(controller: 'artifact', action: 'list_tagged') {

@@ -21,11 +21,7 @@
 beans = {
     passwordAuthenticator(org.codehaus.griffon.portal.ssh.PasswordAuthenticator)
 
-    artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl) {
-        grailsApplication = ref('grailsApplication')
-        executorService = ref('executorService')
-        mailService = ref('mailService')
-    }
+    artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl)
 
     sshd(org.codehaus.griffon.portal.spring.SshServerFactory) {
         grailsApplication = ref('grailsApplication')

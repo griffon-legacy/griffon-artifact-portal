@@ -17,13 +17,15 @@
 package griffon.portal
 
 import grails.util.GrailsNameUtils
+import griffon.portal.auth.User
+import org.grails.comments.Commentable
 import org.grails.rateable.Rateable
 import org.grails.taggable.Taggable
 
 /**
  * @author Andres Almiray
  */
-class Artifact implements Rateable, Taggable {
+class Artifact implements Rateable, Taggable, Commentable {
     String name
     String title
     String description
@@ -80,5 +82,14 @@ class Artifact implements Rateable, Taggable {
                 source: source,
                 docs: docs
         ]
+    }
+
+    static List<User> findAllAuthorsAsUsers(Artifact artifact) {
+        List<User> users = []
+        artifact.authors.each { Author author ->
+            User user = User.findByEmail(author.email)
+            if (user) users << user
+        }
+        users
     }
 }

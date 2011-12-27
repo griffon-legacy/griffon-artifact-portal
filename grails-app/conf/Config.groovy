@@ -20,8 +20,8 @@ grails.mail.default.from = 'theaviary@griffon.codehaus.org'
 
 grails {
     mail {
-        host     = 'smtp.gmail.com'
-        port     = 465
+        host = 'smtp.gmail.com'
+        port = 465
         username = 'changeme@gmail.com'
         password = 'changeme'
         props = [
@@ -66,6 +66,23 @@ template.release.posted = '''
     </html>
 '''.stripIndent(4).trim()
 
+template.comment.posted = '''
+    <html>
+    <body>
+    <h2>Hello there!</h2>
+
+    <p><a href="${serverURL}/profile/${poster}">${poster}</a> has left you a comment regarding your ${capitalizedName} ${type}.<br/>
+    You can read the post at the <a href="${serverURL}/${type}/${name}/comments">${type}'s page</a>.</p>
+    <p>&nbsp;</p>
+    <p>If you no longer wish to receive messages whenever a new comment is posted then log into your
+    <a href="${serverURL}/profile/${username}">profile</a> and uncheck this type of notifications.</p>
+    <p>&nbsp;</p>
+    <p>Have a nice day!</p>
+    </body>
+    </html>
+'''.stripIndent(4).trim()
+
+
 // ###################################################################
 //
 //    !!! DO NOT EDIT BEYOND THIS POINT !!!
@@ -73,6 +90,8 @@ template.release.posted = '''
 // ###################################################################
 
 grails.rateable.rater.evaluator = { session.user }
+
+grails.commentable.poster.evaluator = { session.user }
 
 avatarPlugin {
     defaultGravatarUrl = '/images/griffon-icon-128x128.grayscale.png'

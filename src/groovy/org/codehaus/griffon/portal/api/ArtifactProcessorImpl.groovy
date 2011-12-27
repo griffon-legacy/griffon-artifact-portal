@@ -16,25 +16,16 @@
 
 package org.codehaus.griffon.portal.api
 
-import grails.plugin.executor.PersistenceContextExecutorWrapper
-import grails.util.GrailsNameUtils
-import grails.util.GrailsUtil
-import griffon.portal.auth.User
 import griffon.portal.stats.Upload
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
-import groovy.text.SimpleTemplateEngine
-import groovy.transform.Synchronized
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
-import org.grails.mail.MailService
 import org.pegdown.PegDownProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.twitter4j.grails.plugin.Twitter4jService
 import griffon.portal.*
 
 /**
@@ -43,10 +34,7 @@ import griffon.portal.*
 class ArtifactProcessorImpl implements ArtifactProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactProcessorImpl)
 
-    private Twitter4jService twitter4jService
-    GrailsApplication grailsApplication
-    PersistenceContextExecutorWrapper executorService
-    MailService mailService
+    NotifyService notifyService
 
     void process(ArtifactInfo artifactInfo) throws IOException {
         for (artifact in ['plugin', 'archetype']) {
@@ -226,55 +214,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                 type: json.type
         ).saveIt()
 
-        try {
-            if (grailsApplication.config.twitter.enabled) {
-                String url = "http://${grailsApplication.config.grails.serverURL}/${json.type}/${json.name}"
-                getTwitter4jService().updateStatus("#griffon $json.name $json.version released $url")
-            }
-        } catch (Exception e) {
-            LOG.error("Could not update Twitter status for ${json.name}-${json.version}", e)
-        }
-
-        Watcher watcher = Watcher.findByArtifact(pArtifact)
-        if (watcher?.users) {
-            List users = watcher.users.collect([]) { User user ->
-                [username: user.username, email: user.email, notify: user.profile.notifications.watchlist]
-            }
-            String serverURL = grailsApplication.config.serverURL
-            SimpleTemplateEngine engine = new SimpleTemplateEngine()
-            def template = engine.createTemplate(grailsApplication.config.template.release.posted.toString())
-            executorService.withoutPersistence {
-                users.each { user ->
-                    if (!user.notify || artifactInfo.username == user.username) return
-
-                    try {
-                        mailService.sendMail {
-                            to user.email
-                            subject "[ANN] ${GrailsNameUtils.getNaturalName(json.type)} ${json.name}-${json.version} released"
-                            html template.make(
-                                    serverURL: serverURL,
-                                    capitalizedType: GrailsNameUtils.getNaturalName(json.type),
-                                    capitalizedName: GrailsNameUtils.getNaturalName(json.name),
-                                    name: json.name,
-                                    version: json.version,
-                                    type: json.type,
-                                    poster: artifactInfo.username,
-                                    username: user.username
-                            ).toString()
-                        }
-                    } catch (Exception e) {
-                        LOG.error("An error ocurred while sending release update (${json.name}-${json.version}) to ${user.email} (${user.username})", GrailsUtil.sanitize(e))
-                    }
-                }
-            }
-        }
-    }
-
-    @Synchronized
-    private Twitter4jService getTwitter4jService() {
-        if (twitter4jService == null) {
-            twitter4jService = grailsApplication.mainContext.twitter4jService
-        }
-        twitter4jService
+        notifyService.tweetRelease(json.type, json.name, json.version)
+        notifyService.notifyWatchers(release, artifactInfo.username)
     }
 }

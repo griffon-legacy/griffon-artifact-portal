@@ -17,12 +17,12 @@
 </div>
 
 <div class="row">
-  <div class="span12">
+  <div class="span10">
     <g:render template="/artifact/common/artifact_header_properties"
               model="[artifactInstance: archetypeInstance, downloads: downloads]"/>
   </div>
 
-  <div class="span4">
+  <div class="span6">
     <g:render template="/artifact/common/authored_by" bean="${authorList}" model="[authorList: authorList]"/>
   </div>
 </div>

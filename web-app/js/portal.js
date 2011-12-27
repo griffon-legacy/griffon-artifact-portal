@@ -2,6 +2,10 @@ function isEmpty(str) {
     return (!str || 0 === str.length || /^\s*$/.test(str));
 }
 
+function endsWith(str, suffix) {
+    return str.length >= suffix.length && str.substr(str.length - suffix.length) == suffix;
+}
+
 function checkLogin() {
     var username = $('#username').val();
     var password = $('#passwd').val();
@@ -30,5 +34,15 @@ function handleTagsResponse(data) {
         $('#tags-apply').toggleClass('primary info', true);
         $('#tags-apply').attr('disabled', true);
         $('#artifact-tags').html(data.tags);
+    }
+}
+
+function handleCommentPreview(data) {
+    if (data.code == 'ERROR') {
+        $('#preview-error').html('<p>An error occurred processing your request. Please try again.</p>');
+        $('#preview-error').show();
+    } else if (data.code == 'OK') {
+        $('#preview-error').hide();
+        $('#comment-preview').html(data.html);
     }
 }

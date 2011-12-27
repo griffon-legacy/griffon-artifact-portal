@@ -16,7 +16,7 @@
                                                                                         field="source"/></a>
     </g:if>
     <g:else>
-      No source link specified
+      No source link provided
     </g:else>
   </span>
 </div>
