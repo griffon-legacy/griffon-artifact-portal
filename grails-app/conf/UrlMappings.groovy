@@ -81,6 +81,7 @@ class UrlMappings {
         name show_release: "/release/show/$id"(controller: 'release', action: 'show')
         name download_release: "/release/download/$id"(controller: 'release', action: 'download')
         name display_release: "/release/$type/$name/$version"(controller: 'release', action: 'display')
+        name download_package: "/package/$type/$name/$version"(controller: 'release', action: 'download_package')
 
         "/$controller/$action?/$id?" {
             constraints {

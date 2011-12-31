@@ -30,6 +30,7 @@
       <li><a href="#download">Download</a>
         <ul>
           <li><a href="#artifacts">Artifacts</a></li>
+          <li><a href="#stats">Stats</a></li>
         </ul>
       </li>
       <li><a href="#repository">Repository</a>
@@ -42,7 +43,7 @@
   </div>
 </div>
 
-<br clear="all"/><br clear="all"/>
+<br/><br/>
 
 <section id="basics">
   <div class="page-header">
@@ -58,7 +59,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins</code><br clear="all"/><br clear="all"/>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -80,7 +81,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i http://localhost:8080/griffon-artifact-portal/api/plugins/bogus</code><br clear="all"/><br clear="all"/>
+      <code>$ curl -i http://localhost:8080/griffon-artifact-portal/api/plugins/bogus</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 404 Not Found
         Server: Apache-Coyote/1.1
@@ -101,7 +102,7 @@
   </div>
 </section>
 
-<br clear="all"/><br clear="all"/>
+<br/><br/>
 
 <section id="queries">
   <div class="page-header">
@@ -120,7 +121,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins</code><br clear="all"/><br clear="all"/>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -133,6 +134,7 @@
                 "name": "glazedlists",
                 "title": "Adds GlazedLists support to Views",
                 "license": "Apache Software License 2.0",
+                "source": "",
                 "toolkits": "swing",
                 "platforms": "",
                 "dependencies": [
@@ -175,7 +177,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists</code><br clear="all"/><br clear="all"/>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -188,6 +190,7 @@
             "title": "Adds GlazedLists support to Views",
             "description": "Adds GlazedLists support to Views",
             "license": "Apache Software License 2.0",
+            "source": "",
             "toolkits": "swing",
             "platforms": "",
             "dependencies": [
@@ -229,7 +232,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/0.8.3</code><br clear="all"/><br clear="all"/>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/0.8.3</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -242,6 +245,7 @@
             "title": "Adds GlazedLists support to Views",
             "description": "Adds GlazedLists support to Views",
             "license": "Apache Software License 2.0",
+            "source": "",
             "toolkits": "swing",
             "platforms": "",
             "dependencies": [
@@ -266,11 +270,43 @@
                 }
         }
       </pre>
+
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/archetypes/swt/0.1</code><br/><br/>
+      <pre class="prettyprint">
+        HTTP/1.1 200 OK
+        Server: Apache-Coyote/1.1
+        Content-Type: application/json;charset=UTF-8
+        Transfer-Encoding: chunked
+        Date: Tue, 20 Dec 2011 12:20:40 GMT
+
+        {
+            "name": "swt",
+            "title": "Initializes an application with SWT support",
+            "description": "Initializes an application with SWT support",
+            "license": "Apache Software License 2.0",
+            "source": "",
+            "authors": [
+                {
+                    "name": "Andres Almiray",
+                    "email": "aalmiray@yahoo.com"
+                }
+            ],
+            "release":
+                {
+                    "version": "0.1",
+                    "griffonVersion": "0.9.5 > *",
+                    "date": "2011-12-20T13:39:45+0100",
+                    "checksum": "bf05ac0ad0bfedeeeacbf53c7f0c884b"
+                    "comment": "First release"
+                }
+        }
+      </pre>
+
     </div>
   </div>
 </section>
 
-<br clear="all"/><br clear="all"/>
+<br/><br/>
 
 <section id="download">
   <div class="page-header">
@@ -288,7 +324,7 @@
 
     <div class="span11">
       <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/0.8.3</code>
-      <br clear="all"/><br clear="all"/>
+      <br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -304,9 +340,59 @@
       </pre>
     </div>
   </div>
+
+  <div class="row" id="stats">
+    <div class="span5">
+      <h2>Stats</h2>
+
+      <p>Should you choose to help us gather download data that can be used to provide better services in the future please add any of the following HTTP headers to the download instructions.
+      </p>
+    </div>
+
+    <div class="span11">
+      <code>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/0.8.3</code>
+      <br/><br/>
+      <table class="condensed-table">
+        <thead>
+        <th>Name</th>
+        <th>Value</th>
+        </thead>
+        <tbody>
+        <tr>
+          <td>X-Griffon-Version</td>
+          <td>Metadata.current.getGriffonVersion()</td>
+        </tr>
+        <tr>
+          <td>X-Java-Version</td>
+          <td>System.getProperty('java.version')</td>
+        </tr>
+        <tr>
+          <td>X-Os-Name</td>
+          <td>System.getProperty('os.name')</td>
+        </tr>
+        <tr>
+          <td>X-Os-Version</td>
+          <td>System.getProperty('os.version')</td>
+        </tr>
+        <tr>
+          <td>X-Os-arch</td>
+          <td>System.getProperty('os.arch')</td>
+        </tr>
+        <tr>
+          <td>X-Java-Vm-Version</td>
+          <td>System.getProperty('java.vm.version')</td>
+        </tr>
+        <tr>
+          <td>X-Java-Vm-Name</td>
+          <td>System.getProperty('java.vm.name')</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </section>
 
-<br clear="all"/><br clear="all"/>
+<br/><br/>
 
 <section id="repository">
   <div class="page-header">

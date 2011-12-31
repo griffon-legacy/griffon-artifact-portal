@@ -17,7 +17,9 @@
 package griffon.portal
 
 import grails.converters.JSON
+import griffon.portal.auth.User
 import griffon.portal.stats.Download
+import static grails.util.GrailsNameUtils.isBlank
 
 /**
  * @author Andres Almiray
@@ -156,10 +158,15 @@ class ApiController {
         File file = new File(releasePath)
         byte[] content = file.bytes
 
+        String username = request.getHeader('x-username')?.trim()
+        if (isBlank(username) || !User.findByUsername(username)) {
+            username = 'GRIFFON_API'
+        }
+
         response.contentType = 'text/plain'
         if (!params.md5) {
             new Download(
-                    username: 'GRIFFON_API',
+                    username: username,
                     release: release,
                     type: params.type,
                     userAgent: request.getHeader('user-agent'),
@@ -173,7 +180,7 @@ class ApiController {
                     griffonVersion: request.getHeader('x-griffon-version')
             ).saveIt()
 
-            response.contentType = 'application/octet-stream'
+            response.contentType = 'application/zip'
             response.setHeader('Cache-Control', 'must-revalidate')
         }
 
@@ -196,8 +203,9 @@ class ApiController {
 
         map + [
                 license: plugin.license,
-                toolkits: plugin.toolkits,
-                platforms: plugin.platforms,
+                source: plugin.source ?: '',
+                toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
+                platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
                 dependencies: plugin.dependencies.inject([]) { l, entry ->
                     l << [name: entry.key, version: entry.value]
                     l
@@ -219,6 +227,7 @@ class ApiController {
 
         map + [
                 license: archetype.license,
+                source: archetype.source ?: '',
                 authors: archetype.authors.collect([]) { Author author ->
                     [name: author.name, email: author.email]
                 }

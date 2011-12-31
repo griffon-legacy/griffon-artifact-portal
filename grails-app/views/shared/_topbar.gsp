@@ -7,7 +7,7 @@
                 align="left"/>&nbsp;Griffon</a>
         <%
           def isHomeActive = {->
-            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api']) ? 'active' : ''
+            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api', 'artifact']) ? 'active' : ''
           }
           def isMenuActive = { String tabName ->
             params?.controller == tabName ? 'active' : ''

@@ -68,13 +68,13 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         try {
             switch (artifactType) {
                 case 'plugin':
-                    verifyArtifact(artifactInfo.zipFile, json)
+                    verifyArtifact(artifactInfo, json)
                     withTransaction {
                         handlePlugin(artifactInfo, json)
                     }
                     break
                 case 'archetype':
-                    verifyArtifact(artifactInfo.zipFile, json)
+                    verifyArtifact(artifactInfo, json)
                     withTransaction {
                         handleArchetype(artifactInfo, json)
                     }
@@ -95,7 +95,8 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
     }
 
-    private void verifyArtifact(ZipFile zipFile, json) {
+    private void verifyArtifact(ArtifactInfo artifactInfo, json) {
+        ZipFile zipFile = artifactInfo.zipFile
         String fileName = "griffon-${json.name}-${json.version}.zip"
         ZipEntry artifactFileEntry = zipFile.getEntry(fileName)
         ZipEntry md5ChecksumEntry = zipFile.getEntry("${fileName}.md5")
@@ -131,6 +132,13 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             new File(formattedReleaseNotesPath).text = new PegDownProcessor().markdownToHtml(zipFile.getInputStream(releaseNotesEntry).text)
             json.releaseNotes = zipFile.getInputStream(releaseNotesEntry).text
         }
+
+        basePath = "/WEB-INF/packages/${json.type}/${json.name}/${json.version}/"
+        String packageFilePath = ServletContextHolder.servletContext.getRealPath("${basePath}${fileName}")
+        File packageFile = new File(packageFilePath)
+        packageFile.getParentFile().mkdirs()
+        os = new FileOutputStream(packageFilePath)
+        os.bytes = artifactInfo.file.bytes
     }
 
     private void handlePlugin(ArtifactInfo artifactInfo, json) {

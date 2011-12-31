@@ -5,7 +5,7 @@
 </div>
 
 <g:if test="${!session.user}">
-  <g:link controller="user" action="login" mapping="signin"
+  <g:link controller="user" action="login" mapping="signin" class="btn primary"
           params="[originalURI: (request.forwardURI - application.contextPath)]">Post a comment</g:link>
 </g:if>
 <g:else>

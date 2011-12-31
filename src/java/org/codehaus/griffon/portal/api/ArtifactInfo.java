@@ -16,6 +16,8 @@
 
 package org.codehaus.griffon.portal.api;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.zip.ZipFile;
 
 /**
@@ -23,15 +25,21 @@ import java.util.zip.ZipFile;
  */
 public final class ArtifactInfo {
     private final ZipFile zipFile;
+    private final File file;
     private final String artifactName;
     private final String artifactVersion;
     private final String username;
 
-    public ArtifactInfo(ZipFile zipFile, String artifactName, String artifactVersion, String username) {
-        this.zipFile = zipFile;
+    public ArtifactInfo(File file, String artifactName, String artifactVersion, String username) throws IOException {
+        this.file = file;
+        this.zipFile = new ZipFile(file);
         this.artifactVersion = artifactVersion;
         this.artifactName = artifactName;
         this.username = username;
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public ZipFile getZipFile() {

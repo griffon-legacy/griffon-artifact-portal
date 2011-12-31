@@ -22,7 +22,6 @@ import griffon.portal.stats.Download
 import griffon.portal.stats.DownloadTotal
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import java.util.zip.ZipFile
 import javax.servlet.http.HttpServletRequest
 import org.codehaus.griffon.portal.api.ArtifactInfo
 import org.codehaus.griffon.portal.api.ArtifactProcessor
@@ -131,7 +130,34 @@ class ReleaseController {
         ).saveIt()
 
         Date lastModified = new Date(file.lastModified())
-        response.contentType = 'application/octet-stream'
+        response.contentType = 'application/zip'
+        response.contentLength = content.length
+        response.setHeader('Cache-Control', 'must-revalidate')
+        response.setHeader('Accept-Ranges', 'bytes')
+        response.setHeader('Last-Modified', lastModified.format('EEE, dd MMM yyyy HH:mm:ss z'))
+        response.setHeader('Content-disposition', "attachment; filename=${fileName}")
+        response.outputStream << content
+    }
+
+    def download_package() {
+        if (!params.type || !params.name || !params.version) {
+            redirect(uri: '/')
+            return
+        }
+
+        String basePath = "/WEB-INF/packages/${params.type}/${params.name}/${params.version}/"
+        String fileName = "griffon-${params.name}-${params.version}.zip"
+        String packagePath = servletContext.getRealPath("${basePath}${fileName}")
+        File file = new File(packagePath)
+        if (!file.exists()) {
+            // should result in 404
+            redirect(uri: '/')
+            return
+        }
+
+        byte[] content = file.bytes
+        Date lastModified = new Date(file.lastModified())
+        response.contentType = 'application/zip'
         response.contentLength = content.length
         response.setHeader('Cache-Control', 'must-revalidate')
         response.setHeader('Accept-Ranges', 'bytes')
@@ -155,7 +181,7 @@ class ReleaseController {
             tmpFile << inputStream
 
             artifactProcessor.process(new ArtifactInfo(
-                    new ZipFile(tmpFile.getAbsolutePath()),
+                    tmpFile,
                     artifactName,
                     artifactVersion,
                     session.user.username))
