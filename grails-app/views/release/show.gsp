@@ -1,4 +1,4 @@
-<%@ page import="org.pegdown.PegDownProcessor" %>
+<%@ page import="grails.util.GrailsNameUtils" %>
 <!doctype html>
 <html>
 <head>
@@ -38,6 +38,21 @@
             class="property-label">${message(code: 'release.checksum.label', default: 'Checksum')}</span>
       <span class="property-value" aria-labelledby="checksum-label">
         <g:fieldValue bean="${releaseInstance}" field="checksum"/>
+      </span>
+    </div>
+
+    <div class="fieldcontain">
+      <span id="dependencies-label" class="property-label"><g:message code="release.dependencies.label"
+                                                                      default="Dependencies"/></span>
+      <span class="property-value" aria-labelledby="dependencies-label">
+        <g:if test="${!releaseInstance.dependencies}">
+          NONE
+        </g:if>
+        <g:each in="${releaseInstance.dependencies}" var="dependency">
+          <g:link controller="plugin" action="show" params="[name: dependency.key]">
+            ${GrailsNameUtils.getNaturalName(dependency.key)}
+          </g:link>
+        </g:each>
       </span>
     </div>
 

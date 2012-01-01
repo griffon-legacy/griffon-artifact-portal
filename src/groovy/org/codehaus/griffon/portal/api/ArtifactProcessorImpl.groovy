@@ -152,10 +152,6 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             license = json.license
             toolkits = json.toolkits.join(',')
             platforms = json.platforms.join(',')
-            dependencies = json.dependencies.inject([:]) {m, dep ->
-                m[dep.name] = dep.version
-                m
-            }
         }
 
         handleAuthors(plugin, json)
@@ -214,6 +210,13 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             artifact = pArtifact
             releaseNotes = json.releaseNotes ?: ''
         }
+        if (json.dependencies) {
+            release.dependencies = json.dependencies.inject([:]) {m, dep ->
+                m[dep.name] = dep.version
+                m
+            }
+        }
+
         release.save()
 
         new Upload(

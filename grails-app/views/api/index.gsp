@@ -136,13 +136,7 @@
                 "license": "Apache Software License 2.0",
                 "source": "",
                 "toolkits": "swing",
-                "platforms": "",
-                "dependencies": [
-                    {
-                        "name": "swing",
-                        "version": "0.9.5"
-                    }
-                ],
+                "platforms": ""
                 "authors": [
                     {
                         "name": "Andres Almiray",
@@ -151,11 +145,17 @@
                 ],
                 "releases": [
                     {
-                        "version": "0.8.3",
-                        "griffonVersion": "0.9.4 > *",
+                        "version": "1.0",
+                        "griffonVersion": "0.9.5 > *",
                         "date": "2011-12-20T13:39:45+0100",
                         "checksum": "bf05ac0ad0bfedeeeacbf53c7f0c884b"
-                        "comment": "First release"
+                        "comment": "First release",
+		                "dependencies": [
+		                    {
+		                        "name": "swing",
+		                        "version": "0.9.5"
+		                    }
+		                ]
                     }
                 ]
             }
@@ -192,13 +192,7 @@
             "license": "Apache Software License 2.0",
             "source": "",
             "toolkits": "swing",
-            "platforms": "",
-            "dependencies": [
-                {
-                    "name": "swing",
-                    "version": "0.9.5"
-                }
-            ],
+            "platforms": ""
             "authors": [
                 {
                     "name": "Andres Almiray",
@@ -207,11 +201,17 @@
             ],
             "releases": [
                 {
-                    "version": "0.8.3",
-                    "griffonVersion": "0.9.4 > *",
+                    "version": "1.0",
+                    "griffonVersion": "0.9.5 > *",
                     "date": "2011-12-20T13:39:45+0100",
                     "checksum": "bf05ac0ad0bfedeeeacbf53c7f0c884b"
-                    "comment": "First release"
+                    "comment": "First release",
+	                "dependencies": [
+	                    {
+	                        "name": "swing",
+	                        "version": "0.9.5"
+	                    }
+	                ]
                 }
             ]
         }
@@ -232,7 +232,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/0.8.3</code><br/><br/>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -247,13 +247,7 @@
             "license": "Apache Software License 2.0",
             "source": "",
             "toolkits": "swing",
-            "platforms": "",
-            "dependencies": [
-                {
-                    "name": "swing",
-                    "version": "0.9.5"
-                }
-            ],
+            "platforms": ""
             "authors": [
                 {
                     "name": "Andres Almiray",
@@ -262,11 +256,17 @@
             ],
             "release":
                 {
-                   "version": "0.8.3",
-                   "griffonVersion": "0.9.4 > *",
-                   "date": "2011-12-20T13:39:45+0100",
-                   "checksum": "bf05ac0ad0bfedeeeacbf53c7f0c884b"
-                   "comment": "First release"
+                    "version": "1.0",
+                    "griffonVersion": "0.9.5 > *",
+                    "date": "2011-12-20T13:39:45+0100",
+                    "checksum": "bf05ac0ad0bfedeeeacbf53c7f0c884b"
+                    "comment": "First release",
+	                "dependencies": [
+	                    {
+	                        "name": "swing",
+	                        "version": "0.9.5"
+	                    }
+	                ]
                 }
         }
       </pre>
@@ -297,7 +297,8 @@
                     "griffonVersion": "0.9.5 > *",
                     "date": "2011-12-20T13:39:45+0100",
                     "checksum": "bf05ac0ad0bfedeeeacbf53c7f0c884b"
-                    "comment": "First release"
+                    "comment": "First release",
+                    "dependencies": []
                 }
         }
       </pre>
@@ -323,7 +324,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/0.8.3</code>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/1.0</code>
       <br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
@@ -331,7 +332,7 @@
         Cache-Control: must-revalidate
         Accept-Ranges: bytes
         Last-Modified: Tue, 20 Dec 2011 13:39:45 CET
-        Content-disposition: attachment; filename=griffon-glazedlists-0.8.3.zip
+        Content-disposition: attachment; filename=griffon-glazedlists-1.0.zip
         Content-Type: application/octet-stream
         Content-Length: 173550
         Date: Tue, 20 Dec 2011 13:20:22 GMT
@@ -350,7 +351,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/0.8.3</code>
+      <code>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/1.0</code>
       <br/><br/>
       <table class="condensed-table">
         <thead>

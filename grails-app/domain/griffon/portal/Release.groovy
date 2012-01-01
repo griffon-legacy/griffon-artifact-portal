@@ -25,6 +25,7 @@ class Release {
     String comment
     String checksum
     String releaseNotes
+    Map dependencies
     Artifact artifact
 
     Date dateCreated
@@ -36,6 +37,7 @@ class Release {
         comment(nullable: false, blank: false)
         checksum(nullable: false, blank: false)
         artifact(nullable: false)
+        dependencies(nullable: true)
     }
 
     static mapping = {
@@ -50,7 +52,8 @@ class Release {
                 comment: comment,
                 checksum: checksum,
                 date: dateCreated,
-                artifact: artifact
+                artifact: artifact,
+                dependencies: dependencies
         ]
     }
 }

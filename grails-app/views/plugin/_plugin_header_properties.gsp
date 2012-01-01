@@ -1,4 +1,4 @@
-<%@ page import="griffon.portal.values.Toolkit; griffon.portal.values.Platform; grails.util.GrailsNameUtils" %>
+<%@ page import="griffon.portal.values.Toolkit; griffon.portal.values.Platform" %>
 <div class="fieldcontain">
   <span id="toolkits-label" class="property-label"><g:message code="plugin.toolkits.label"
                                                               default="Toolkits"/></span>
@@ -28,19 +28,4 @@
       </li>
     </g:each>
   </ul>
-</div>
-
-<div class="fieldcontain">
-  <span id="dependencies-label" class="property-label"><g:message code="plugin.dependencies.label"
-                                                                  default="Dependencies"/></span>
-  <span class="property-value" aria-labelledby="dependencies-label">
-    <g:if test="${!pluginInstance.dependencies}">
-      NONE
-    </g:if>
-    <g:each in="${pluginInstance.dependencies}" var="dependency">
-      <g:link controller="plugin" action="show" params="[name: dependency.key]">
-        ${GrailsNameUtils.getNaturalName(dependency.key)}
-      </g:link>
-    </g:each>
-  </span>
 </div>

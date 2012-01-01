@@ -297,7 +297,7 @@ a.skip {
 }
 
 .artifact {
-    width: 620px;
+    /*width: 620px;*/
     background: #FFFFFF;
     color: #333333;
     margin: 0px auto;

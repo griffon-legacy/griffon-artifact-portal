@@ -206,10 +206,6 @@ class ApiController {
                 source: plugin.source ?: '',
                 toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
                 platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
-                dependencies: plugin.dependencies.inject([]) { l, entry ->
-                    l << [name: entry.key, version: entry.value]
-                    l
-                },
                 authors: plugin.authors.collect([]) { Author author ->
                     [name: author.name, email: author.email]
                 }
@@ -240,7 +236,11 @@ class ApiController {
                 griffonVersion: release.griffonVersion,
                 date: release.dateCreated.format(TIMESTAMP_FORMAT),
                 checksum: release.checksum,
-                comment: release.comment
+                comment: release.comment,
+                dependencies: release.dependencies.inject([]) { l, entry ->
+                    l << [name: entry.key, version: entry.value]
+                    l
+                },
         ]
     }
 }
