@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
     private static final String ARTIFACT_REGEX = "griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\.zip";
     private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^" + ARTIFACT_REGEX + "$");
-    private static final Pattern FILE_PATTERN = Pattern.compile("^/tmp/" + ARTIFACT_REGEX + "$");
+    private static final Pattern FILE_PATTERN = Pattern.compile(ARTIFACT_REGEX + "$");
 
     private final ArtifactProcessor artifactProcessor;
     private String username;
@@ -176,7 +176,7 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
 
     private void doWriteFile(String header, SshFile path) throws IOException {
         if (log.isDebugEnabled()) {
-            log.debug("Writing file {}", path);
+            log.debug("Writing file {}", path.getName());
         }
         if (!header.startsWith("C")) {
             throw new IOException("Expected a C message but got '" + header + "'");
@@ -186,22 +186,15 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
         long length = Long.parseLong(header.substring(6, header.indexOf(' ', 6)));
         String name = header.substring(header.indexOf(' ', 6) + 1);
 
-        SshFile file;
-        if (path.doesExist() && path.isDirectory()) {
-            file = root.getFile(path, name);
-        } else if (path.doesExist() && path.isFile()) {
-            file = path;
-        } else if (!path.doesExist() && path.getParentFile().doesExist() && path.getParentFile().isDirectory()) {
-            file = path;
-        } else {
-            throw new IOException("Can not write to " + path);
-        }
-        if (file.doesExist() && file.isDirectory()) {
+        File tmpdir = new File(System.getProperty("java.io.tmpdir"));
+        File file = new File(tmpdir, path.getName());
+
+        if (file.exists() && file.isDirectory()) {
             throw new IOException("File is a directory: " + file);
-        } else if (file.doesExist() && !file.isWritable()) {
+        } else if (file.exists() && !file.canWrite()) {
             throw new IOException("Can not write to file: " + file);
         }
-        OutputStream os = file.createOutputStream(0);
+        OutputStream os = path.createOutputStream(0);
         try {
             ack();
 
