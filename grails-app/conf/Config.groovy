@@ -4,6 +4,9 @@
 //
 // ###################################################################
 
+packages.store.dir = '/tmp/griffon-artifact-portal/packages'
+releases.store.dir = '/tmp/griffon-artifact-portal/releases'
+
 twitter {
     enabled                    = false // enables Twitter status updates
     disableTwitter4jController = true

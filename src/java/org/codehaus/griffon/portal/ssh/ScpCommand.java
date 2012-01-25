@@ -34,7 +34,6 @@ import java.util.regex.Pattern;
 public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
     private static final String ARTIFACT_REGEX = "griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\.zip";
     private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^" + ARTIFACT_REGEX + "$");
-    private static final Pattern FILE_PATTERN = Pattern.compile(ARTIFACT_REGEX + "$");
 
     private final ArtifactProcessor artifactProcessor;
     private String username;
@@ -51,14 +50,13 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
     }
 
     protected void writeFile(String header, SshFile file) throws IOException {
-        if (!FILE_PATTERN.matcher(file.getAbsolutePath()).matches()) {
+        Matcher matcher = ARTIFACT_PATTERN.matcher(file.getName());
+        if (!matcher.find()) {
             throw new IOException("Not allowed: " + file.getAbsolutePath());
         }
 
         doWriteFile(header, file);
 
-        Matcher matcher = ARTIFACT_PATTERN.matcher(file.getName());
-        matcher.find();
         String artifactName = matcher.group(1);
         String artifactVersion = matcher.group(2);
         artifactProcessor.process(new ArtifactInfo(new File(file.getAbsolutePath()), artifactName, artifactVersion, username));

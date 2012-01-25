@@ -20,11 +20,11 @@ class UrlMappings {
         '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
         "/api/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}
-        "/api/plugins/$name/download/$version"(controller: 'api', action: 'download') { type = 'plugin'}
+        "/api/plugins/$name/$version/download"(controller: 'api', action: 'download') { type = 'plugin'}
         '/api/archetypes'(controller: 'api', action: 'list') { type = 'archetype' }
         "/api/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype' }
         "/api/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype' }
-        "/api/archetypes/$name/download/$version"(controller: 'api', action: 'download') { type = 'archetype' }
+        "/api/archetypes/$name/$version/download"(controller: 'api', action: 'download') { type = 'archetype' }
 
         '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}

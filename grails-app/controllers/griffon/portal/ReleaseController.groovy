@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest
 import org.codehaus.griffon.portal.api.ArtifactInfo
 import org.codehaus.griffon.portal.api.ArtifactProcessor
 import org.springframework.web.multipart.MultipartHttpServletRequest
+import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
+import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 
 /**
  * @author Andres Almiray
@@ -34,6 +36,7 @@ class ReleaseController {
     private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\.zip\$")
 
     ArtifactProcessor artifactProcessor
+    PreferencesService preferencesService
 
     def show() {
         if (!params.id) {
@@ -108,10 +111,10 @@ class ReleaseController {
 
         Artifact artifact = releaseInstance.artifact
         String type = GrailsNameUtils.getShortName(artifact.getClass()).toLowerCase()
-        String basePath = "/WEB-INF/releases/${type}/${artifact.name}/${releaseInstance.artifactVersion}/"
+        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
+        String basePath = "${releasesStoreDir}/${type}/${artifact.name}/${releaseInstance.artifactVersion}/"
         String fileName = "griffon-${artifact.name}-${releaseInstance.artifactVersion}.zip"
-        String releasePath = servletContext.getRealPath("${basePath}${fileName}")
-        File file = new File(releasePath)
+        File file = new File("${basePath}${fileName}")
         byte[] content = file.bytes
 
         new Download(
@@ -145,10 +148,10 @@ class ReleaseController {
             return
         }
 
-        String basePath = "/WEB-INF/packages/${params.type}/${params.name}/${params.version}/"
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        String basePath = "${packagesStoreDir}/${params.type}/${params.name}/${params.version}/"
         String fileName = "griffon-${params.name}-${params.version}.zip"
-        String packagePath = servletContext.getRealPath("${basePath}${fileName}")
-        File file = new File(packagePath)
+        File file = new File("${basePath}${fileName}")
         if (!file.exists()) {
             // should result in 404
             redirect(uri: '/')

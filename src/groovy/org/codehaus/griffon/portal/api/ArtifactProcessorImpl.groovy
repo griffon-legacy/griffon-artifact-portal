@@ -22,11 +22,12 @@ import groovy.json.JsonException
 import groovy.json.JsonSlurper
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.pegdown.PegDownProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import griffon.portal.*
+import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
+import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 
 /**
  * @author Andres Almiray
@@ -35,6 +36,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactProcessorImpl)
 
     NotifyService notifyService
+    PreferencesService preferencesService
 
     void process(ArtifactInfo artifactInfo) throws IOException {
         for (artifact in ['plugin', 'archetype']) {
@@ -117,9 +119,10 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             throw new IOException("Wrong checksum for ${fileName}")
         }
 
-        String basePath = "/WEB-INF/releases/${json.type}/${json.name}/${json.version}/"
-        String releaseFilePath = ServletContextHolder.servletContext.getRealPath("${basePath}${fileName}")
-        String md5ChecksumPath = ServletContextHolder.servletContext.getRealPath("${basePath}${fileName}.md5")
+        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
+        String basePath = "${releasesStoreDir}/${json.type}/${json.name}/${json.version}/"
+        String releaseFilePath = "${basePath}${fileName}"
+        String md5ChecksumPath = "${basePath}${fileName}.md5"
         new File(releaseFilePath).getParentFile().mkdirs()
         OutputStream os = new FileOutputStream(releaseFilePath)
         os.bytes = zipFile.getInputStream(artifactFileEntry).bytes
@@ -128,13 +131,14 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
         json.checksum = zipFile.getInputStream(md5ChecksumEntry).text
         if (releaseNotesEntry != null) {
-            String formattedReleaseNotesPath = ServletContextHolder.servletContext.getRealPath("${basePath}/README.html")
+            String formattedReleaseNotesPath = "${basePath}/README.html"
             new File(formattedReleaseNotesPath).text = new PegDownProcessor().markdownToHtml(zipFile.getInputStream(releaseNotesEntry).text)
             json.releaseNotes = zipFile.getInputStream(releaseNotesEntry).text
         }
 
-        basePath = "/WEB-INF/packages/${json.type}/${json.name}/${json.version}/"
-        String packageFilePath = ServletContextHolder.servletContext.getRealPath("${basePath}${fileName}")
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        basePath = "${packagesStoreDir}/${json.type}/${json.name}/${json.version}/"
+        String packageFilePath = "${basePath}${fileName}"
         File packageFile = new File(packageFilePath)
         packageFile.getParentFile().mkdirs()
         os = new FileOutputStream(packageFilePath)

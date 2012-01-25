@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
+package griffon.portal.config
+
 /**
  * @author Andres Almiray
  */
+class Preferences {
+    String key
+    String value
+    Date dateCreated
+    Date lastUpdated
 
-beans = {
-    passwordAuthenticator(org.codehaus.griffon.portal.ssh.PasswordAuthenticator)
-
-    artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl) {
-        notifyService = ref('notifyService')
-        preferencesService = ref('preferencesService')
+    String toString() {
+        "$key = $value"
     }
 
-    sshd(org.codehaus.griffon.portal.spring.SshServerFactory) {
-        grailsApplication = ref('grailsApplication')
-        passwordAuthenticator = ref('passwordAuthenticator')
-        artifactProcessor = ref('artifactProcessor')
+    static constraints = {
+        key(nullable: false, blank: false, unique: true)
+        value(nullable: true, blank: true)
     }
 }

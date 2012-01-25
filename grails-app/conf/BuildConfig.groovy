@@ -47,7 +47,8 @@ grails.project.dependency.resolution = {
                 ":taggable:1.0.1",
                 ":twitter-bootstrap:1.4.0.12",
                 ":twitter4j:0.2",
-                ":webxml:1.3.1"
+                ":webxml:1.3.1",
+                ":yui:2.8.2"
 
         build ":tomcat:$grailsVersion"
     }

@@ -318,13 +318,13 @@
     <div class="span5">
       <h2>Artifacts</h2>
 
-      <p>Use <code>/plugins/&lt;name&gt;/download/&lt;version&gt;</code> or <code>/archetypes/&lt;name&gt;/download/&lt;version&gt;</code> where <code>&lt;name&gt;</code> stands in
+      <p>Use <code>/plugins/&lt;name&gt;/&lt;version&gt;/download</code> or <code>/archetypes/&lt;name&gt;/&lt;version&gt;/download</code> where <code>&lt;name&gt;</code> stands in
       for the artifact you'd like to query; <code>&lt;version&gt;</code> stands in for a particular release.
       </p>
     </div>
 
     <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/1.0</code>
+      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0/download</code>
       <br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
@@ -351,7 +351,7 @@
     </div>
 
     <div class="span11">
-      <code>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' ${grailsApplication.config.serverURL}/api/plugins/glazedlists/download/1.0</code>
+      <code>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0/download</code>
       <br/><br/>
       <table class="condensed-table">
         <thead>

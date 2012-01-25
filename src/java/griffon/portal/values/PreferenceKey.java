@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
+package griffon.portal.values;
+
 /**
  * @author Andres Almiray
  */
-
-beans = {
-    passwordAuthenticator(org.codehaus.griffon.portal.ssh.PasswordAuthenticator)
-
-    artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl) {
-        notifyService = ref('notifyService')
-        preferencesService = ref('preferencesService')
-    }
-
-    sshd(org.codehaus.griffon.portal.spring.SshServerFactory) {
-        grailsApplication = ref('grailsApplication')
-        passwordAuthenticator = ref('passwordAuthenticator')
-        artifactProcessor = ref('artifactProcessor')
-    }
+public interface PreferenceKey {
+    String PACKAGES_STORE_DIR = "packages.store.dir";
+    String RELEASES_STORE_DIR = "releases.store.dir";
 }

@@ -20,6 +20,7 @@ import grails.converters.JSON
 import griffon.portal.auth.User
 import griffon.portal.stats.Download
 import static grails.util.GrailsNameUtils.isBlank
+import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 
 /**
  * @author Andres Almiray
@@ -32,6 +33,8 @@ class ApiController {
             list: 'GET',
             info: 'GET',
             download: 'GET']
+
+    PreferencesService preferencesService
 
     def index() {}
 
@@ -152,10 +155,10 @@ class ApiController {
             return
         }
 
-        String basePath = "/WEB-INF/releases/${params.type}/${params.name}/${params.version}/"
+        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
+        String basePath = "${releasesStoreDir}/${params.type}/${params.name}/${params.version}/"
         String fileName = "griffon-${params.name}-${params.version}.zip" + (params.md5 ? '.md5' : '')
-        String releasePath = servletContext.getRealPath("${basePath}${fileName}")
-        File file = new File(releasePath)
+        File file = new File("${basePath}${fileName}")
         byte[] content = file.bytes
 
         String username = request.getHeader('x-username')?.trim()

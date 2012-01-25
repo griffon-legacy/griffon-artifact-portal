@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
+package griffon.portal
+
+import griffon.portal.config.Preferences
+import org.codehaus.groovy.grails.commons.GrailsApplication
+
 /**
  * @author Andres Almiray
  */
+class PreferencesService {
+    GrailsApplication grailsApplication
 
-beans = {
-    passwordAuthenticator(org.codehaus.griffon.portal.ssh.PasswordAuthenticator)
-
-    artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl) {
-        notifyService = ref('notifyService')
-        preferencesService = ref('preferencesService')
-    }
-
-    sshd(org.codehaus.griffon.portal.spring.SshServerFactory) {
-        grailsApplication = ref('grailsApplication')
-        passwordAuthenticator = ref('passwordAuthenticator')
-        artifactProcessor = ref('artifactProcessor')
+    String getValueOf(String key) {
+        Preferences prefs = Preferences.findByKey(key)
+        prefs ? prefs.value : grailsApplication.config.flatten([:])[key]
     }
 }
