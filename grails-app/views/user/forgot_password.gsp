@@ -33,33 +33,35 @@
         </g:eachError>
       </g:hasErrors>
       <g:form action="forgot_password" mapping="forgot_password">
-        <fieldset class="form">
-          <div class="fieldcontain ${hasErrors(bean: command, field: 'username', 'error')} required">
+        <g:hiddenField name="filled" value="true"/>
+        <fieldset>
+          <div class="clearfix ${hasErrors(bean: command, field: 'username', 'error')}">
             <label for="username">
               <g:message code="user.username.label" default="Username"/>
-              <span class="required-indicator">*</span>
             </label>
-            <g:textField name="username" required="" value="${command?.username}"/>
+
+            <div class="input">
+              <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
+            </div>
           </div>
 
-          <div class="fieldcontain ${hasErrors(bean: command, field: 'captcha', 'error')} required">
+          <div class="clearfix ${hasErrors(bean: command, field: 'captcha', 'error')}">
             <label for="captcha">
               <g:message code="user.captcha.label" default="Please enter the text as shown below"/>
             </label>
-            <g:textField name="captcha" required="true" value=""/><br clear="all"/>
-            <br clear="all"/>
-            <br clear="all"/>
-            <label for="captcha">
-              <g:message code="default.empty.label" default=""/>
-            </label>
-            <jcaptcha:jpeg name="image"/>
-          </div>
 
-          <div class="actions">
-            <button class="btn primary" type="submit" id="next" name="next">
-              ${message(code: 'default.button.next.label', default: 'Next')}</button>
+            <div class="input">
+              <g:textField name="captcha" required="true" tabindex="4" value=""/>
+              <br/><br/><br/>
+              <jcaptcha:jpeg name="image"/>
+            </div>
           </div>
         </fieldset>
+
+        <div class="actions">
+          <button class="btn primary" type="submit" id="next" name="next">
+            ${message(code: 'default.button.next.label', default: 'Next')}</button>
+        </div>
       </g:form>
     </div>
   </div>

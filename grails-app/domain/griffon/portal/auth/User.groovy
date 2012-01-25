@@ -26,7 +26,6 @@ class User {
     String password
     String email
     String fullName
-    String captcha
     Membership membership = new Membership()
 
     Date dateCreated

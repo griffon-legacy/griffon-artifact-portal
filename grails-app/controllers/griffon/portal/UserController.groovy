@@ -18,6 +18,7 @@ package griffon.portal
 
 import com.grailsrocks.emailconfirmation.EmailConfirmationService
 import grails.converters.JSON
+import griffon.portal.auth.Membership
 import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import groovy.text.SimpleTemplateEngine
@@ -34,7 +35,7 @@ class UserController {
     EmailConfirmationService emailConfirmationService
 
     def login(LoginCommand command) {
-        if (!params.username || !params.passwd) {
+        if (!params.filled) {
             // renders 1st hit
             render(view: 'signin', model: [command: new LoginCommand()])
             return
@@ -46,24 +47,24 @@ class UserController {
             return
         }
 
-        User user = User.findWhere(username: params.username,
-                password: MD5.encode(params.passwd))
-        if (user) {
-            if (!user.profile) {
-                render(view: 'subscribe', model: [userInstance: user])
-                return
-            }
-            session.user = user
-            session.profile = user.profile
-            if (params.originalURI) {
-                redirect(uri: params.originalURI)
-            } else {
-                redirect(controller: 'profile', action: 'show', params: [id: user.username])
-            }
-            return
-        } else {
+        User user = User.findWhere(username: command.username,
+                password: MD5.encode(command.passwd))
+        if (!user) {
             command.errors.rejectValue('username', 'griffon.portal.auth.User.credentials.nomatch.message')
             render(view: 'signin', model: [command: command, originalURI: params.orinialURI])
+            return
+        }
+
+        if (!user.profile) {
+            render(view: 'subscribe', model: [userInstance: user])
+            return
+        }
+        session.user = user
+        session.profile = user.profile
+        if (params.originalURI) {
+            redirect(uri: params.originalURI)
+        } else {
+            redirect(controller: 'profile', action: 'show', params: [id: user.username])
         }
     }
 
@@ -73,23 +74,36 @@ class UserController {
         redirect(uri: '/')
     }
 
-    def signup() {
-        [userInstance: new User(params)]
-    }
-
-    def subscribe() {
-        User user = new User(params)
-
-        if (!jcaptchaService.validateResponse('image', session.id, user.captcha)) {
-            user.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')
-            redirect(action: 'signup', model: [userInstance: user])
+    def signup(SignupCommand command) {
+        if (!params.filled) {
+            render(view: 'signup', model: [command: new SignupCommand()])
             return
         }
 
-        user.password = MD5.encode(params.password)
+        if (!command.validate()) {
+            render(view: 'signup', model: [command: command])
+            return
+        }
+
+        if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
+            command.errors.rejectValue('captcha', 'griffon.portal.auth.User.invalid.captcha.message')
+            render(view: 'signup', model: [command: command])
+            return
+        }
+
+        User user = new User(username: command.username,
+                password: MD5.encode(params.password))
         if (!user.save(flush: true)) {
-            user.password = params.password
-            redirect(action: 'signup', model: [userInstance: user])
+            user.errors.fieldErrors.each { error ->
+                command.errors.rejectValue(
+                        error.field,
+                        error.code,
+                        error.arguments,
+                        error.defaultMessage
+                )
+            }
+            command.password = params.password
+            render(view: 'signup', model: [command: command])
             return
         }
 
@@ -100,7 +114,7 @@ class UserController {
                 MD5.encode(user.email)
         )
 
-        [userInstance: user]
+        render(view: 'subscribe', model: [userInstance: user])
     }
 
     def membership() {
@@ -132,7 +146,7 @@ class UserController {
     }
 
     def forgot_password(ForgotPasswordCommand command) {
-        if (!params.username || !params.captcha) {
+        if (!params.filled) {
             render(view: 'forgot_password', model: [command: new ForgotPasswordCommand()])
             return
         }
@@ -143,14 +157,14 @@ class UserController {
         }
 
         if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
-            command.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')
+            command.errors.rejectValue('captcha', 'griffon.portal.auth.User.invalid.captcha.message')
             render(view: 'forgot_password', model: [command: command])
             return
         }
 
         User user = User.findByUsername(command.username)
         if (!user) {
-            command.errors.rejectValue('username', 'griffon.portal.User.username.notfound.message')
+            command.errors.rejectValue('username', 'griffon.portal.auth.User.username.notfound.message')
             render(view: 'forgot_password', model: [command: command])
             return
         }
@@ -162,7 +176,7 @@ class UserController {
     }
 
     def forgot_username(ForgotUsernameCommand command) {
-        if (!params.email || !params.captcha) {
+        if (!params.filled) {
             render(view: 'forgot_username', model: [command: new ForgotUsernameCommand()])
             return
         }
@@ -173,14 +187,14 @@ class UserController {
         }
 
         if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
-            command.errors.rejectValue('captcha', 'griffon.portal.User.invalid.captcha.message')
+            command.errors.rejectValue('captcha', 'griffon.portal.auth.User.invalid.captcha.message')
             render(view: 'forgot_username', model: [command: command])
             return
         }
 
         User user = User.findByEmail(command.email)
         if (!user) {
-            command.errors.rejectValue('email', 'griffon.portal.User.email.notfound.message')
+            command.errors.rejectValue('email', 'griffon.portal.auth.User.email.notfound.message')
             render(view: 'forgot_username', model: [command: command])
             return
         }
@@ -210,7 +224,23 @@ class UserController {
     }
 }
 
+class SignupCommand {
+    boolean filled
+    String username
+    String password
+    String password2
+    String captcha
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        password(nullable: false, blank: false)
+        password2(nullable: false, blank: false)
+        captcha(nullable: false, blank: false)
+    }
+}
+
 class LoginCommand {
+    boolean filled
     String username
     String passwd
 
@@ -221,6 +251,7 @@ class LoginCommand {
 }
 
 class ForgotPasswordCommand {
+    boolean filled
     String username
     String captcha
 
@@ -231,6 +262,7 @@ class ForgotPasswordCommand {
 }
 
 class ForgotUsernameCommand {
+    boolean filled
     String email
     String captcha
 

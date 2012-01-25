@@ -59,6 +59,7 @@
                 <li>
                   <div id="signin-form">
                     <g:form name="login" controller="user" action="login">
+                      <g:hiddenField name="filled" value="true"/>
                       <fieldset class="textbox">
                         <input id="username" name="username" type="text" placeholder="Username"/>
                         <input id="passwd" name="passwd" type="password" placeholder="Password"/>

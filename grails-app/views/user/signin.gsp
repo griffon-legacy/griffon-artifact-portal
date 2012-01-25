@@ -34,24 +34,33 @@
       </g:hasErrors>
       <g:form action="login" name="loginForm" mapping="login">
         <g:hiddenField name="originalURI" value="${params.originalURI}"/>
-        <fieldset class="form"><div
-                class="fieldcontain ${hasErrors(bean: command, field: 'username', 'error')} required">
-        <label for="username">
-          <g:message code="user.username.label" default="Username"/>
-          <span class="required-indicator">*</span>
-        </label>
-        <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
-        <span class="help-inline"><g:link controller="user" action="signup" mapping="signup">Don't have an account?</g:link></span>
-        </div>
-        <div class="fieldcontain ${hasErrors(bean: command, field: 'passwd', 'error')} required">
-          <label for="passwd">
-            <g:message code="user.password.label" default="Password"/>
-            <span class="required-indicator">*</span>
-          </label>
-          <g:passwordField id="passwd" name="passwd" required="" tabindex="2" value="${command?.passwd}"/>
-          <span class="help-inline"><g:link controller="user" action="forgot_password"
-                                            mapping="forgot_password">Forgot your password?</g:link></span>
-        </div>
+        <g:hiddenField name="filled" value="true"/>
+
+        <fieldset>
+          <div class="clearfix  ${hasErrors(bean: command, field: 'username', 'error')}">
+            <label for="username">
+              <g:message code="user.username.label" default="Username"/>
+            </label>
+
+            <div class="input">
+              <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
+              <span class="help-inline"><g:link controller="user" name="signup" mapping="signup"
+                                                action="signup">Don't have an account? Signup!</g:link></span>
+            </div>
+          </div>
+
+          <div class="clearfix ${hasErrors(bean: command, field: 'password', 'error')}">
+            <label for="passwd">
+              <g:message code="user.password.label" default="Password"/>
+            </label>
+
+            <div class="input">
+              <g:passwordField id="passwd" name="passwd" required="" tabindex="2" value="${command?.passwd}"/>
+              <span class="help-inline"><g:link controller="user" name="forgot_password" mapping="forgot_password"
+                                                action="forgotPassword">Forgot your password?</g:link></span>
+            </div>
+          </div>
+        </fieldset>
 
         <div class="actions">
           <button class="btn primary" type="submit" id="signin" name="signin" tabindex="3">
