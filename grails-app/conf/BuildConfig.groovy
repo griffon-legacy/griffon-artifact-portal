@@ -30,9 +30,24 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        compile ":hibernate:$grailsVersion"
-        compile ":jquery:1.7"
-        compile ":resources:1.1.3"
+        test    ":code-coverage:1.2.4",
+                ":spock:0.6-SNAPSHOT"
+        compile ":hibernate:$grailsVersion",
+                ":jquery:1.7",
+                ":resources:1.1.3",
+                ":avatar:0.5.2",
+                ":commentable:0.7.5",
+                ":email-confirmation:1.0.5",
+                ":executor:0.3",
+                ":jcaptcha:1.2.1",
+                ":mail:0.7.1",
+                ":markdown:1.0.0.RC1",
+                ":quartz:0.4.2",
+                ":rateable:0.7.0",
+                ":taggable:1.0.1",
+                ":twitter-bootstrap:1.4.0.12",
+                ":twitter4j:0.2",
+                ":webxml:1.3.1"
 
         build ":tomcat:$grailsVersion"
     }
