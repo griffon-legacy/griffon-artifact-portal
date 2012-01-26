@@ -1,20 +1,5 @@
 <div class="span-two-thirds">
-  <g:if test="${flash.message}">
-    <div class="alert-message success" id="output">
-      <a class="close" href="#" onclick="$('#output').hide()">×</a>
-
-      <p>${flash.message}</p>
-    </div>
-  </g:if>
-  <g:hasErrors bean="${command}">
-    <% int errorIndex = 0 %>
-    <g:eachError bean="${command}" var="error">
-      <div class="alert-message danger" id="error${errorIndex}">
-        <a class="close" href="#" onclick="$('#error${errorIndex++}').hide()">×</a>
-        <g:message error="${error}"/>
-      </div>
-    </g:eachError>
-  </g:hasErrors>
+  <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
 
   <g:form controller="profile" mapping="settings_update_account"
           params="[username: profileInstance.user.username, tab: tab]">

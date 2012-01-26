@@ -14,24 +14,9 @@
 </div>
 
 <div class="row">
-  <div class="span16">
+  <div class="span-two-thirds">
     <div id="create-user" class="scaffold-create" role="main">
-      <g:if test="${flash.message}">
-        <div class="alert-message danger" id="output">
-          <a class="close" href="#" onclick="$('#output').hide()">×</a>
-
-          <p>${flash.message}</p>
-        </div>
-      </g:if>
-      <g:hasErrors bean="${command}">
-        <% int errorIndex = 0 %>
-        <g:eachError bean="${command}" var="error">
-          <div class="alert-message danger" id="error${errorIndex}">
-            <a class="close" href="#" onclick="$('#error${errorIndex++}').hide()">×</a>
-            <g:message error="${error}"/>
-          </div>
-        </g:eachError>
-      </g:hasErrors>
+      <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
       <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
         <g:hiddenField name="filled" value="true"/>
         <fieldset>
@@ -87,6 +72,18 @@
         </div>
       </g:form>
     </div>
+  </div>
+
+  <div class="span-one-third">
+    <h3>Account Benefits</h3>
+
+    <p>Signing up for an account grants you the following benefits:
+    <ul>
+      <li>Rate and comment artifacts.</li>
+      <li>Edit artifact details.</li>
+      <li>Apply for developer membership.</li>
+    </ul>
+  </p>
   </div>
 </div>
 
