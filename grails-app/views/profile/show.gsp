@@ -43,13 +43,14 @@
       %>
       <g:each in="${tabs}" var="profileTab">
         <li class="${tabClassFor(profileTab)}"><g:link controller="profile" action="show"
+                                                       mapping="profile"
                                                        id="${profileInstance.user.username}"
                                                        params="[tab: profileTab.name]">${profileTab.capitalizedName}</g:link></li>
       </g:each>
     </ul>
   </div>
 
-  <g:render template="profile/${tab}"/>
+  <g:render template="profile/${tab}" model="[profileInstance: profileInstance, listSpan: listSpan]"/>
 
 </div>
 

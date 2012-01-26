@@ -55,6 +55,7 @@ class ArchetypeController {
                 ]
             } else {
                 [
+                        id: author.id,
                         name: author.name,
                         email: author.email,
                         username: ''

@@ -16,6 +16,9 @@ class UrlMappings {
         //"/profile/$id"(controller: 'profile', action: 'show')
         "/settings"(controller: 'profile', action: 'settings')
 
+        name profile: "/profile/$id/$tab?"(controller: 'profile', action: 'show')
+        name author: "/author/$id/$tab?"(controller: 'author', action: 'show')
+
         '/api'(controller: 'api', action: 'index')
         '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}

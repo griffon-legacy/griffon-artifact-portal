@@ -5,10 +5,18 @@
     <div class="span1">
       <ul class="media-grid">
         <li>
-          <g:link controller="profile" action="show" id="${author.username}">
-            <avatar:gravatar cssClass="avatar thumbnail"
-                             email="${author.email}" size="40"/>
-          </g:link>
+          <g:if test="${author.username}">
+            <g:link controller="profile" action="show" id="${author.username}" mapping="profile">
+              <avatar:gravatar cssClass="avatar thumbnail"
+                               email="${author.email}" size="40"/>
+            </g:link>
+          </g:if>
+          <g:else>
+            <g:link controller="author" action="show" id="${author.id}" mapping="author">
+              <avatar:gravatar cssClass="avatar thumbnail"
+                               email="${author.email}" size="40"/>
+            </g:link>
+          </g:else>
         </li>
       </ul>
     </div>

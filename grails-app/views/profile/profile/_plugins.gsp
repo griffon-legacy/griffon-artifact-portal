@@ -1,7 +1,3 @@
-<%
-  String listSpan = profileInstance.twitter ? 'span11' : 'span16'
-%>
-
 <div class="<%=listSpan%>">
   <div class="row">
     <div class="<%=listSpan%>">
