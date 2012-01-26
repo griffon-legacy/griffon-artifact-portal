@@ -162,18 +162,13 @@ a#signin-link i {
 }
 
 .signin-dropdown {
-    width: 220px;
+    width: 190px;
 }
 
 #signin-form form {
     padding: 10px;
     cursor: auto;
-    width: 220px;
-}
-
-#signin-form .textbox input {
-    width: 180px;
-    marging: 10px;
+    width: 190px;
 }
 
 #signin-form a {
