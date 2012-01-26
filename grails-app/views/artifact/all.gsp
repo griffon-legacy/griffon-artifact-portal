@@ -9,9 +9,7 @@
 <body>
 
 <div class="row">
-  <div class="page-header">
-    <h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName} (${artifactTotal})</h1>
-  </div>
+  <tmpl:/pageheader><h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName} (${artifactTotal})</h1></tmpl:/pageheader>
 </div>
 
 <g:if test="${artifactMap}">

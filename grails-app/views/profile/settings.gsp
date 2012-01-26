@@ -11,7 +11,7 @@
 
 <body>
 
-<div class="page-header">
+<tmpl:/pageheader>
   <div class="row">
     <div class="span1">
       <ul class="media-grid">
@@ -25,10 +25,10 @@
     </div>
 
     <div class="span15">
-      <h2><g:fieldValue bean="${profileInstance.user}" field="username"/>'s settings</h2>
+      <h1><g:fieldValue bean="${profileInstance.user}" field="username"/>'s settings</h1>
     </div>
   </div>
-</div>
+</tmpl:/pageheader>
 
 <div class="row">
   <div class="span16">

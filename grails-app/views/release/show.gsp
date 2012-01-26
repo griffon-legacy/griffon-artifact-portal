@@ -9,9 +9,7 @@
 
 <body>
 
-<div class="page-header">
-  <h1>${releaseName} <small><p>${releaseInstance.artifact.title}</p></small></h1>
-</div>
+<tmpl:/pageheader><h1>${releaseName} <small><p>${releaseInstance.artifact.title}</p></small></h1></tmpl:/pageheader>
 
 <div class="row">
   <div class="span12">

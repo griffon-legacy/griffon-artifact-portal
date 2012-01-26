@@ -8,10 +8,10 @@
 
 <body>
 
-<div class="page-header">
+<tmpl:/pageheader>
   <h1><g:message code="griffon.portal.auth.User.signup.label"/> <small><g:message
           code="griffon.portal.auth.User.signup.message"/></small></h1>
-</div>
+</tmpl:/pageheader>
 
 <div class="row">
   <div class="span16">

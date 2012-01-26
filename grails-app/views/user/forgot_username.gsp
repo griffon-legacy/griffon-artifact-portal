@@ -8,10 +8,10 @@
 
 <body>
 
-<div class="page-header">
+<tmpl:/pageheader>
   <h1><g:message code="griffon.portal.auth.User.forgot_username.label"/></h1>
   <g:message code="griffon.portal.auth.User.forgot_username.message"/>
-</div>
+</tmpl:/pageheader>
 
 <div class="row">
   <div class="span16">

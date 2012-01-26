@@ -6,9 +6,9 @@
 </head>
 
 <body>
-<div class="page-header">
+<tmpl:/pageheader>
   <h1>Thank you! <small>We'll get back to you soon.</small></h1>
-</div>
+</tmpl:/pageheader>
 
 <div class="row">
   <div class="span16">

@@ -9,9 +9,7 @@
 <body>
 
 <div class="row">
-  <div class="page-header">
-    <h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}</h1>
-  </div>
+  <tmpl:/pageheader><h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}</h1></tmpl:/pageheader>
 </div>
 
 <div class="row">
