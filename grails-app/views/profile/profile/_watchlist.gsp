@@ -46,7 +46,7 @@
                 <div class="pull-right">
                   <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
                           mapping="show_${artifactInstance.type}"
-                          class="btn small primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+                          class="btn primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
                 </div>
               </td>
             </tr>

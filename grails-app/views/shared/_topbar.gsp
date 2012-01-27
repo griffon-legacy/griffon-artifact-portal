@@ -63,7 +63,7 @@
                       <input class="medium" id="username" name="username" type="text" placeholder="Username"/>
                       <input class="medium" id="passwd" name="passwd" type="password" placeholder="Password"/>
                       <br/><br/>
-                      <button class="btn small" type="submit" onclick="return checkLogin();">Sign in</button>
+                      <button class="btn primary" type="submit" onclick="return checkLogin();">Sign in</button>
                     </g:form>
                   </div>
                 </li>
