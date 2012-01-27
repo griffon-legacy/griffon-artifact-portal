@@ -51,10 +51,11 @@ class PluginController {
                 [
                         name: author.name,
                         email: user.profile.gravatarEmail,
-                        username: user.username
+                        username: user.username,
                 ]
             } else {
                 [
+                        id: author.id,
                         name: author.name,
                         email: author.email,
                         username: ''

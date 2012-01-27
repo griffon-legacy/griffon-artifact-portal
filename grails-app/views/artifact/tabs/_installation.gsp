@@ -30,7 +30,7 @@
 
       <div class="span9">
         <br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/api/${artifactInstance.type}s/${artifactInstance.name}/download/1.0</code>
+        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/api/${artifactInstance.type}s/${artifactInstance.name}/1.0/download</code>
         <br clear="all"/><br clear="all"/>
         <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/repository/${artifactInstance.type}s/${artifactInstance.name}/1.0/griffon-${artifactInstance.name}-1.0.zip</code>
       </div>

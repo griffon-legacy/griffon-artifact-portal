@@ -45,6 +45,7 @@ class TagsTagLib {
         // The named arguments for the 'link' GSP tag used to display each tag.
         def idProperty = attrs?.idProperty ?: "id"
         def paramsMap = [:]
+        if (attrs.params) paramsMap += attrs.params
         def linkArgs = [action: attrs.action, params: paramsMap]
         if (attrs.mapping) linkArgs.mapping = attrs.mapping
 

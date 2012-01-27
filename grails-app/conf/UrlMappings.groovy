@@ -16,6 +16,9 @@ class UrlMappings {
         //"/profile/$id"(controller: 'profile', action: 'show')
         "/settings"(controller: 'profile', action: 'settings')
 
+        name profile: "/profile/$id/$tab?"(controller: 'profile', action: 'show')
+        name author: "/author/$id/$tab?"(controller: 'author', action: 'show')
+
         '/api'(controller: 'api', action: 'index')
         '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
@@ -67,12 +70,7 @@ class UrlMappings {
         name comment_post: "/artifact/comment/post/$name"(controller: 'artifact', action: 'post_comment')
         name watch_artifact: "/artifact/watch/$id"(controller: 'artifact', action: 'watch')
         name tag_artifact: "/artifact/tag/$id"(controller: 'artifact', action: 'tag')
-        name list_tagged_plugins: "/tags/plugins/$tagName"(controller: 'artifact', action: 'list_tagged') {
-            type = 'plugin'
-        }
-        name list_tagged_archetypes: "/tags/archetypes/$tagName"(controller: 'artifact', action: 'list_tagged') {
-            type = 'archetype'
-        }
+        name list_tagged: "/tags/$type/$tagName"(controller: 'artifact', action: 'list_tagged')
         "/plugins"(controller: 'artifact', action: 'all') { type = 'plugin' }
         "/archetypes"(controller: 'archetype', action: 'all') { type = 'archetype'}
         name show_plugin: "/plugin/$name/$tab?"(controller: 'plugin', action: 'show')

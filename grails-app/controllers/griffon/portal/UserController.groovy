@@ -50,7 +50,7 @@ class UserController {
         User user = User.findWhere(username: command.username,
                 password: MD5.encode(command.passwd))
         if (!user) {
-            command.errors.rejectValue('username', 'griffon.portal.auth.User.credentials.nomatch.message')
+            command.errors.rejectValue('username', 'griffon.portal.auth.User.username.nomatch.message')
             render(view: 'signin', model: [command: command, originalURI: params.orinialURI])
             return
         }

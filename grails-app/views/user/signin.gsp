@@ -14,24 +14,9 @@
 </div>
 
 <div class="row">
-  <div class="span16">
+  <div class="span-two-thirds">
     <div id="create-user" class="scaffold-create" role="main">
-      <g:if test="${flash.message}">
-        <div class="alert-message danger" id="output">
-          <a class="close" href="#" onclick="$('#output').hide()">×</a>
-
-          <p>${flash.message}</p>
-        </div>
-      </g:if>
-      <g:hasErrors bean="${command}">
-        <% int errorIndex = 0 %>
-        <g:eachError bean="${command}" var="error">
-          <div class="alert-message danger" id="error${errorIndex}">
-            <a class="close" href="#" onclick="$('#error${errorIndex++}').hide()">×</a>
-            <g:message error="${error}"/>
-          </div>
-        </g:eachError>
-      </g:hasErrors>
+      <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
       <g:form action="login" name="loginForm" mapping="login">
         <g:hiddenField name="originalURI" value="${params.originalURI}"/>
         <g:hiddenField name="filled" value="true"/>
@@ -44,8 +29,6 @@
 
             <div class="input">
               <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
-              <span class="help-inline"><g:link controller="user" name="signup" mapping="signup"
-                                                action="signup">Don't have an account? Signup!</g:link></span>
             </div>
           </div>
 
@@ -56,8 +39,6 @@
 
             <div class="input">
               <g:passwordField id="passwd" name="passwd" required="" tabindex="2" value="${command?.passwd}"/>
-              <span class="help-inline"><g:link controller="user" name="forgot_password" mapping="forgot_password"
-                                                action="forgotPassword">Forgot your password?</g:link></span>
             </div>
           </div>
         </fieldset>
@@ -69,6 +50,28 @@
       </g:form>
     </div>
   </div>
+
+  <div class="span-one-third">
+    <h3>Options</h3>
+
+    <p>
+      Don't have an account? <g:link controller="user" name="signup" mapping="signup"
+                                     action="signup">Signup!</g:link>
+    </p>
+
+    <p>
+      Forgot your username? <g:link controller="user" name="forgot_username"
+                                    mapping="forgot_username"
+                                    action="forgot_username">Retrieve it!</g:link>
+    </p>
+
+    <p>
+      Forgot your password? <g:link controller="user" name="forgot_password"
+                                    mapping="forgot_password"
+                                    action="forgot_password">Retrieve it!</g:link>
+    </p>
+  </div>
+
 </div>
 
 <script language="javascript">

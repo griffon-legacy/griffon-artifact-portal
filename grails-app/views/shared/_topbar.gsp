@@ -60,10 +60,9 @@
                   <div id="signin-form">
                     <g:form name="login" controller="user" action="login">
                       <g:hiddenField name="filled" value="true"/>
-                      <fieldset class="textbox">
-                        <input id="username" name="username" type="text" placeholder="Username"/>
-                        <input id="passwd" name="passwd" type="password" placeholder="Password"/>
-                      </fieldset>
+                      <input class="medium" id="username" name="username" type="text" placeholder="Username"/>
+                      <input class="medium" id="passwd" name="passwd" type="password" placeholder="Password"/>
+                      <br/><br/>
                       <button class="btn small" type="submit" onclick="return checkLogin();">Sign in</button>
                     </g:form>
                   </div>
