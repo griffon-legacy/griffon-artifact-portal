@@ -207,6 +207,7 @@ class ApiController {
         map + [
                 license: plugin.license,
                 source: plugin.source ?: '',
+                documentation: plugin.documentation ?: '',
                 toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
                 platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
                 authors: plugin.authors.collect([]) { Author author ->
@@ -227,6 +228,7 @@ class ApiController {
         map + [
                 license: archetype.license,
                 source: archetype.source ?: '',
+                documentation: archetype.documentation ?: '',
                 authors: archetype.authors.collect([]) { Author author ->
                     [name: author.name, email: author.email]
                 }

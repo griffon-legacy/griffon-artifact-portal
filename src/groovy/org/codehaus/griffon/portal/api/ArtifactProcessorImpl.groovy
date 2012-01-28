@@ -154,6 +154,8 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             title = json.title
             description = json.description
             license = json.license
+            source = json.source
+            documentation = json.documentation
             toolkits = json.toolkits.join(',')
             platforms = json.platforms.join(',')
         }
@@ -172,6 +174,8 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             title = json.title
             description = json.description
             license = json.license
+            source = json.source
+            documentation = json.documentation
         }
 
         handleAuthors(archetype, json)
