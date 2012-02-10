@@ -32,7 +32,7 @@ class Artifact implements Rateable, Taggable, Commentable {
     String license
 
     String source
-    String docs
+    String documentation
 
     Date dateCreated
     Date lastUpdated
@@ -46,8 +46,8 @@ class Artifact implements Rateable, Taggable, Commentable {
         title(nullable: false, blank: false)
         description(nullable: false, blank: false)
         license(nullable: false, blank: false)
-        source(nullable: true, blank: false, url: true)
-        docs(nullable: true, blank: false)
+        source(nullable: true, blank: true, url: true)
+        documentation(nullable: true, blank: true, url: true)
     }
 
     static mapping = {
@@ -80,7 +80,7 @@ class Artifact implements Rateable, Taggable, Commentable {
                 license: license,
                 authors: authors*.toString(),
                 source: source,
-                docs: docs
+                docs: documentation
         ]
     }
 

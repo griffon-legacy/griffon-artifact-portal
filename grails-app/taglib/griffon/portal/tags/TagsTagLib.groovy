@@ -50,7 +50,7 @@ class TagsTagLib {
         if (attrs.mapping) linkArgs.mapping = attrs.mapping
 
         // If a controller name is specified, we use that. Otherwise, we leave it
-        // to the 'link' GSP tag to decide whcih controller to use.
+        // to the 'link' GSP tag to decide which controller to use.
         if (attrs.controller) linkArgs["controller"] = attrs.controller
 
         // How many times has the most used tag been applied?

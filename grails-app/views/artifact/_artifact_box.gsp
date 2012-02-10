@@ -31,10 +31,8 @@
       </g:else>
     </li>
     <li>
-      <g:if test="${artifactInstance.docs}">
-        <g:link controller="docs" mapping="show_docs"
-                params="[type: params.type, name: artifactInstance.name]"><g:img dir="images"
-                                                                                 file="docs_on.png"/> Docs</g:link>
+      <g:if test="${artifactInstance.documentation}">
+        <a href="${artifactInstance.source}"><g:img dir="images" file="docs_on.png"/> Docs</a>
       </g:if>
       <g:else>
         <g:img dir="images" file="docs_off.png" title="No docs have been uploaded"/> Docs

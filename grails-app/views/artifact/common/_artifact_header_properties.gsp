@@ -21,6 +21,20 @@
   </span>
 </div>
 
+<div class="fieldcontain">
+  <span id="documentation-label" class="property-label"><g:message code="artifact.documentation.label"
+                                                                   default="Documentation"/></span>
+  <span class="property-value" aria-labelledby="documentation-label">
+    <g:if test="${artifactInstance.documentation}">
+      <a href="<g:fieldValue bean="${artifactInstance}" field="documentation"/>"><g:fieldValue bean="${artifactInstance}"
+                                                                                               field="documentation"/></a>
+    </g:if>
+    <g:else>
+      No documentation link provided
+    </g:else>
+  </span>
+</div>
+
 <g:if test="${session.user}">
   <g:render template="/artifact/common/watching" model="[artifactInstance: artifactInstance, watching:watching]"/>
 </g:if>
