@@ -64,7 +64,7 @@ class UserController {
         if (params.originalURI) {
             redirect(uri: params.originalURI)
         } else {
-            redirect(controller: 'profile', action: 'show', params: [id: user.username])
+            redirect(controller: "profile", action: "show", id: user.username)
         }
     }
 
@@ -91,8 +91,10 @@ class UserController {
             return
         }
 
-        User user = new User(username: command.username,
-                password: MD5.encode(params.password))
+        command.password = MD5.encode(command.password)
+        User user = new User()
+        user.properties = command.properties
+        user.membership.status = Membership.Status.PENDING
         if (!user.save(flush: true)) {
             user.errors.fieldErrors.each { error ->
                 command.errors.rejectValue(
@@ -110,7 +112,7 @@ class UserController {
         emailConfirmationService.sendConfirmation(
                 user.email,
                 'Please confirm',
-                [from: grailsApplication.config.grails.mail.default.from],
+                [from: grailsApplication.config.grails.mail.default.from, user: user.username],
                 MD5.encode(user.email)
         )
 
@@ -227,12 +229,14 @@ class UserController {
 class SignupCommand {
     boolean filled
     String username
+    String email
     String password
     String password2
     String captcha
 
     static constraints = {
         username(nullable: false, blank: false)
+        email(nullable: false, blank: false, email: true)
         password(nullable: false, blank: false)
         password2(nullable: false, blank: false)
         captcha(nullable: false, blank: false)

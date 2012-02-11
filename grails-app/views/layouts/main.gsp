@@ -20,8 +20,8 @@
   <r:require module="portal"/>
   <g:layoutHead/>
   <r:layoutResources/>
-  <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap-tweaks.css')}" type="text/css">
   <rateable:resources/>
+  <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap-tweaks.css')}" type="text/css">
 </head>
 
 <body>

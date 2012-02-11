@@ -6,10 +6,10 @@ input, select, textarea {
 
 html {
     background-color: #569BB5;
-    background-image: -moz-linear-gradient(center top, #eef, #569BB5);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eef), color-stop(1, #569BB5));
-    background-image: linear-gradient(top, #eef, #569BB5);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#eef', EndColorStr = '#569BB5');
+    background-image: -moz-linear-gradient(center top, #CCE1E8, #569BB5);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #CCE1E8), color-stop(1, #569BB5));
+    background-image: linear-gradient(top, #CCE1E8, #569BB5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#CCE1E8', EndColorStr = '#569BB5');
     background-repeat: no-repeat;
     height: 100%;
     -webkit-box-sizing: border-box;
@@ -18,7 +18,7 @@ html {
 }
 
 html.no-cssgradients {
-    background-color: #eef;
+    background-color: #CCE1E8;
 }
 
 #griffonLogo {
@@ -452,11 +452,19 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #0000ff;
-    -webkit-box-shadow: 0 0 0.3em #0000ff;
-    box-shadow: 0 0 0.3em #0000ff;
+    -moz-box-shadow: 0 0 0.3em #569bb5;
+    -webkit-box-shadow: 0 0 0.3em #569bb5;
+    box-shadow: 0 0 0.3em #569bb5;
 }
 
 .comment-header {
     background: #f5f5f5;
+}
+
+.categories thead th, .categories tbody th {
+    padding-left: 20px;
+}
+
+.categories tbody td {
+    padding-left: 40px;
 }

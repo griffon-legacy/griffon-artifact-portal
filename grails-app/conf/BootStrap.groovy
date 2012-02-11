@@ -49,8 +49,12 @@ class BootStrap {
             User user = User.findByEmail(email)
             String nuid = MD5.encode(email)
             if (nuid == uid) {
+                user.membership.status = Membership.Status.ACCEPTED
+                user.profile = new Profile(user: user)
+                user.profile.gravatarEmail = user.email
+                user.save()
                 log.info("User with id $uid has confirmed their email address $email")
-                return [controller: 'profile', action: 'show', id: user.username]
+                return [controller: "profile", action:  "show", id: user.username]
             }
 
             return {
@@ -59,8 +63,9 @@ class BootStrap {
             }
         }
 
-        emailConfirmationService.onInvalid = { String uid ->
-            log.warn("User with id $uid failed to confirm email address after 30 days")
+        emailConfirmationService.onInvalid = { String token ->
+            //log.warn("User with id $uid failed to confirm email address after 30 days")
+            log.warn("Someone tried to confirm email with an invalid token: $token")
         }
 
         emailConfirmationService.onTimeout = { String email, String uid ->

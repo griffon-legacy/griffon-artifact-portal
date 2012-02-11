@@ -26,7 +26,7 @@
                     href="${application.contextPath}/api">API</a></li>
             <g:if test="${session.user}">
               <li id="global-nav-profile" class="<%=isMenuActive('profile')%>"><a
-                      href="${application.contextPath}/profile/show/${session.user.username}">Profile</a></li>
+                      href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
             </g:if>
           </ul>
         </div>

@@ -14,7 +14,7 @@
 </tmpl:/pageheader>
 
 <div class="row">
-  <div class="span-two-thirds">
+  <div class="span16">
     <div id="resend-username" class="scaffold-create" role="main">
       <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
       <g:form action="forgot_username" mapping="forgot_username">

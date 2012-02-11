@@ -5,11 +5,11 @@ input, select, textarea {
 }
 
 html {
-    background-color: #d8c9c9;
-    background-image: -moz-linear-gradient(center top, #fee, #d8c9c9);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fee), color-stop(1, #d8c9c9));
-    background-image: linear-gradient(top, #fee, #d8c9c9);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#fee', EndColorStr = '#d8c9c9');
+    background-color: #D46060;
+    background-image: -moz-linear-gradient(center top, #F2CFCF, #D46060);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F2CFCF), color-stop(1, #D46060));
+    background-image: linear-gradient(top, #F2CFCF, #D46060);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#F2CFCF', EndColorStr = '#D46060');
     background-repeat: no-repeat;
     height: 100%;
     -webkit-box-sizing: border-box;
@@ -18,7 +18,7 @@ html {
 }
 
 html.no-cssgradients {
-    background-color: #fee;
+    background-color: #F2CFCF;
 }
 
 #griffonLogo {
@@ -302,9 +302,9 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #d8c9c9;
-    -webkit-box-shadow: 0 0 0.3em #d8c9c9;
-    box-shadow: 0 0 0.3em #d8c9c9;
+    -moz-box-shadow: 0 0 0.3em #D46060;
+    -webkit-box-shadow: 0 0 0.3em #D46060;
+    box-shadow: 0 0 0.3em #D46060;
     padding-top: 50px;
 }
 
@@ -394,9 +394,9 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #d8c9c9;
-    -webkit-box-shadow: 0 0 0.3em #d8c9c9;
-    box-shadow: 0 0 0.3em #d8c9c9;
+    -moz-box-shadow: 0 0 0.3em #D46060;
+    -webkit-box-shadow: 0 0 0.3em #D46060;
+    box-shadow: 0 0 0.3em #D46060;
     padding-top: 0px;
 }
 
@@ -452,11 +452,19 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #0000ff;
-    -webkit-box-shadow: 0 0 0.3em #0000ff;
-    box-shadow: 0 0 0.3em #0000ff;
+    -moz-box-shadow: 0 0 0.3em #D46060;
+    -webkit-box-shadow: 0 0 0.3em #D46060;
+    box-shadow: 0 0 0.3em #D46060;
 }
 
 .comment-header {
     background: #f5f5f5;
+}
+
+.categories thead th, .categories tbody th {
+    padding-left: 20px;
+}
+
+.categories tbody td {
+    padding-left: 40px;
 }

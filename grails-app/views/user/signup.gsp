@@ -14,7 +14,7 @@
 </tmpl:/pageheader>
 
 <div class="row">
-  <div class="span-two-thirds">
+  <div class="span16">
     <div id="create-user" class="scaffold-create" role="main">
       <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
       <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
@@ -30,13 +30,23 @@
             </div>
           </div>
 
-          <div class="clearfix ${hasErrors(bean: command, field: 'password', 'error')}">
-            <label for="password">
+          <div class="clearfix ${hasErrors(bean: command, field: 'email', 'error')}">
+            <label for="email">
               <g:message code="user.email.label" default="Email"/>
             </label>
 
             <div class="input">
-              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="2"
+              <g:textField name="email" required="" tabindex="2" value="${command?.email}"/>
+            </div>
+          </div>
+
+          <div class="clearfix ${hasErrors(bean: command, field: 'password', 'error')}">
+            <label for="password">
+              <g:message code="user.password.label" default="Password"/>
+            </label>
+
+            <div class="input">
+              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="3"
                                value="${command?.password}"/>
             </div>
           </div>
@@ -47,7 +57,7 @@
             </label>
 
             <div class="input">
-              <g:passwordField id="password2" name="password2" autocomplete="off" required="" tabindex="3"
+              <g:passwordField id="password2" name="password2" autocomplete="off" required="" tabindex="4"
                                value="${command?.password2}"/>
               <small class="help-inline help-error" id="nomatch" style="display:none;">Passwords don't match</small>
             </div>
@@ -59,7 +69,7 @@
             </label>
 
             <div class="input">
-              <g:textField name="captcha" required="true" tabindex="4" value=""/>
+              <g:textField name="captcha" required="true" tabindex="5" value=""/>
               <br/><br/><br/>
               <jcaptcha:jpeg name="image"/>
             </div>
@@ -74,7 +84,7 @@
     </div>
   </div>
 
-  <div class="span-one-third">
+  <div class="span-one-third" style="position: absolute; margin-left: -300px;">
     <h3>Account Benefits</h3>
 
     <p>Signing up for an account grants you the following benefits:

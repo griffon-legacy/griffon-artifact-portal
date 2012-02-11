@@ -27,7 +27,7 @@
                   mapping="display_release"
                   class="btn primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
           <g:link controller="release" action="download" params="[id: releaseInstance.id]" mapping="download_release"
-                  class="btn success small">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>
+                  class="btn success">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>
         </div>
       </td>
     </tr>

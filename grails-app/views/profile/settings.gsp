@@ -14,7 +14,7 @@
 <tmpl:/pageheader>
   <div class="row">
     <div class="span1">
-      <ul class="media-grid">
+      <ul class="media-grid" style="float: left; margin-right: 10px;">
         <li>
           <a href="#">
             <avatar:gravatar cssClass="avatar thumbnail"
@@ -22,10 +22,9 @@
           </a>
         </li>
       </ul>
-    </div>
-
-    <div class="span15">
-      <h1><g:fieldValue bean="${profileInstance.user}" field="username"/>'s settings</h1>
+      <div class="span12">
+        <h1><g:fieldValue bean="${profileInstance.user}" field="username"/>'s settings</h1>
+      </div>
     </div>
   </div>
 </tmpl:/pageheader>

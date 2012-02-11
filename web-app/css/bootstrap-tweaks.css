@@ -23,6 +23,13 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#013345', endColorstr='#044e6b', GradientType=0);
 }
 
+.topbar input {
+    border: 1px solid #013345;
+    -webkit-box-shadow: 0 0 0 #569bb5;
+    -moz-box-shadow: 0 0 0 #569bb5;
+    box-shadow: 0 0 0 #569bb5;
+}
+
 .topbar input:focus, .topbar input.focused {
     background: rgba(255, 255, 255, 0.5);
     color: #FFFFFF;
@@ -42,13 +49,6 @@ input:focus, textarea:focus {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(51, 145, 181, 0.6);
 }
 
-.topbar input {
-    border: 1px solid #013345;
-    -webkit-box-shadow: 0 0 0 #569bb5;
-    -moz-box-shadow: 0 0 0 #569bb5;
-    box-shadow: 0 0 0 #569bb5;
-}
-
 .btn.primary {
     background-color: #044E6B;
     background-image: -khtml-gradient(linear, left top, left bottom, from(#013345), to(#044e6b));
@@ -61,7 +61,7 @@ input:focus, textarea:focus {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#013345', endColorstr='#044e6b', GradientType=0);
 }
 
-.btn.small {
+.btn.small {           rgba
     background-color: #3391B5;
     background-image: -khtml-gradient(linear, left top, left bottom, from(#044E6B), to(#3391B5));
     background-image: -moz-linear-gradient(top, #044E6B, #3391B5);
@@ -73,6 +73,7 @@ input:focus, textarea:focus {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#044E6B', endColorstr='#3391B5', GradientType=0);
     border-color: #044E6B #044E6B  #3391B5;
     color: #222222;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .topbar div > ul .menu-dropdown, .nav .menu-dropdown, .topbar div > ul .dropdown-menu, .nav .dropdown-menu {
@@ -96,7 +97,7 @@ input:focus, textarea:focus {
     text-decoration: none;
     color: #222222;
 }
-                                                   center top , #044E6B 0%, #569BB5 90%, #569BB5 100%
+
 .label.success, .label.success a, .label.success:hover {
     background-color: transparent;
     color: #008800;
@@ -156,15 +157,21 @@ a:hover {
 .page-header {
     /*background-color: #f5f5f5;*/
     background: #569bb5; /* Old browsers */
-    background: -moz-linear-gradient(top, #044E6B 0%, #569BB5 90%, #569BB5 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#044E6B), color-stop(90%,#569bb5), color-stop(100%,#569BB5)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #044E6B 0%,#569bb5 90%,#569BB5 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #044E6B 0%,#569bb5 90%,#569BB5 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #044E6B 0%,#569bb5 90%,#569BB5 100%); /* IE10+ */
-    background: linear-gradient(top,  #044E6B 0%,#569bb5 70%,#569BB5 100%); /* W3C */
+    background: -moz-linear-gradient(top, #044E6B 0%, #569BB5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#044E6B), color-stop(100%,#569BB5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #044E6B 0%,#569BB5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #044E6B 0%,#569BB5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #044E6B 0%,#569BB5 100%); /* IE10+ */
+    background: linear-gradient(top,  #044E6B 0%,#569BB5 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#044E6B', endColorstr='#569BB5',GradientType=0 ); /* IE6-9 */
+
     margin: -10px -4px 10px -4px;
     padding: 20px 20px 10px;
+
+    -webkit-box-shadow: 0 2px 4px -1px rgba(4, 78, 107, 0.5);
+    -moz-box-shadow: 0 2px 4px -1px rgba(4, 78, 107, 0.5);
+    box-shadow: 0 2px 4px -1px rgba(4, 78, 107, 0.5);
+    border-bottom: 0 solid transparent;
 }
 
 .page-header h1 {
@@ -172,6 +179,10 @@ a:hover {
 }
 
 .span12 {
+    margin: 10px 0;
+}
+
+.span16 {
     margin: 10px 0;
 }
 
@@ -327,9 +338,26 @@ a#signin-link i {
 }
 
 code {
-    background-color: #cfdfe6;
+    background-color: #CCE1E8;
 }
 
 pre {
-    background-color: #cfdfe6;
+    background-color: #CCE1E8;
+}
+
+pre code {
+    background-color: transparent;
+}
+
+code pre {
+    background-color: transparent;
+}
+
+.media-grid a {
+    margin: 0 0 8px 20px;
+}
+
+.media-grid a:hover {
+    border-color: #3391b5;
+    box-shadow: 0 1px 4px rgba(51, 145, 181, 0.3);
 }
