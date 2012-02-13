@@ -9,8 +9,8 @@
 <body>
 
 <div class="page-header">
-  <h1><g:message code="griffon.portal.auth.User.signin.label"/> <small><g:message
-          code="griffon.portal.auth.User.signin.message"/></small></h1>
+  <h1><g:message code="griffon.portal.auth.User.signin.label"/></h1><g:message
+          code="griffon.portal.auth.User.signin.message"/>
 </div>
 
 <div class="row">

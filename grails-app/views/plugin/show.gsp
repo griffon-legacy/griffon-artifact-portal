@@ -10,7 +10,7 @@
 
 <div class="row">
   <div class="span16">
-    <tmpl:/pageheader><h1>${pluginName} <small><p>${pluginInstance.title}</p></small></h1></tmpl:/pageheader>
+    <tmpl:/pageheader><h1>${pluginName}</h1>${pluginInstance.title}</tmpl:/pageheader>
   </div>
 </div>
 

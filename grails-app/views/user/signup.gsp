@@ -9,8 +9,8 @@
 <body>
 
 <tmpl:/pageheader>
-  <h1><g:message code="griffon.portal.auth.User.signup.label"/> <small><g:message
-          code="griffon.portal.auth.User.signup.message"/></small></h1>
+  <h1><g:message code="griffon.portal.auth.User.signup.label"/></h1>
+    <g:message code="griffon.portal.auth.User.signup.message"/>
 </tmpl:/pageheader>
 
 <div class="row">
@@ -36,7 +36,8 @@
             </label>
 
             <div class="input">
-              <g:textField name="email" required="" tabindex="2" value="${command?.email}"/>
+              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="2"
+                               value="${command?.password}"/>
             </div>
           </div>
 
@@ -46,7 +47,7 @@
             </label>
 
             <div class="input">
-              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="3"
+              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="2"
                                value="${command?.password}"/>
             </div>
           </div>
@@ -57,7 +58,7 @@
             </label>
 
             <div class="input">
-              <g:passwordField id="password2" name="password2" autocomplete="off" required="" tabindex="4"
+              <g:passwordField id="password2" name="password2" autocomplete="off" required="" tabindex="3"
                                value="${command?.password2}"/>
               <small class="help-inline help-error" id="nomatch" style="display:none;">Passwords don't match</small>
             </div>
@@ -69,7 +70,7 @@
             </label>
 
             <div class="input">
-              <g:textField name="captcha" required="true" tabindex="5" value=""/>
+              <g:textField name="captcha" required="true" tabindex="4" value=""/>
               <br/><br/><br/>
               <jcaptcha:jpeg name="image"/>
             </div>

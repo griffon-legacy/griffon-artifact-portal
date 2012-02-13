@@ -44,7 +44,7 @@
 <br/><br/>
 
 <section id="basics">
-  <tmpl:/pageheader><h1>Basics <small>Connections &amp; errors.</small></h1></tmpl:/pageheader>
+  <tmpl:/pageheader><h1>Basics</h1>Connections &amp; errors.</tmpl:/pageheader>
 
   <div class="row" id="connection">
     <div class="span5">
@@ -101,7 +101,7 @@
 <br/><br/>
 
 <section id="queries">
-  <tmpl:/pageheader><h1>Queries <small>Retrieving artifact metadata.</small></h1></tmpl:/pageheader>
+  <tmpl:/pageheader><h1>Queries</h1>Retrieving artifact metadata.</tmpl:/pageheader>
 
   <div class="row" id="allartifacts">
     <div class="span5">
@@ -304,7 +304,7 @@
 <br/><br/>
 
 <section id="download">
-  <tmpl:/pageheader><h1>Download <small>Retrieving Zip files</small></h1></tmpl:/pageheader>
+  <tmpl:/pageheader><h1>Download</h1>Retrieving Zip files</tmpl:/pageheader>
 
   <div class="row" id="artifacts">
     <div class="span5">
@@ -388,7 +388,7 @@
 <br/><br/>
 
 <section id="repository">
-  <tmpl:/pageheader><h1>Repository <small>Ivy style repository view</small></h1></tmpl:/pageheader>
+  <tmpl:/pageheader><h1>Repository</h1>Ivy style repository view</tmpl:/pageheader>
 
   <div class="row" id="metadata">
     <div class="span5">

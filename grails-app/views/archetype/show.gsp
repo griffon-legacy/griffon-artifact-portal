@@ -10,7 +10,7 @@
 
 <div class="row">
   <div class="span16">
-    <tmpl:/pageheader><h1>${archetypeName} <small><p>${archetypeInstance.title}</p></small></h1></tmpl:/pageheader>
+    <tmpl:/pageheader><h1>${archetypeName}/h1>${archetypeInstance.title}</tmpl:/pageheader>
   </div>
 </div>
 
