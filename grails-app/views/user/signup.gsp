@@ -16,7 +16,7 @@
 <div class="row">
   <div class="span16">
     <div id="create-user" class="scaffold-create" role="main">
-      <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
+      <g:render template="/shared/errors_and_messages" model="[bean: command, cssClass: 'span10']"/>
       <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
         <g:hiddenField name="filled" value="true"/>
         <fieldset>
