@@ -61,7 +61,7 @@ input:focus, textarea:focus {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#013345', endColorstr='#044e6b', GradientType=0);
 }
 
-.btn.small {           rgba
+.btn.small {
     background-color: #3391B5;
     background-image: -khtml-gradient(linear, left top, left bottom, from(#044E6B), to(#3391B5));
     background-image: -moz-linear-gradient(top, #044E6B, #3391B5);

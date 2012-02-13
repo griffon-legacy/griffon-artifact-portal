@@ -5,11 +5,11 @@ input, select, textarea {
 }
 
 html {
-    background-color: #D46060;
-    background-image: -moz-linear-gradient(center top, #F2CFCF, #D46060);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F2CFCF), color-stop(1, #D46060));
-    background-image: linear-gradient(top, #F2CFCF, #D46060);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#F2CFCF', EndColorStr = '#D46060');
+    background-color: #FFFFFF;
+    background-image: -moz-linear-gradient(center top, #DDDDDD, #FFFFFF);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #DDDDDD), color-stop(1, #FFFFFF));
+    background-image: linear-gradient(top, #DDDDDD, #FFFFFF);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#DDDDDD', EndColorStr = '#FFFFFF');
     background-repeat: no-repeat;
     height: 100%;
     -webkit-box-sizing: border-box;
@@ -18,11 +18,11 @@ html {
 }
 
 html.no-cssgradients {
-    background-color: #F2CFCF;
+    background-color: #FFFFFF;
 }
 
 #griffonLogo {
-    background-color: #ffffff;
+    background-color: #FFFFFF;
 }
 
 /* CREATE/EDIT FORMS AND SHOW PAGES */
@@ -302,9 +302,9 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #D46060;
-    -webkit-box-shadow: 0 0 0.3em #D46060;
-    box-shadow: 0 0 0.3em #D46060;
+    -moz-box-shadow: 0 0 0.3em #AAAAAA;
+    -webkit-box-shadow: 0 0 0.3em #AAAAAA;
+    box-shadow: 0 0 0.3em #AAAAAA;
     padding-top: 50px;
 }
 
@@ -317,7 +317,6 @@ a.skip {
     border: none;
     text-decoration: none;
     background: transparent;
-    color: #006dba;
 }
 
 .artifact .artifact-header .artifact-detail {
@@ -394,9 +393,9 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #D46060;
-    -webkit-box-shadow: 0 0 0.3em #D46060;
-    box-shadow: 0 0 0.3em #D46060;
+    -moz-box-shadow: 0 0 0.3em #AAAAAA;
+    -webkit-box-shadow: 0 0 0.3em #AAAAAA;
+    box-shadow: 0 0 0.3em #AAAAAA;
     padding-top: 0px;
 }
 
@@ -452,9 +451,9 @@ a.skip {
     color: #333333;
     margin: 0px auto;
     overflow-x: hidden;
-    -moz-box-shadow: 0 0 0.3em #D46060;
-    -webkit-box-shadow: 0 0 0.3em #D46060;
-    box-shadow: 0 0 0.3em #D46060;
+    -moz-box-shadow: 0 0 0.3em #AAAAAA;
+    -webkit-box-shadow: 0 0 0.3em #AAAAAA;
+    box-shadow: 0 0 0.3em #AAAAAA;
 }
 
 .comment-header {
