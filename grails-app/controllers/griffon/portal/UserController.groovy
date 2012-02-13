@@ -91,10 +91,10 @@ class UserController {
             return
         }
 
-        command.password = MD5.encode(command.password)
         User user = new User()
         user.properties = command.properties
         user.membership.status = Membership.Status.PENDING
+        user.password = MD5.encode(user.password)
         if (!user.save(flush: true)) {
             user.errors.fieldErrors.each { error ->
                 command.errors.rejectValue(
