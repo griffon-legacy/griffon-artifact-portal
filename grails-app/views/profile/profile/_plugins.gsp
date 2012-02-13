@@ -19,7 +19,7 @@
                 <div class="pull-right">
                   <g:link controller="${pluginInstance.type}" action="show" params="[name: pluginInstance.name]"
                           mapping="show_${pluginInstance.type}"
-                          class="btn primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+                          class="btn primary" style="white-space: nowrap">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
                 </div>
               </td>
             </tr>

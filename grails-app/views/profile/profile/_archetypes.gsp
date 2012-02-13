@@ -21,7 +21,7 @@
                 <div class="pull-right">
                   <g:link controller="${archetypeInstance.type}" action="show" params="[name: archetypeInstance.name]"
                           mapping="show_${archetypeInstance.type}"
-                          class="btn primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+                          class="btn primary" style="white-space: nowrap">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
                 </div>
               </td>
             </tr>

@@ -1,4 +1,8 @@
 <%@ page import="griffon.portal.auth.Membership" %>
+
+<%
+    String listSpan = profileInstance.twitter ? 'span11' : 'span16'
+%>
 <tmpl:/pageheader>
   <div class="row">
     <div class="span14">
@@ -29,7 +33,7 @@
     </div>
   </div>
 </tmpl:/pageheader>
-<div class="span16">
+<div class="${listSpan}">
     <g:if test="${loggedIn}">
         <g:if test="${profileInstance.user.membership.status == Membership.Status.ACCEPTED}">
             <div id="modal-upload" class="modal hide fade">
@@ -65,7 +69,7 @@
             </div>
 
             <button class="btn primary pull-right" data-controls-modal="modal-upload" data-backdrop="static"
-                    data-keyboard="true" id="upload-apply" style="margin-right: 20px">
+                    data-keyboard="true" id="upload-apply">
                 ${message(code: 'griffon.portal.button.upload.label', default: 'Upload a Release')}</button>
             <script language="javascript">
                 $('#upload-apply').click(function () {
@@ -74,7 +78,7 @@
                     $('#upload-message').html('');
                     $('#upload-cancel').removeClass('success');
                     $('#upload-cancel').addClass('danger');
-                });         <div class="page-header">
+                });         //<div class="page-header">
             </script>
         </g:if>
         <g:elseif test="${profileInstance.user.membership.status == Membership.Status.NOT_REQUESTED}">
