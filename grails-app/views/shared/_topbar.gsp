@@ -26,7 +26,7 @@
                     href="${application.contextPath}/api">API</a></li>
             <g:if test="${session.user}">
               <li id="global-nav-profile" class="<%=isMenuActive('profile')%>"><a
-                      href="${application.contextPath}/profile/show/${session.user.username}">Profile</a></li>
+                      href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
             </g:if>
           </ul>
         </div>
@@ -63,7 +63,7 @@
                       <input class="medium" id="username" name="username" type="text" placeholder="Username"/>
                       <input class="medium" id="passwd" name="passwd" type="password" placeholder="Password"/>
                       <br/><br/>
-                      <button class="btn small" type="submit" onclick="return checkLogin();">Sign in</button>
+                      <button class="btn primary" type="submit" onclick="return checkLogin();">Sign in</button>
                     </g:form>
                   </div>
                 </li>

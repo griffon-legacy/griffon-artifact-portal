@@ -4,7 +4,7 @@ class UrlMappings {
         name signup: "/signup"(controller: 'user', action: 'signup')
         name login: "/login"(controller: 'user', action: 'login')
         name logout: "/logout"(controller: 'user', action: 'logout')
-        name subscribe: "/subscribe"(controller: 'user', action: 'subscribe')
+        name subscribe: "/subscribe"(controller: 'user', action: 'signup')
         name forgot_password: "/forgot_password"(controller: 'user', action: 'forgot_password')
         name forgot_username: "/forgot_username"(controller: 'user', action: 'forgot_username')
 
@@ -18,6 +18,8 @@ class UrlMappings {
 
         name profile: "/profile/$id/$tab?"(controller: 'profile', action: 'show')
         name author: "/author/$id/$tab?"(controller: 'author', action: 'show')
+
+        name confirm: "/confirm/$id?"(controller: 'emailConfirmation', action: 'index')
 
         '/api'(controller: 'api', action: 'index')
         '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}

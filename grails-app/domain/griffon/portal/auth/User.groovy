@@ -25,7 +25,7 @@ class User {
     String username
     String password
     String email
-    String fullName
+    String fullName = ''
     Membership membership = new Membership()
 
     Date dateCreated
@@ -39,7 +39,7 @@ class User {
         username(nullable: false, blank: false, unique: true)
         password(nullable: false, blank: false)
         email(nullable: false, email: true, unique: true)
-        fullName(nullable: false, blank: false)
+        fullName(nullable: false, blank: true)
         membership(nullable: false)
         profile(nullable: true)
     }

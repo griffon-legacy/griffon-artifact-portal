@@ -8,13 +8,13 @@
 
 <body>
 
-<div class="page-header">
+<tmpl:/pageheader>
   <h1><g:message code="griffon.portal.auth.User.forgot_username.label"/></h1>
   <g:message code="griffon.portal.auth.User.forgot_username.message"/>
-</div>
+</tmpl:/pageheader>
 
 <div class="row">
-  <div class="span-two-thirds">
+  <div class="span16">
     <div id="resend-username" class="scaffold-create" role="main">
       <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
       <g:form action="forgot_username" mapping="forgot_username">

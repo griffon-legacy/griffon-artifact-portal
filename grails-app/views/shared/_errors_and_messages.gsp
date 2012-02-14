@@ -1,3 +1,4 @@
+<div <g:if test="${cssClass}">class="${cssClass}"</g:if>>
 <g:if test="${flash.message}">
   <div class="alert-message success" id="output">
     <a class="close" href="#" onclick="$('#output').hide()">×</a>
@@ -14,3 +15,4 @@
     </div>
   </g:eachError>
 </g:hasErrors>
+</div>

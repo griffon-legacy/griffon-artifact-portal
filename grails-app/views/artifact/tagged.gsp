@@ -12,9 +12,9 @@
 <body>
 
 <div class="row">
-  <div class="page-header">
+  <tmpl:/pageheader>
     <h1>${capitalizedType}s - ${categoryType.capitalizedName}</h1>
-  </div>
+  </tmpl:/pageheader>
 </div>
 
 <div class="row">

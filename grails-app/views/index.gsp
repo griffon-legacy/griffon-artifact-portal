@@ -8,9 +8,7 @@
 <body>
 
 <div class="row">
-  <div class="page-header">
-    <h1>Welcome to the Griffon Artifact Portal!</h1>
-  </div>
+  <tmpl:/pageheader><h1>Welcome to the Griffon Artifact Portal!</h1></tmpl:/pageheader>
 </div>
 
 <div class="row">

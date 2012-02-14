@@ -8,9 +8,9 @@
 
 <body>
 
-<div class="page-header">
+<tmpl:/pageheader>
   <h1><g:message code="griffon.portal.auth.User.pending.label"/></h1>
-</div>
+</tmpl:/pageheader>
 
 <div class="row">
   <div class="span16">

@@ -8,15 +8,15 @@
 
 <body>
 
-<div class="page-header">
-  <h1><g:message code="griffon.portal.auth.User.signup.label"/> <small><g:message
-          code="griffon.portal.auth.User.signup.message"/></small></h1>
-</div>
+<tmpl:/pageheader>
+  <h1><g:message code="griffon.portal.auth.User.signup.label"/></h1>
+    <g:message code="griffon.portal.auth.User.signup.message"/>
+</tmpl:/pageheader>
 
 <div class="row">
-  <div class="span-two-thirds">
+  <div class="span16">
     <div id="create-user" class="scaffold-create" role="main">
-      <g:render template="/shared/errors_and_messages" model="[bean: command]"/>
+      <g:render template="/shared/errors_and_messages" model="[bean: command, cssClass: 'span10']"/>
       <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
         <g:hiddenField name="filled" value="true"/>
         <fieldset>
@@ -30,9 +30,20 @@
             </div>
           </div>
 
+          <div class="clearfix ${hasErrors(bean: command, field: 'email', 'error')}">
+            <label for="email">
+              <g:message code="user.email.label" default="Email"/>
+            </label>
+
+            <div class="input">
+              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="2"
+                               value="${command?.password}"/>
+            </div>
+          </div>
+
           <div class="clearfix ${hasErrors(bean: command, field: 'password', 'error')}">
             <label for="password">
-              <g:message code="user.email.label" default="Email"/>
+              <g:message code="user.password.label" default="Password"/>
             </label>
 
             <div class="input">
@@ -74,7 +85,7 @@
     </div>
   </div>
 
-  <div class="span-one-third">
+  <div class="span-one-third" style="position: absolute; margin-left: -300px;">
     <h3>Account Benefits</h3>
 
     <p>Signing up for an account grants you the following benefits:

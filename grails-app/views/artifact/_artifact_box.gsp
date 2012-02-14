@@ -43,7 +43,7 @@
   <div class="artifact-more-info">
     <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
             mapping="show_${artifactInstance.type}"
-            class="btn small primary pull-right">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+            class="btn primary pull-right">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
   </div>
 </div>
 <br clear="all"/>

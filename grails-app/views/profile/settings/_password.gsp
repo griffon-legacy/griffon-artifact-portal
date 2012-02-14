@@ -37,7 +37,7 @@
     </div>
 
     <div class="actions">
-      <input class="btn primary small" tabindex="4" type="submit" value="Change"/></div>
+      <input class="btn primary" tabindex="4" type="submit" value="Change"/></div>
   </g:form>
 </div>
 

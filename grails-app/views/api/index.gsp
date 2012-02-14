@@ -6,9 +6,7 @@
 </head>
 
 <body>
-<div class="page-header">
-  <h1>Griffon Artifact Portal API</h1>
-</div>
+<tmpl:/pageheader><h1>Griffon Artifact Portal API</h1></tmpl:/pageheader>
 
 <div class="row">
   <div class="span16">
@@ -46,9 +44,7 @@
 <br/><br/>
 
 <section id="basics">
-  <div class="page-header">
-    <h1>Basics <small>Connections &amp; errors.</small></h1>
-  </div>
+  <tmpl:/pageheader><h1>Basics</h1>Connections &amp; errors.</tmpl:/pageheader>
 
   <div class="row" id="connection">
     <div class="span5">
@@ -105,9 +101,7 @@
 <br/><br/>
 
 <section id="queries">
-  <div class="page-header">
-    <h1>Queries <small>Retrieving artifact metadata.</small></h1>
-  </div>
+  <tmpl:/pageheader><h1>Queries</h1>Retrieving artifact metadata.</tmpl:/pageheader>
 
   <div class="row" id="allartifacts">
     <div class="span5">
@@ -310,9 +304,7 @@
 <br/><br/>
 
 <section id="download">
-  <div class="page-header">
-    <h1>Download <small>Retrieving Zip files</small></h1>
-  </div>
+  <tmpl:/pageheader><h1>Download</h1>Retrieving Zip files</tmpl:/pageheader>
 
   <div class="row" id="artifacts">
     <div class="span5">
@@ -396,9 +388,7 @@
 <br/><br/>
 
 <section id="repository">
-  <div class="page-header">
-    <h1>Repository <small>Ivy style repository view</small></h1>
-  </div>
+  <tmpl:/pageheader><h1>Repository</h1>Ivy style repository view</tmpl:/pageheader>
 
   <div class="row" id="metadata">
     <div class="span5">
