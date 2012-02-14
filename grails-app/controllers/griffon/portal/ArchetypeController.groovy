@@ -85,7 +85,7 @@ class ArchetypeController {
         }
 
         [
-                archetypeName: GrailsNameUtils.getNaturalName(archetypeName),
+                archetypeName: archetypeName,
                 archetypeInstance: archetypeInstance,
                 authorList: authorList,
                 releaseList: releaseList,

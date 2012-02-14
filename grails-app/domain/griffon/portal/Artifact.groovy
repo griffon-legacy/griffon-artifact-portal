@@ -64,7 +64,8 @@ class Artifact implements Rateable, Taggable, Commentable {
     }
 
     String getCapitalizedName() {
-        GrailsNameUtils.getNaturalName(name)
+        // GrailsNameUtils.getNaturalName(name)
+        name
     }
 
     String getCapitalizedType() {

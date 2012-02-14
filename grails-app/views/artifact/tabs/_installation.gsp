@@ -1,7 +1,6 @@
-<%@ page import="grails.util.GrailsNameUtils" %>
 <div class="row">
   <div class="span16">
-    <p>There are several ways to install a release of ${GrailsNameUtils.getNaturalName(artifactInstance.name)} using the <code>install-${artifactInstance.type}</code> target of the griffon command line tool.
+    <p>There are several ways to install a release of ${artifactInstance.name} using the <code>install-${artifactInstance.type}</code> target of the griffon command line tool.
     </p>
 
     <div class="row">

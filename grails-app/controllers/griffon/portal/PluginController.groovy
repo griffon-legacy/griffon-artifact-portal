@@ -85,7 +85,7 @@ class PluginController {
         }
 
         [
-                pluginName: GrailsNameUtils.getNaturalName(pluginName),
+                pluginName: pluginName,
                 pluginInstance: pluginInstance,
                 authorList: authorList,
                 releaseList: releaseList,
