@@ -128,7 +128,8 @@
                 "name": "glazedlists",
                 "title": "Adds GlazedLists support to Views",
                 "license": "Apache Software License 2.0",
-                "source": "",
+                "source": "https://github.com/griffon/griffon-glazedlists-plugin",
+                "documentation": "",
                 "toolkits": "swing",
                 "platforms": ""
                 "authors": [
@@ -184,7 +185,8 @@
             "title": "Adds GlazedLists support to Views",
             "description": "Adds GlazedLists support to Views",
             "license": "Apache Software License 2.0",
-            "source": "",
+            "source": "https://github.com/griffon/griffon-glazedlists-plugin",
+            "documentation": "",
             "toolkits": "swing",
             "platforms": ""
             "authors": [
@@ -239,7 +241,8 @@
             "title": "Adds GlazedLists support to Views",
             "description": "Adds GlazedLists support to Views",
             "license": "Apache Software License 2.0",
-            "source": "",
+            "source": "https://github.com/griffon/griffon-glazedlists-plugin",
+            "documentation": "",
             "toolkits": "swing",
             "platforms": ""
             "authors": [
@@ -278,7 +281,8 @@
             "title": "Initializes an application with SWT support",
             "description": "Initializes an application with SWT support",
             "license": "Apache Software License 2.0",
-            "source": "",
+            "source": "https://github.com/griffon/griffon-swt-archetype",
+            "documentation": "",
             "authors": [
                 {
                     "name": "Andres Almiray",
@@ -408,6 +412,8 @@
         Downloads the plugin named &lt;name&gt; with version &lt;version&gt;.</p>
       <p><code>/repository/plugins/&lt;name&gt;/&lt;version&gt;/griffon-&lt;name&gt;-&lt;version&gt;.zip.md5</code><br/>
         Downloads the plugin's checksum whose name matches &lt;name&gt; and version matches &lt;version&gt;.</p>
+      <p><code>/repository/plugins/&lt;name&gt;/&lt;version&gt;/griffon-&lt;name&gt;-&lt;version&gt;-release.zip</code><br/>
+        Downloads the plugin's release whose name matches &lt;name&gt; and version matches &lt;version&gt;.</p>
       <br/><br/>
       <p><code>/repository/archetypes/</code><br/>
         Returns a JSON list of all archetypes.</p>
@@ -419,6 +425,8 @@
         Downloads the archetype named &lt;name&gt; with version &lt;version&gt;.</p>
       <p><code>/repository/archetypes/&lt;name&gt;/&lt;version&gt;/griffon-&lt;name&gt;-&lt;version&gt;.zip.md5</code><br/>
         Downloads the archetype's checksum whose name matches &lt;name&gt; and version matches &lt;version&gt;.</p>
+      <p><code>/repository/archetypes/&lt;name&gt;/&lt;version&gt;/griffon-&lt;name&gt;-&lt;version&gt;-release.zip</code><br/>
+        Downloads the archetype's release whose name matches &lt;name&gt; and version matches &lt;version&gt;.</p>
     </div>
   </div>
 </section>

@@ -57,4 +57,15 @@ public final class ArtifactInfo {
     public String getUsername() {
         return username;
     }
+
+    @Override
+    public String toString() {
+        return "ArtifactInfo{" +
+                "artifactName='" + artifactName + '\'' +
+                ", zipFile=" + zipFile +
+                ", file=" + file +
+                ", artifactVersion='" + artifactVersion + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

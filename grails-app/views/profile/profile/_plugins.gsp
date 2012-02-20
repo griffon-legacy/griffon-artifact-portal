@@ -7,21 +7,16 @@
           <tr>
             <th>${message(code: 'plugin.name.label', default: 'Name')}</th>
             <th>${message(code: 'plugin.title.label', default: 'Title')}</th>
-            <th></th>
           </tr>
           </thead>
           <tbody>
           <g:each in="${pluginList}" status="i" var="pluginInstance">
             <tr>
-              <td>${fieldValue(bean: pluginInstance, field: "capitalizedName")}</td>
-              <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
               <td>
-                <div class="pull-right">
-                  <g:link controller="${pluginInstance.type}" action="show" params="[name: pluginInstance.name]"
-                          mapping="show_${pluginInstance.type}"
-                          class="btn primary" style="white-space: nowrap">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
-                </div>
+                <g:link controller="${pluginInstance.type}" action="show" params="[name: pluginInstance.name]"
+                        mapping="show_${pluginInstance.type}">${fieldValue(bean: pluginInstance, field: "capitalizedName")}</g:link>
               </td>
+              <td>${fieldValue(bean: pluginInstance, field: "title")}</td>
             </tr>
           </g:each>
           </tbody>

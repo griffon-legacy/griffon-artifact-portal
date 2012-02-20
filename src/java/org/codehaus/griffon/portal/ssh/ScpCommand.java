@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * @author Andres Almiray
  */
 public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
-    private static final String ARTIFACT_REGEX = "griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\.zip";
+    private static final String ARTIFACT_REGEX = "griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)-release\\.zip";
     private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^" + ARTIFACT_REGEX + "$");
 
     private final ArtifactProcessor artifactProcessor;
@@ -56,7 +56,6 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
         }
 
         doWriteFile(header, file);
-
         String artifactName = matcher.group(1);
         String artifactVersion = matcher.group(2);
         artifactProcessor.process(new ArtifactInfo(new File(file.getAbsolutePath()), artifactName, artifactVersion, username));
@@ -180,12 +179,12 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
             throw new IOException("Expected a C message but got '" + header + "'");
         }
 
-        String perms = header.substring(1, 5);
+        //String perms = header.substring(1, 5);
         long length = Long.parseLong(header.substring(6, header.indexOf(' ', 6)));
-        String name = header.substring(header.indexOf(' ', 6) + 1);
+        //String name = header.substring(header.indexOf(' ', 6) + 1);
 
-        File tmpdir = new File(System.getProperty("java.io.tmpdir"));
-        File file = new File(tmpdir, path.getName());
+        //File tmpdir = new File(System.getProperty("java.io.tmpdir"));
+        File file = new File(path.getName());
 
         if (file.exists() && file.isDirectory()) {
             throw new IOException("File is a directory: " + file);

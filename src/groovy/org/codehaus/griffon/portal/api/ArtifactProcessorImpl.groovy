@@ -39,10 +39,10 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
     PreferencesService preferencesService
 
     void process(ArtifactInfo artifactInfo) throws IOException {
-        for (artifact in ['plugin', 'archetype']) {
-            ZipEntry artifactEntry = artifactInfo.zipFile.getEntry(artifact + '.json')
+        for (artifactType in ['plugin', 'archetype']) {
+            ZipEntry artifactEntry = artifactInfo.zipFile.getEntry(artifactType + '.json')
             if (artifactEntry) {
-                handle(artifactInfo, artifact, artifactEntry)
+                handle(artifactInfo, artifactType, artifactEntry)
                 return
             }
         }
@@ -99,6 +99,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
     private void verifyArtifact(ArtifactInfo artifactInfo, json) {
         ZipFile zipFile = artifactInfo.zipFile
+        String releaseFileName = "griffon-${json.name}-${json.version}-release.zip"
         String fileName = "griffon-${json.name}-${json.version}.zip"
         ZipEntry artifactFileEntry = zipFile.getEntry(fileName)
         ZipEntry md5ChecksumEntry = zipFile.getEntry("${fileName}.md5")
@@ -113,18 +114,18 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
         byte[] bytes = zipFile.getInputStream(artifactFileEntry).bytes
         String computedHash = MD5.encode(bytes)
-        String releaseHash = zipFile.getInputStream(md5ChecksumEntry).text
+        String packageHash = zipFile.getInputStream(md5ChecksumEntry).text
 
-        if (computedHash.trim() != releaseHash.trim()) {
+        if (computedHash.trim() != packageHash.trim()) {
             throw new IOException("Wrong checksum for ${fileName}")
         }
 
-        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
-        String basePath = "${releasesStoreDir}/${json.type}/${json.name}/${json.version}/"
-        String releaseFilePath = "${basePath}${fileName}"
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        String basePath = "${packagesStoreDir}/${json.type}/${json.name}/${json.version}/"
+        String packageFilePath = "${basePath}${fileName}"
         String md5ChecksumPath = "${basePath}${fileName}.md5"
-        new File(releaseFilePath).getParentFile().mkdirs()
-        OutputStream os = new FileOutputStream(releaseFilePath)
+        new File(packageFilePath).getParentFile().mkdirs()
+        OutputStream os = new FileOutputStream(packageFilePath)
         os.bytes = zipFile.getInputStream(artifactFileEntry).bytes
         os = new FileOutputStream(md5ChecksumPath)
         os.bytes = zipFile.getInputStream(md5ChecksumEntry).bytes
@@ -136,12 +137,12 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             json.releaseNotes = zipFile.getInputStream(releaseNotesEntry).text
         }
 
-        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
-        basePath = "${packagesStoreDir}/${json.type}/${json.name}/${json.version}/"
-        String packageFilePath = "${basePath}${fileName}"
-        File packageFile = new File(packageFilePath)
+        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
+        basePath = "${releasesStoreDir}/${json.type}/${json.name}/${json.version}/"
+        String releaseFilePath = "${basePath}${releaseFileName}"
+        File packageFile = new File(releaseFilePath)
         packageFile.getParentFile().mkdirs()
-        os = new FileOutputStream(packageFilePath)
+        os = new FileOutputStream(releaseFilePath)
         os.bytes = artifactInfo.file.bytes
     }
 

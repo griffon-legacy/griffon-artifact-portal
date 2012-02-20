@@ -9,21 +9,16 @@
           <tr>
             <th>${message(code: 'archetype.name.label', default: 'Name')}</th>
             <th>${message(code: 'archetype.title.label', default: 'Title')}</th>
-            <th></th>
           </tr>
           </thead>
           <tbody>
           <g:each in="${archetypeList}" status="i" var="archetypeInstance">
             <tr>
-              <td>${fieldValue(bean: archetypeInstance, field: "capitalizedName")}</td>
-              <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
               <td>
-                <div class="pull-right">
-                  <g:link controller="${archetypeInstance.type}" action="show" params="[name: archetypeInstance.name]"
-                          mapping="show_${archetypeInstance.type}"
-                          class="btn primary" style="white-space: nowrap">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
-                </div>
+                <g:link controller="${archetypeInstance.type}" action="show" params="[name: archetypeInstance.name]"
+                        mapping="show_${archetypeInstance.type}">${fieldValue(bean: archetypeInstance, field: "capitalizedName")}</g:link>
               </td>
+              <td>${fieldValue(bean: archetypeInstance, field: "title")}</td>
             </tr>
           </g:each>
           </tbody>

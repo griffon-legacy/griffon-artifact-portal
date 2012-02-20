@@ -24,10 +24,16 @@
         <div class="pull-right">
           <g:link controller="release" action="show"
                   params="[type: releaseInstance.artifact.type, name: releaseInstance.artifact.name, version: releaseInstance.artifactVersion]"
-                  mapping="display_release"
+                  mapping="display_package"
                   class="btn primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
-          <g:link controller="release" action="download" params="[id: releaseInstance.id]" mapping="download_release"
-                  class="btn success">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>
+          <g:link controller="release"
+                  params="[id: releaseInstance.id, type: releaseInstance.artifact.type, name: releaseInstance.artifact.name, version: releaseInstance.artifactVersion]"
+                  mapping="download_package"
+                  class="btn success">${message(code: 'griffon.portal.button.package.label', default: 'Package')}</g:link>
+          <g:link controller="release"
+                  params="[id: releaseInstance.id, type: releaseInstance.artifact.type, name: releaseInstance.artifact.name, version: releaseInstance.artifactVersion]"
+                  mapping="download_release"
+                  class="btn success">${message(code: 'griffon.portal.button.release.label', default: 'Release')}</g:link>
         </div>
       </td>
     </tr>

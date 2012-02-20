@@ -24,7 +24,6 @@
             <th>${message(code: 'artifact.type.label', default: 'Type')}</th>
             <th>${message(code: 'artifact.name.label', default: 'Name')}</th>
             <th>${message(code: 'artifact.title.label', default: 'Title')}</th>
-            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -40,15 +39,11 @@
                                                                                         dir="images"
                                                                                         file="watch_on.png"/></g:remoteLink></td>
               <td>${fieldValue(bean: artifactInstance, field: "type")}</td>
-              <td>${fieldValue(bean: artifactInstance, field: "capitalizedName")}</td>
-              <td>${fieldValue(bean: artifactInstance, field: "title")}</td>
               <td>
-                <div class="pull-right">
-                  <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
-                          mapping="show_${artifactInstance.type}"
-                          class="btn primary">${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
-                </div>
+                <g:link controller="${artifactInstance.type}" action="show" params="[name: artifactInstance.name]"
+                        mapping="show_${artifactInstance.type}">${fieldValue(bean: artifactInstance, field: "capitalizedName")}</g:link>
               </td>
+              <td>${fieldValue(bean: artifactInstance, field: "title")}</td>
             </tr>
           </g:each>
           </tbody>

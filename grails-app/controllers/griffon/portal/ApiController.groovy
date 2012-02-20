@@ -19,7 +19,9 @@ package griffon.portal
 import grails.converters.JSON
 import griffon.portal.auth.User
 import griffon.portal.stats.Download
+import griffon.portal.util.MD5
 import static grails.util.GrailsNameUtils.isBlank
+import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 
 /**
@@ -155,19 +157,28 @@ class ApiController {
             return
         }
 
-        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
-        String basePath = "${releasesStoreDir}/${params.type}/${params.name}/${params.version}/"
-        String fileName = "griffon-${params.name}-${params.version}.zip" + (params.md5 ? '.md5' : '')
+        String storeDir = preferencesService.getValueOf(params.release ? RELEASES_STORE_DIR : PACKAGES_STORE_DIR)
+        String basePath = "${storeDir}/${params.type}/${params.name}/${params.version}/"
+        String fileName = "griffon-${params.name}-${params.version}"
+        if (params.release) {
+            fileName += '-release.zip'
+        } else if (params.md5) {
+            fileName += '.zip.md5'
+        } else {
+            fileName += '.zip'
+        }
         File file = new File("${basePath}${fileName}")
         byte[] content = file.bytes
 
         String username = request.getHeader('x-username')?.trim()
         if (isBlank(username) || !User.findByUsername(username)) {
             username = 'GRIFFON_API'
+        } else {
+            username = MD5.encode(username)
         }
 
         response.contentType = 'text/plain'
-        if (!params.md5) {
+        if (!params.md5 && !params.release) {
             new Download(
                     username: username,
                     release: release,

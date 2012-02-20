@@ -34,24 +34,38 @@ class UrlMappings {
         '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
         "/repository/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}
-        "/repository/plugins/$name/$version/griffon-${name}-${version}.zip"(controller: 'api', action: 'download') {
+        "/repository/plugins/$name/$version/griffon-${nameAndVersion}.zip"(controller: 'api', action: 'download') {
             type = 'plugin'
             md5 = false
+            release = false
         }
-        "/repository/plugins/$name/$version/griffon-${name}-${version}.zip.md5"(controller: 'api', action: 'download') {
+        "/repository/plugins/$name/$version/griffon-${nameAndVersion}.zip.md5"(controller: 'api', action: 'download') {
             type = 'plugin'
             md5 = true
+            release = false
+        }
+        "/repository/plugins/$name/$version/griffon-${nameAndVersion}-release.zip"(controller: 'api', action: 'download') {
+            type = 'plugin'
+            md5 = false
+            release = true
         }
         '/repository/archetypes'(controller: 'api', action: 'list') { type = 'archetype'}
         "/repository/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype'}
         "/repository/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype'}
-        "/repository/archetypes/$name/$version/griffon-${name}-${version}.zip"(controller: 'api', action: 'download') {
+        "/repository/archetypes/$name/$version/griffon-${nameAndVersion}.zip"(controller: 'api', action: 'download') {
             type = 'archetype'
             md5 = false
+            release = false
         }
-        "/repository/archetypes/$name/$version/griffon-${name}-${version}.zip.md5"(controller: 'api', action: 'download') {
+        "/repository/archetypes/$name/$version/griffon-${nameAndVersion}.zip.md5"(controller: 'api', action: 'download') {
             type = 'archetype'
             md5 = true
+            release = false
+        }
+        "/repository/archetypes/$name/$version/griffon-${nameAndVersion}-release.zip"(controller: 'api', action: 'download') {
+            type = 'archetype'
+            md5 = false
+            release = true
         }
 
         name categories_plugin: "/category/$action/plugins"(controller: 'artifact') {
@@ -78,10 +92,10 @@ class UrlMappings {
         name show_plugin: "/plugin/$name/$tab?"(controller: 'plugin', action: 'show')
         name show_archetype: "/archetype/$name/$tab?"(controller: 'archetype', action: 'show')
         name show_docs: "/docs/$type/$name"(controller: 'docs', action: 'show')
-        name show_release: "/release/show/$id"(controller: 'release', action: 'show')
-        name download_release: "/release/download/$id"(controller: 'release', action: 'download')
-        name display_release: "/release/$type/$name/$version"(controller: 'release', action: 'display')
-        name download_package: "/package/$type/$name/$version"(controller: 'release', action: 'download_package')
+        name show_release: "/package/show/$id"(controller: 'release', action: 'show')
+        name download_package: "/package/download/$id/$type/$name/$version"(controller: 'release', action: 'download_package')
+        name display_package: "/package/$type/$name/$version"(controller: 'release', action: 'display')
+        name download_release: "/release/download/$id/$type/$name/$version"(controller: 'release', action: 'download_release')
 
         "/$controller/$action?/$id?" {
             constraints {

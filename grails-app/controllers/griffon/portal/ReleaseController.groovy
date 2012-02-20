@@ -17,7 +17,6 @@
 package griffon.portal
 
 import grails.converters.JSON
-import grails.util.GrailsNameUtils
 import griffon.portal.stats.Download
 import griffon.portal.stats.DownloadTotal
 import java.util.regex.Matcher
@@ -26,14 +25,14 @@ import javax.servlet.http.HttpServletRequest
 import org.codehaus.griffon.portal.api.ArtifactInfo
 import org.codehaus.griffon.portal.api.ArtifactProcessor
 import org.springframework.web.multipart.MultipartHttpServletRequest
-import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
+import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 
 /**
  * @author Andres Almiray
  */
 class ReleaseController {
-    private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\.zip\$")
+    private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\-release.zip\$")
 
     ArtifactProcessor artifactProcessor
     PreferencesService preferencesService
@@ -96,7 +95,7 @@ class ReleaseController {
         ])
     }
 
-    def download() {
+    def download_package() {
         if (!params.id) {
             redirect(uri: '/')
             return
@@ -110,9 +109,9 @@ class ReleaseController {
         }
 
         Artifact artifact = releaseInstance.artifact
-        String type = GrailsNameUtils.getShortName(artifact.getClass()).toLowerCase()
-        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
-        String basePath = "${releasesStoreDir}/${type}/${artifact.name}/${releaseInstance.artifactVersion}/"
+        String type = artifact.type
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        String basePath = "${packagesStoreDir}/${type}/${artifact.name}/${releaseInstance.artifactVersion}/"
         String fileName = "griffon-${artifact.name}-${releaseInstance.artifactVersion}.zip"
         File file = new File("${basePath}${fileName}")
         byte[] content = file.bytes
@@ -142,23 +141,28 @@ class ReleaseController {
         response.outputStream << content
     }
 
-    def download_package() {
-        if (!params.type || !params.name || !params.version) {
+    def download_release() {
+        if (!params.id) {
             redirect(uri: '/')
             return
         }
 
-        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
-        String basePath = "${packagesStoreDir}/${params.type}/${params.name}/${params.version}/"
-        String fileName = "griffon-${params.name}-${params.version}.zip"
+        def releaseId = params.id instanceof Long ? params.id : params.id.toLong()
+        Release releaseInstance = Release.get(releaseId)
+        if (!releaseInstance) {
+            redirect(uri: '/')
+            return
+        }
+
+        Artifact artifact = releaseInstance.artifact
+        String type = artifact.type
+
+        String releasesStoreDir = preferencesService.getValueOf(RELEASES_STORE_DIR)
+        String basePath = "${releasesStoreDir}/${type}/${artifact.name}/${releaseInstance.artifactVersion}/"
+        String fileName = "griffon-${artifact.name}-${releaseInstance.artifactVersion}-release.zip"
         File file = new File("${basePath}${fileName}")
-        if (!file.exists()) {
-            // should result in 404
-            redirect(uri: '/')
-            return
-        }
-
         byte[] content = file.bytes
+
         Date lastModified = new Date(file.lastModified())
         response.contentType = 'application/zip'
         response.contentLength = content.length
