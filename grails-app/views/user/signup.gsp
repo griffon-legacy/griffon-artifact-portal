@@ -36,8 +36,7 @@
             </label>
 
             <div class="input">
-              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="2"
-                               value="${command?.password}"/>
+              <g:textField name="email" required="" tabindex="2" value="${command?.email}"/>
             </div>
           </div>
 
