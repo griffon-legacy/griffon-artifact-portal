@@ -10,7 +10,10 @@
             !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api', 'artifact']) ? 'active' : ''
           }
           def isMenuActive = { String tabName ->
-            params?.controller == tabName ? 'active' : ''
+            if(params?.controller == 'artifact')
+                params?.type == tabName ? 'active' : ''
+            else
+                params?.controller == tabName ? 'active' : ''
           }
         %>
         <div id="global-nav">
