@@ -37,7 +37,7 @@ class Artifact implements Rateable, Taggable, Commentable {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [authors: Author]
+    static hasMany = [authors: Author, releases: Release]
 
     static transients = ['type', 'capitalizedName', 'capitalizedType']
 
@@ -92,5 +92,38 @@ class Artifact implements Rateable, Taggable, Commentable {
             if (user) users << user
         }
         users
+    }
+    
+    Release getLatestRelease() {
+        return getReleases()?.sort {Release a, Release b -> compareVersions(a.artifactVersion, b.artifactVersion)}?.last()
+    }
+
+    private compareVersions = { String a, String b ->
+        def aParts = a.split(/[\.-]/)
+        boolean aSnapshot = false
+        aParts = aParts.inject([]) {c, i ->
+            if(i.toLowerCase() == 'snapshot') aSnapshot = true
+            else if (i.isNumber()) c << i.toInteger()
+            return c
+        }
+
+        def bParts = b.split(/[\.-]/)
+        boolean bSnapshot = false
+        bParts = bParts.inject([]) {c, i ->
+            if(i.toLowerCase() == 'snapshot') bSnapshot = true
+            else if (i.isNumber()) c << i.toInteger()
+            return c
+        }
+        def size = Math.min(aParts.size(), bParts.size())
+        for(int i = 0; i < size; i++) {
+            def diff = bParts[i] - aParts[i]
+            if(diff == 0  && i == size - 1 && aSnapshot && !bSnapshot)
+                return 1
+            else if(diff == 0 && i == size - 1 && !aSnapshot && bSnapshot)
+                return -1
+            else if(diff != 0)
+                return diff
+        }
+        return 0
     }
 }

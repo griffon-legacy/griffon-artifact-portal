@@ -1,4 +1,7 @@
 <div class="row">
+<%
+    griffon.portal.Release latestRelease = artifactInstance.latestRelease
+%>
   <div class="span16">
     <p>There are several ways to install a release of ${artifactInstance.name} using the <code>install-${artifactInstance.type}</code> target of the griffon command line tool.
     </p>
@@ -15,7 +18,7 @@
         <br clear="all"/>
         <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name}</code>
         <br clear="all"/><br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name} 1.0</code>
+        <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name} ${latestRelease?.artifactVersion}</code>
       </div>
     </div>
 
@@ -29,9 +32,9 @@
 
       <div class="span9">
         <br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/api/${artifactInstance.type}s/${artifactInstance.name}/1.0/download</code>
+        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/api/${artifactInstance.type}s/${artifactInstance.name}/${latestRelease?.artifactVersion}/download</code>
         <br clear="all"/><br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/repository/${artifactInstance.type}s/${artifactInstance.name}/1.0/griffon-${artifactInstance.name}-1.0.zip</code>
+        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/repository/${artifactInstance.type}s/${artifactInstance.name}/${latestRelease?.artifactVersion}/griffon-${artifactInstance.name}-${latestRelease?.artifactVersion}.zip</code>
       </div>
     </div>
 
@@ -45,7 +48,7 @@
 
       <div class="span9">
         <br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} /path/to/griffon-${artifactInstance.name}-1.0.zip</code>
+        <code>$ griffon install-${artifactInstance.type} /path/to/griffon-${artifactInstance.name}-${latestRelease?.artifactVersion}.zip</code>
       </div>
     </div>
   </div>
