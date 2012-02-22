@@ -76,7 +76,7 @@ template.comment.posted = '''
     <body>
     <h2>Hello there!</h2>
 
-    <p><a href="${serverURL}/profile/${poster}">${poster}</a> has left you a comment regarding your ${capitalizedName} ${type}.<br/>
+    <p><a href="${serverURL}/profile/${poster.username}">${poster.username}</a> has left you a comment regarding your ${capitalizedName} ${type}.<br/>
     You can read the post at the <a href="${serverURL}/${type}/${name}/comments">${type}'s page</a>.</p>
     <p>&nbsp;</p>
     <p>If you no longer wish to receive messages whenever a new comment is posted then log into your

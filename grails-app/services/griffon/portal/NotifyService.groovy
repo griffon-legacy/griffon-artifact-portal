@@ -100,7 +100,7 @@ class NotifyService {
         ]
         executorService.withoutPersistence {
             users.each { user ->
-                if (!user.notify || poster == user.username) return
+                if (!user.notify || poster.username == user.username) return
 
                 try {
                     mailService.sendMail {
