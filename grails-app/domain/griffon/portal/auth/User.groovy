@@ -69,6 +69,7 @@ class Membership {
         NOT_REQUESTED,
         PENDING,
         ACCEPTED,
-        REJECTED
+        REJECTED,
+        ADMIN
     }
 }

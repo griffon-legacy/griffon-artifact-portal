@@ -364,3 +364,31 @@ code pre {
     border-color: #3391b5;
     box-shadow: 0 1px 4px rgba(51, 145, 181, 0.3);
 }
+
+.topbar div > ul a.menu:hover, .nav a.menu:hover, .topbar div > ul li.open .menu, .nav li.open .menu, .topbar div > ul .dropdown-toggle:hover, .nav .dropdown-toggle:hover, .topbar div > ul .dropdown.open .dropdown-toggle, .nav .dropdown.open .dropdown-toggle {
+    background: none repeat scroll 0 0 rgba(34, 34, 34, 0.05);
+}
+
+::selection {
+    background: rgba(51, 45,181,0.5);
+}
+
+::-moz-selection {
+    background: rgba(51,145,181,0.5);
+}
+
+.pagination .currentStep {
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    float: left;
+    line-height: 34px;
+    padding: 0 14px;
+    text-decoration: none;
+}
+
+.pagination .nextLink {
+    border-right: none;
+}
+
+.pagination .prevLink {
+    padding-left: 10px;
+}

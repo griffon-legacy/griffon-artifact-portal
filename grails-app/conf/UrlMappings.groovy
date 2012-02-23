@@ -31,6 +31,12 @@ class UrlMappings {
         "/api/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype' }
         "/api/archetypes/$name/$version/download"(controller: 'api', action: 'download') { type = 'archetype' }
 
+        '/admin'(controller: 'user', action: 'list') { type = 'user' }
+        '/admin/user'(controller: 'user', action: 'list') { type = 'user' }
+        "/admin/user/$id"(controller: 'user', action: 'show') { type = 'user' }
+        "/admin/user/$id/delete"(controller: 'user', action: 'delete') { type = 'user' }
+        "/admin/user/$id/change/$status"(controller: 'user', action: 'changeMembership') { type = 'user' }
+
         '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
         "/repository/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}

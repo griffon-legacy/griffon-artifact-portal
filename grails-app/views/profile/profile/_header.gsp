@@ -35,7 +35,7 @@
 </tmpl:/pageheader>
 <div class="${listSpan}">
     <g:if test="${loggedIn}">
-        <g:if test="${profileInstance.user.membership.status == Membership.Status.ACCEPTED}">
+        <g:if test="${profileInstance.user.membership.status == Membership.Status.ACCEPTED || profileInstance.user.membership.status == Membership.Status.ADMIN}">
             <div id="modal-upload" class="modal hide fade">
                 <div class="modal-header">
                     <a href="#" class="close">&times;</a>

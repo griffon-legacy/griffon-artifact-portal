@@ -1,3 +1,4 @@
+<%@ page import="griffon.portal.auth.Membership" %>
 <div class="topbar" data-dropdown="dropdown">
   <div class="topbar-inner">
     <div class="container">
@@ -8,6 +9,9 @@
         <%
           def isHomeActive = {->
             !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api', 'artifact']) ? 'active' : ''
+          }
+          def isAdminActive = {->
+              params.controller == 'user' ? 'active' : ''
           }
           def isMenuActive = { String tabName ->
             if(params?.controller == 'artifact')
@@ -30,6 +34,10 @@
             <g:if test="${session.user}">
               <li id="global-nav-profile" class="<%=isMenuActive('profile')%>"><a
                       href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
+            </g:if>
+            <g:if test="${session.user?.membership?.status == Membership.Status.ADMIN}">
+              <li id="global-nav-admin" class="<%=isAdminActive()%>"><a
+                      href="${application.contextPath}/admin/user">Administration</a></li>
             </g:if>
           </ul>
         </div>

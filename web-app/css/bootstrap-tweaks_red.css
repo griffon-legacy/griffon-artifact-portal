@@ -383,3 +383,19 @@ code pre {
 ::-moz-selection {
     background: rgba(170,0,0,0.5);
 }
+
+.pagination .currentStep {
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    float: left;
+    line-height: 34px;
+    padding: 0 14px;
+    text-decoration: none;
+}
+
+.pagination .nextLink {
+    border-right: none;
+}
+
+.pagination .prevLink {
+    padding-left: 10px;
+}

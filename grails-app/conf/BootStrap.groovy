@@ -18,7 +18,7 @@ class BootStrap {
                 username: 'aalmiray',
                 password: MD5.encode('foo'),
                 membership: new Membership(
-                        status: Membership.Status.ACCEPTED,
+                        status: Membership.Status.ADMIN,
                         reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
                 )
         )
@@ -27,6 +27,24 @@ class BootStrap {
                 gravatarEmail: user.email,
                 website: 'http://jroller.com/aalmiray',
                 twitter: 'aalmiray'
+        )
+        user.save()
+
+        user = new User(
+                fullName: 'Alexander Klein',
+                email: 'info@aklein.org',
+                username: 'saschaklein',
+                password: MD5.encode('foo'),
+                membership: new Membership(
+                        status: Membership.Status.ACCEPTED,
+                        reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
+                )
+        )
+        user.profile = new Profile(
+                user: user,
+                gravatarEmail: user.email,
+                website: '',
+                twitter: 'saschaklein'
         )
         user.save()
 
