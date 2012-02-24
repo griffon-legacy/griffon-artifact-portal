@@ -34,6 +34,7 @@ class UrlMappings {
         '/admin'(controller: 'user', action: 'list') { type = 'user' }
         '/admin/user'(controller: 'user', action: 'list') { type = 'user' }
         "/admin/user/$id"(controller: 'user', action: 'show') { type = 'user' }
+        "/admin/user/$id/save"(controller: 'user', action: 'save') { type = 'user' }
         "/admin/user/$id/delete"(controller: 'user', action: 'delete') { type = 'user' }
         "/admin/user/$id/change/$status"(controller: 'user', action: 'changeMembership') { type = 'user' }
 

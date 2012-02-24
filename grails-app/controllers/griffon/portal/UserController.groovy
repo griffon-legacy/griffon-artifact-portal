@@ -25,6 +25,7 @@ import groovy.text.SimpleTemplateEngine
 import org.apache.commons.lang.RandomStringUtils
 import org.grails.mail.MailService
 import org.grails.plugin.jcaptcha.JcaptchaService
+import griffon.portal.values.SettingsTab
 
 /**
  * @author Andres Almiray
@@ -226,9 +227,9 @@ class UserController {
     }
 
     def list() {
-       if (session.user?.membership?.status != Membership.Status.ADMIN)
+        if (session.user?.membership?.status != Membership.Status.ADMIN)
             redirect(uri: '/')
-       [users: User.listOrderByUsername(params), userCount: User.count()]
+        [users: User.listOrderByUsername(params), userCount: User.count()]
     }
 
     def show() {
@@ -241,6 +242,31 @@ class UserController {
         [user: User.findByUsername(params.id)]
     }
 
+    def save() {
+        if (session.user?.membership?.status != Membership.Status.ADMIN)
+            redirect(uri: '/')
+        if (!params.id) {
+            redirect(action: 'list')
+            return
+        }
+        User userInstance = User.findByUsername(params.id)
+        if (!userInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
+            redirect(action: 'list')
+            return
+        }
+        userInstance.properties = params.properties
+        userInstance.profile.notifications.watchlist = params["profile.notifications.watchlist"] != null
+        userInstance.profile.notifications.content = params["profile.notifications.content"] != null
+        userInstance.profile.notifications.comments = params["profile.notifications.comments"] != null
+
+        if (!userInstance.save()) {
+            return render(view: 'show', model: [user: userInstance])
+        }
+        flash.message = message(code: 'admin.user.save.success', args: [params.id])
+        redirect(action: "show", id: userInstance.username)
+    }
+
     def delete() {
         if (session.user?.membership?.status != Membership.Status.ADMIN)
             redirect(uri: '/')
@@ -249,7 +275,7 @@ class UserController {
             return
         }
         User userInstance = User.findByUsername(params.id)
-        if (! userInstance) {
+        if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect(action: 'list')
             return
@@ -273,7 +299,7 @@ class UserController {
             render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
         }
         User userInstance = User.findByUsername(params.id)
-        if (! userInstance) {
+        if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             response.status = 404
             render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
@@ -283,7 +309,7 @@ class UserController {
             userInstance.membership.status = status
             userInstance.save()
             render(template: "/user/membership", model: ['user': params.id, 'currentStatus': params.status])
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             flash.message = message(code: 'admin.user.changeMembership.wrongstatus', args: [params.status])
             response.status = 400
             render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
