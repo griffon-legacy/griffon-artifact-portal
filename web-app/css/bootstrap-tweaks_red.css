@@ -399,3 +399,7 @@ code pre {
 .pagination .prevLink {
     padding-left: 10px;
 }
+
+.row .pagination {
+    margin-left: -20px;
+}

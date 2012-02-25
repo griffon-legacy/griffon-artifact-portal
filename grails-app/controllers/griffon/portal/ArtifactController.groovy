@@ -99,13 +99,14 @@ class ArtifactController {
     // --== CATEGORIES == --
 
     def all() {
-        List<Artifact> artifacts = []
+        Map args = [sort: 'name', order: 'asc']
+        List<Artifact> artifacts = []        
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.list(sort: 'name', order: 'asc')
+                artifacts = Plugin.list(args)
                 break
             case 'archetype':
-                artifacts = Archetype.list(sort: 'name', order: 'asc')
+                artifacts = Archetype.list(args)
                 break
         }
 
@@ -116,10 +117,18 @@ class ArtifactController {
             list << artifact
         }
 
+        artifacts = params.character ? artifacts.findAll { it.name[0].equalsIgnoreCase(params.character) } : artifacts
+        def total = artifacts.size()
+        def max = params.max?.toInteger() ?: 10
+        def offset = params.offset?.toInteger() ?: 0
+        def end = Math.min(offset+max, artifacts.size())
+
         [
                 artifactMap: artifactMap,
-                artifactTotal: artifacts.size(),
-                categoryType: Category.findByName(params.action)
+                artifacts: artifacts[offset..<end],
+                artifactTotal: total,
+                categoryType: Category.findByName(params.action),
+                character: params.character
         ]
     }
 
@@ -130,8 +139,6 @@ class ArtifactController {
         Map queryParams = [
                 sort: 'name',
                 order: 'asc',
-                max: 5,
-                offset: params.offset ?: 0
         ]
 
         switch (params.type) {
@@ -143,10 +150,14 @@ class ArtifactController {
                 break
         }
 
+        def max = params.max?.toInteger() ?: 5
+        def offset = params.offset?.toInteger() ?: 0
+        def end = Math.min(offset+max, artifacts.size())
+
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts,
+                        artifactList: artifacts[offset..<end],
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
                 ])
@@ -159,8 +170,6 @@ class ArtifactController {
         Map queryParams = [
                 sort: 'name',
                 order: 'asc',
-                max: 5,
-                offset: params.offset ?: 0
         ]
 
         switch (params.type) {
@@ -172,10 +181,14 @@ class ArtifactController {
                 break
         }
 
+        def max = params.max?.toInteger() ?: 5
+        def offset = params.offset?.toInteger() ?: 0
+        def end = Math.min(offset+max, artifacts.size())
+
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts,
+                        artifactList: artifacts[offset..<end],
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
                 ])
@@ -184,24 +197,23 @@ class ArtifactController {
     def highest_voted() {
         List<Artifact> artifacts = []
 
-        Map queryParams = [
-                max: 5,
-                offset: params.offset ?: 0
-        ]
-
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.listOrderByAverageRating(queryParams)
+                artifacts = Plugin.listOrderByAverageRating()
                 break
             case 'archetype':
-                artifacts = Archetype.listOrderByAverageRating(queryParams)
+                artifacts = Archetype.listOrderByAverageRating()
                 break
         }
+
+        def max = params.max?.toInteger() ?: 5
+        def offset = params.offset?.toInteger() ?: 0
+        def end = Math.min(offset+max, artifacts.size())
 
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts,
+                        artifactList: artifacts[offset..<end],
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
                 ])
@@ -211,18 +223,20 @@ class ArtifactController {
         Map queryParams = [
                 sort: 'total',
                 order: 'desc',
-                max: 5,
-                offset: params.offset ?: 0
         ]
 
         List<DownloadTotal> downloadList = DownloadTotal.withCriteria(queryParams) {
             eq('type', params.type)
         }
 
+        def max = params.max?.toInteger() ?: 5
+        def offset = params.offset?.toInteger() ?: 0
+        def end = Math.min(offset+max, downloadList.size())
+
         render(view: 'list',
                 model: [
                         hasDownloads: true,
-                        artifactList: downloadList,
+                        artifactList: downloadList[offset..<end],
                         artifactTotal: downloadList.size(),
                         categoryType: Category.findByName(params.action)
                 ])
@@ -258,8 +272,6 @@ class ArtifactController {
         Map queryParams = [
                 sort: 'name',
                 order: 'asc',
-                max: 5,
-                offset: params.offset ?: 0
         ]
 
         switch (params.type) {
@@ -271,10 +283,15 @@ class ArtifactController {
                 break
         }
 
+        def max = params.max?.toInteger() ?: 5
+        def offset = params.offset?.toInteger() ?: 0
+        def end = Math.min(offset+max, artifacts.size())
+
+
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts,
+                        artifactList: artifacts[offset..<end],
                         artifactTotal: artifacts.size(),
                         categoryType: Category.TAGGED
                 ])

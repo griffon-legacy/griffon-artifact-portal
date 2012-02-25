@@ -20,6 +20,13 @@
     <p><g:message code="categories.${categoryType.name}.unavailable" args="[params.type]"/></p>
   </g:else>
 </div>
-
+<div class="pagination">
+    <g:if test="${categoryType == griffon.portal.values.Category.TAGGED}">
+      <g:paginate controller="tags" action="${params.type}" id="${params.tagName}" total="${artifactTotal}"/>
+    </g:if>
+    <g:else>
+      <g:paginate action="${categoryType.name}" total="${artifactTotal}"/>
+    </g:else>
+</div>
 </body>
 </html>

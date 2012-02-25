@@ -75,14 +75,14 @@ class UrlMappings {
             release = true
         }
 
-        name categories_plugin: "/category/$action/plugins"(controller: 'artifact') {
+        name categories_plugin: "/category/$action/plugins/$character?"(controller: 'artifact') {
             type = 'plugin'
             constraints {
                 action(inList: griffon.portal.values.Category.getNamesAsList())
             }
         }
 
-        name categories_archetype: "/category/$action/archetypes"(controller: 'artifact') {
+        name categories_archetype: "/category/$action/archetypes/$character?"(controller: 'artifact') {
             type = 'archetype'
             constraints {
                 action(inList: griffon.portal.values.Category.getNamesAsList())
