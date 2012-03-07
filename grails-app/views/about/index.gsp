@@ -15,7 +15,7 @@
     <p>This portal wouldn't be running if it weren't due to the efforts of the following people involved in its design, development and deployment
     <ul>
       <li>Ixchel Ruiz (<a href="https://twitter.com/#!/ixchelruiz">@ixchelruiz</a>)</li>
-      <li>Mac (<a href="https://twitter.com/#!/macgyver">@macgyver</a>)</li>
+      <li>Mac (<a href="https://twitter.com/#!/wmacgyver">@wmacgyver</a>)</li>
       <li>Alexander Klein (<a href="https://twitter.com/#!/saschaklein">@saschaklein</a>)</li>
       <li>Andres Almiray (<a href="https://twitter.com/#!/aalmiray">@aalmiray</a>)</li>
     </ul></p>
