@@ -35,6 +35,10 @@ class User {
     static embedded = ['membership']
     static hasMany = [roles: Role, permissions: String]
 
+    static mapping = {
+        table 'portal_users'
+    }
+
     static constraints = {
         username(nullable: false, blank: false, unique: true)
         password(nullable: false, blank: false)
