@@ -28,8 +28,8 @@ public enum ArtifactTab {
     INSTALLATION,
     DESCRIPTION,
     RELEASES,
-    FAQ,
-    SCREENSHOTS,
+    // FAQ,
+    // SCREENSHOTS,
     COMMENTS;
 
     public String getName() {
