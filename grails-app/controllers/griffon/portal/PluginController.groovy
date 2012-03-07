@@ -47,7 +47,7 @@ class PluginController {
 
         List authorList = pluginInstance.authors.collect([]) {Author author ->
             User user = User.findWhere(email: author.email)
-            if (user) {
+            if (user && user.profile) {
                 [
                         name: author.name,
                         email: user.profile.gravatarEmail,
