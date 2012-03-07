@@ -36,7 +36,7 @@ grails.project.dependency.resolution = {
                 ":jquery:1.7",
                 ":resources:1.1.3",
                 ":avatar:0.5.2",
-                ":commentable:0.7.5",
+                ":commentable:0.8.1",
                 ":email-confirmation:1.0.5",
                 ":executor:0.3",
                 ":jcaptcha:1.2.1",
@@ -48,7 +48,10 @@ grails.project.dependency.resolution = {
                 ":twitter-bootstrap:1.4.0.12",
                 ":twitter4j:0.2",
                 ":webxml:1.3.1",
-                ":yui:2.8.2.1"
+                ":yui:2.8.2.1",
+                ":yui-minify-resources:0.1.4",
+                ":zipped-resources:1.0",
+                ":cached-resources:1.0"
 
         build ":tomcat:$grailsVersion"
     }
