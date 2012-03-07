@@ -41,10 +41,12 @@
             </g:if>
           </ul>
         </div>
+        <%--
         <g:form name="search-form" class="search-form pull-left" controller="search">
           <span class="glass js-search-action"><i></i></span>
           <input value="" placeholder="Search" name="q" id="search-query" type="text"/>
         </g:form>
+        --%>
       </div>
 
       <div class="active-links">
