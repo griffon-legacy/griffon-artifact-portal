@@ -27,6 +27,7 @@ import griffon.portal.values.Category
  * @author Andres Almiray
  */
 class ArtifactController {
+    private static final int DEFAULT_MAX = 5
     MarkdownService markdownService
     NotifyService notifyService
 
@@ -100,7 +101,7 @@ class ArtifactController {
 
     def all() {
         Map args = [sort: 'name', order: 'asc']
-        List<Artifact> artifacts = []        
+        List<Artifact> artifacts = []
         switch (params.type) {
             case 'plugin':
                 artifacts = Plugin.list(args)
@@ -118,15 +119,11 @@ class ArtifactController {
         }
 
         artifacts = params.character ? artifacts.findAll { it.name[0].equalsIgnoreCase(params.character) } : artifacts
-        def total = artifacts.size()
-        def max = params.max?.toInteger() ?: 10
-        def offset = params.offset?.toInteger() ?: 0
-        def end = Math.min(offset+max, artifacts.size())
 
         [
                 artifactMap: artifactMap,
-                artifacts: artifacts[offset..<end],
-                artifactTotal: total,
+                artifacts: artifacts,
+                artifactTotal: artifacts.size(),
                 categoryType: Category.findByName(params.action),
                 character: params.character
         ]
@@ -136,29 +133,31 @@ class ArtifactController {
         Date now = (new Date()).clearTime()
         List<Artifact> artifacts = []
 
-        Map queryParams = [
-                sort: 'name',
-                order: 'asc',
+        Map qparams = [
+                max: params.max ?: DEFAULT_MAX,
+                offset: params.offset ?: 0
         ]
 
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.findAllByLastUpdatedBetween(now - 14, now + 1, queryParams)
+                artifacts = Plugin.createCriteria().list(max: qparams.max, offset: qparams.offset) {
+                    between('lastUpdated', now - 14, now + 1)
+                    order('name', 'asc')
+                }
                 break
             case 'archetype':
-                artifacts = Archetype.findAllByLastUpdatedBetween(now - 14, now + 1, queryParams)
+                artifacts = Archetype.createCriteria().list(max: qparams.max, offset: qparams.offset) {
+                    between('lastUpdated', now - 14, now + 1)
+                    order('name', 'asc')
+                }
                 break
         }
-
-        def max = params.max?.toInteger() ?: 5
-        def offset = params.offset?.toInteger() ?: 0
-        def end = Math.min(offset+max, artifacts.size())
 
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts[offset..<end],
-                        artifactTotal: artifacts.size(),
+                        artifactList: artifacts,
+                        artifactTotal: artifacts.totalCount,
                         categoryType: Category.findByName(params.action)
                 ])
     }
@@ -167,79 +166,82 @@ class ArtifactController {
         Date now = (new Date()).clearTime()
         List<Artifact> artifacts = []
 
-        Map queryParams = [
-                sort: 'name',
-                order: 'asc',
-                max: params.max() ?: 5,
+        Map qparams = [
+                max: params.max ?: DEFAULT_MAX,
                 offset: params.offset ?: 0
         ]
 
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.findAllByDateCreatedBetween(now - 14, now + 1, queryParams)
+                artifacts = Plugin.createCriteria().list(max: qparams.max, offset: qparams.offset) {
+                    between('dateCreated', now - 14, now + 1)
+                    order('name', 'asc')
+                }
                 break
             case 'archetype':
-                artifacts = Archetype.findAllByDateCreatedBetween(now - 14, now + 1, queryParams)
+                artifacts = Archetype.createCriteria().list(max: qparams.max, offset: qparams.offset) {
+                    between('dateCreated', now - 14, now + 1)
+                    order('name', 'asc')
+                }
                 break
         }
-
-        //def max = params.max?.toInteger() ?: 5
-        //def offset = params.offset?.toInteger() ?: 0
-        //def end = Math.min(offset+max, artifacts.size())
 
         render(view: 'list',
                 model: [
                         hasDownloads: false,
                         artifactList: artifacts,
-                        artifactTotal: artifacts.size(),
+                        artifactTotal: artifacts.totalCount,
                         categoryType: Category.findByName(params.action)
                 ])
     }
 
     def highest_voted() {
         List<Artifact> artifacts = []
+        int total = 0
+
+        Map qparams = [
+                max: params.max ?: DEFAULT_MAX,
+                offset: params.offset ?: 0
+        ]
 
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.listOrderByAverageRating()
+                artifacts = Plugin.listOrderByAverageRating(qparams)
+                total = Plugin.countRated()
                 break
             case 'archetype':
-                artifacts = Archetype.listOrderByAverageRating()
+                artifacts = Archetype.listOrderByAverageRating(qparams)
+                total = Archetype.countRated()
                 break
         }
 
-        def max = params.max?.toInteger() ?: 5
-        def offset = params.offset?.toInteger() ?: 0
-        def end = Math.min(offset+max, artifacts.size())
-
+        // don't show more than 50 artifacts
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts[offset..<end],
-                        artifactTotal: artifacts.size(),
+                        artifactList: artifacts,
+                        artifactTotal: Math.min(total, 50),
                         categoryType: Category.findByName(params.action)
                 ])
     }
 
     def most_downloaded() {
-        Map queryParams = [
-                sort: 'total',
-                order: 'desc',
+        Map qparams = [
+                max: params.max ?: DEFAULT_MAX,
+                offset: params.offset ?: 0
         ]
 
-        List<DownloadTotal> downloadList = DownloadTotal.withCriteria(queryParams) {
+        List<DownloadTotal> downloadList = DownloadTotal.createCriteria().list(max: qparams.max, offset: qparams.offset) {
             eq('type', params.type)
+            order('total', 'desc')
         }
 
-        def max = params.max?.toInteger() ?: 5
-        def offset = params.offset?.toInteger() ?: 0
-        def end = Math.min(offset+max, downloadList.size())
-
+        // don't show more than 50 artifacts
         render(view: 'list',
                 model: [
                         hasDownloads: true,
-                        artifactList: downloadList[offset..<end],
-                        artifactTotal: downloadList.size(),
+                        artifactList: downloadList,
+                        artifactTotal: downloadList.totalCount,
                         categoryType: Category.findByName(params.action)
                 ])
     }
@@ -270,31 +272,31 @@ class ArtifactController {
 
     def list_tagged() {
         List<Artifact> artifacts = []
+        int total = 0
 
-        Map queryParams = [
+        Map qparams = [
                 sort: 'name',
                 order: 'asc',
+                max: params.max ?: DEFAULT_MAX,
+                offset: params.offset ?: 0
         ]
 
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.findAllByTag(params.tagName, queryParams)
+                artifacts = Plugin.findAllByTag(params.tagName, qparams)
+                total = Plugin.countByTag(params.tagName)
                 break
             case 'archetype':
-                artifacts = Archetype.findAllByTag(params.tagName, queryParams)
+                artifacts = Archetype.findAllByTag(params.tagName, qparams)
+                total = Archetype.countByTag(params.tagName)
                 break
         }
-
-        def max = params.max?.toInteger() ?: 5
-        def offset = params.offset?.toInteger() ?: 0
-        def end = Math.min(offset+max, artifacts.size())
-
 
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts[offset..<end],
-                        artifactTotal: artifacts.size(),
+                        artifactList: artifacts,
+                        artifactTotal: total,
                         categoryType: Category.TAGGED
                 ])
     }

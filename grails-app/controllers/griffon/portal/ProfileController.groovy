@@ -56,6 +56,12 @@ class ProfileController {
         boolean loggedIn = profileInstance.user.username == session.user?.username
 
         params.tab = params.tab ?: ProfileTab.PLUGINS.name
+
+        Map qparams = [
+                max: params.max ?: 10,
+                offset: params.offset ?: 0
+        ]
+
         // don't let strangers see watchlists
         if (!loggedIn && params.tab == ProfileTab.WATCHLIST.name) {
             params.tab = ProfileTab.PLUGINS.name
@@ -63,19 +69,21 @@ class ProfileController {
 
         List<Plugin> pluginList = []
         if (params.tab == ProfileTab.PLUGINS.name) {
-            pluginList = Plugin.withCriteria(sort: 'name', order: 'asc') {
+            pluginList = Plugin.createCriteria().list(qparams) {
                 authors {
                     eq('email', profileInstance.user.email)
                 }
+                order('name', 'asc')
             }
         }
 
         List<Archetype> archetypeList = []
         if (params.tab == ProfileTab.ARCHETYPES.name) {
-            archetypeList = Archetype.withCriteria(sort: 'name', order: 'asc') {
+            archetypeList = Archetype.createCriteria().list(qparams) {
                 authors {
                     eq('email', profileInstance.user.email)
                 }
+                order('name', 'asc')
             }
         }
 
@@ -94,6 +102,8 @@ class ProfileController {
                 profileInstance: profileInstance,
                 pluginList: pluginList,
                 archetypeList: archetypeList,
+                pluginTotal: pluginList.totalCount,
+                archetypeTotal: archetypeList.totalCount,
                 tab: params.tab,
                 watchlistList: watchlistList,
                 loggedIn: loggedIn

@@ -50,7 +50,7 @@
     </ul>
   </div>
 
-  <g:render template="profile/${tab}" model="[profileInstance: profileInstance, listSpan: listSpan]"/>
+  <g:render template="profile/${tab}" model="[profileInstance: profileInstance, listSpan: listSpan, tab: tab, userId: profileInstance.user.username]"/>
 
 </div>
 

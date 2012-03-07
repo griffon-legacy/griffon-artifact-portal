@@ -21,6 +21,9 @@
           </g:each>
           </tbody>
         </table>
+        <div class="pagination">
+          <g:paginate action="show" params="[tab: tab, id: userId]" total="${pluginTotal}" maxsteps="5"/>
+        </div>
       </g:if>
       <g:else>
         <p>None available.</p>

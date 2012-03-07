@@ -9,7 +9,7 @@
 <body>
 
 <div class="row">
-  <tmpl:/pageheader><h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName} ${character ? "starting with $character ": ''}(${artifactTotal})</h1></tmpl:/pageheader>
+  <tmpl:/pageheader><h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName} ${character ? "starting with $character " : ''}(${artifactTotal})</h1></tmpl:/pageheader>
 </div>
 
 <g:if test="${artifactMap}">
@@ -30,29 +30,27 @@
   <g:each in="${artifacts}" var="artifact">
     <g:if test="${artifact.name[0].toUpperCase() != c}">
       <g:if test="${c}">
-          </ul>
-        </section>
-      </div>
+        </ul>
+          </section>
+        </div>
       </g:if>
       <g:set var="c" value="${artifact.name[0].toUpperCase()}"/>
       <div class="row">
         <section id="#section_${c}">
-          <h5>${c}</h5>
-          <ul>
+      <h5>${c}</h5>
+      <ul>
     </g:if>
-            <li><g:link controller="${params.type}" params="[name: artifact.name]">${artifact.name}</g:link> - ${artifact.title}</li>
+    <li><g:link controller="${params.type}"
+                params="[name: artifact.name]">${artifact.name}</g:link> - ${artifact.title}</li>
   </g:each>
-          </ul>
-        </section>
-      </div>
+  </ul>
+    </section>
+  </div>
 </g:if>
 <g:else>
   <div class="row">
     <p><g:message code="categories.${categoryType.name}.unavailable" args="[params.type]"/></p>
   </div>
 </g:else>
-<div class="pagination">
-    <g:paginate action="all" total="${artifactTotal}" params="[character: character]"/>
-</div>
 </body>
 </html>

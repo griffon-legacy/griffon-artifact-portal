@@ -32,7 +32,7 @@
     </ul>
   </div>
 
-  <g:render template="/profile/profile/${tab}" model="[listSpan: 'span16']"/>
+  <g:render template="/profile/profile/${tab}" model="[listSpan: 'span16', tab: tab, userId: authorInstance.id]"/>
 
 </div>
 

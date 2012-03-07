@@ -40,21 +40,28 @@ class AuthorController {
 
         params.tab = params.tab ?: ProfileTab.PLUGINS.name
 
+        Map qparams = [
+                max: params.max ?: 10,
+                offset: params.offset ?: 0
+        ]
+
         List<Plugin> pluginList = []
         if (params.tab == ProfileTab.PLUGINS.name) {
-            pluginList = Plugin.withCriteria(sort: 'name', order: 'asc') {
+            pluginList = Plugin.createCriteria().list(qparams) {
                 authors {
                     eq('email', authorInstance.email)
                 }
+                order('name', 'asc')
             }
         }
 
         List<Archetype> archetypeList = []
         if (params.tab == ProfileTab.ARCHETYPES.name) {
-            archetypeList = Archetype.withCriteria(sort: 'name', order: 'asc') {
+            archetypeList = Archetype.createCriteria().list(qparams) {
                 authors {
                     eq('email', authorInstance.email)
                 }
+                order('name', 'asc')
             }
         }
 
@@ -62,6 +69,8 @@ class AuthorController {
                 authorInstance: authorInstance,
                 pluginList: pluginList,
                 archetypeList: archetypeList,
+                pluginTotal: pluginList.totalCount,
+                archetypeTotal: archetypeList.totalCount,
                 tab: params.tab
         ]
     }
