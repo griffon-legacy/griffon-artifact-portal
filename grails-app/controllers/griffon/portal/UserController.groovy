@@ -24,8 +24,8 @@ import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import groovy.text.SimpleTemplateEngine
 import org.apache.commons.lang.RandomStringUtils
-import org.grails.plugin.jcaptcha.JcaptchaService
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.grails.plugin.jcaptcha.JcaptchaService
 
 /**
  * @author Andres Almiray
@@ -119,7 +119,7 @@ class UserController {
                 user.email,
                 'Please confirm your email',
                 [
-                        from: grailsApplication.config.grails.mail.default.from, 
+                        from: grailsApplication.config.grails.mail.default.from,
                         user: user.username,
                         portalUrl: grailsApplication.config.serverURL,
                         view: '/email/confirmationRequest'
@@ -209,16 +209,17 @@ class UserController {
         user.password = MD5.encode(newPassword)
         user.save()
 
-        SimpleTemplateEngine template = new SimpleTemplateEngine()
         mailService.sendMail {
             to user.email
             subject 'Password Reset'
-            html template.createTemplate(grailsApplication.config.template.forgot.credentials.toString()).make(
-                    ipaddress: request.remoteAddr,
-                    serverURL: grailsApplication.config.serverURL,
-                    username: user.username,
-                    password: newPassword
-            ).toString()
+            html(view: '/email/forgotCredentials',
+                    model: [
+                            ipaddress: request.remoteAddr,
+                            serverURL: grailsApplication.config.serverURL,
+                            username: user.username,
+                            password: newPassword
+                    ]
+            )
         }
     }
 }

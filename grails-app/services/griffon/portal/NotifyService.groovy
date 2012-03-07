@@ -21,7 +21,6 @@ import grails.plugin.mail.MailService
 import grails.util.GrailsNameUtils
 import grails.util.GrailsUtil
 import griffon.portal.auth.User
-import groovy.text.SimpleTemplateEngine
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.twitter4j.grails.plugin.Twitter4jService
 
@@ -52,8 +51,6 @@ class NotifyService {
                 [username: user.username, email: user.email, notify: user.profile.notifications.watchlist]
             }
             String serverURL = grailsApplication.config.serverURL
-            SimpleTemplateEngine engine = new SimpleTemplateEngine()
-            def template = engine.createTemplate(grailsApplication.config.template.release.posted.toString())
             Map data = [
                     type: release.artifact.type,
                     name: release.artifact.name,
@@ -67,16 +64,18 @@ class NotifyService {
                         mailService.sendMail {
                             to user.email
                             subject "[ANN] ${GrailsNameUtils.getNaturalName(data.type)} ${data.name}-${data.version} released"
-                            html template.make(
-                                    serverURL: serverURL,
-                                    capitalizedType: GrailsNameUtils.getNaturalName(data.type),
-                                    capitalizedName: GrailsNameUtils.getNaturalName(data.name),
-                                    name: data.name,
-                                    version: data.version,
-                                    type: data.type,
-                                    poster: poster,
-                                    username: user.username
-                            ).toString()
+                            html(view: '/email/releasePosted',
+                                    model: [
+                                            serverURL: serverURL,
+                                            capitalizedType: GrailsNameUtils.getNaturalName(data.type),
+                                            capitalizedName: GrailsNameUtils.getNaturalName(data.name),
+                                            name: data.name,
+                                            version: data.version,
+                                            type: data.type,
+                                            poster: poster,
+                                            username: user.username
+                                    ]
+                            )
                         }
                     } catch (Exception e) {
                         log.error("An error ocurred while sending release update (${data.name}-${data.version}) to ${user.email} (${user.username})", GrailsUtil.sanitize(e))
@@ -92,8 +91,6 @@ class NotifyService {
         }
 
         String serverURL = grailsApplication.config.serverURL
-        SimpleTemplateEngine engine = new SimpleTemplateEngine()
-        def template = engine.createTemplate(grailsApplication.config.template.comment.posted.toString())
         Map data = [
                 type: artifact.type,
                 name: artifact.name,
@@ -106,15 +103,17 @@ class NotifyService {
                     mailService.sendMail {
                         to user.email
                         subject "New comment on ${data.type} ${GrailsNameUtils.getNaturalName(data.name)}"
-                        html template.make(
-                                serverURL: serverURL,
-                                capitalizedType: GrailsNameUtils.getNaturalName(data.type),
-                                capitalizedName: GrailsNameUtils.getNaturalName(data.name),
-                                name: data.name,
-                                type: data.type,
-                                poster: poster,
-                                username: user.username
-                        ).toString()
+                        html(view: '/email/commentPosted',
+                                model: [
+                                        serverURL: serverURL,
+                                        capitalizedType: GrailsNameUtils.getNaturalName(data.type),
+                                        capitalizedName: GrailsNameUtils.getNaturalName(data.name),
+                                        name: data.name,
+                                        type: data.type,
+                                        poster: poster,
+                                        username: user.username
+                                ]
+                        )
                     }
                 } catch (Exception e) {
                     log.error("An error ocurred while sending comment update (${data.name}) to ${user.email} (${user.username})", GrailsUtil.sanitize(e))
