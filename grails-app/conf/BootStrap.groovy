@@ -1,6 +1,8 @@
 import com.grailsrocks.emailconfirmation.EmailConfirmationService
+import grails.util.Environment
 import griffon.portal.Profile
 import griffon.portal.auth.Membership
+import griffon.portal.auth.Role
 import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -12,13 +14,51 @@ class BootStrap {
     def init = { servletContext ->
         grailsApplication.config.serverURL = grailsApplication.config.grails.serverURL ?: 'http://localhost:8080/' + grailsApplication.metadata.'app.name'
 
+        // Blatantly taken from https://github.com/grails-samples/grails-website/
+
+        def (adminRole, editorRole, observerRole) = setUpRoles()
+        User admin = User.findByUsername('admin')
+        if (!admin) {
+            def password = Environment.current != Environment.PRODUCTION ? 'changeit' : System.getProperty('initial.admin.password')
+            if (!password) {
+                throw new Exception("""
+During the first run you must specify a password to use for the admin account. For example:
+
+grails -Dinitial.admin.password=changeit run-app""")
+            } else {
+                admin = new User(
+                        username: 'admin',
+                        password: MD5.encode(password),
+                        membership: new Membership(status: Membership.Status.ACCEPTED, reason: 'Artifact portal admin'),
+                        fullName: 'Admin',
+                        email: 'theaviary@griffon-framework.org'
+                )
+                admin.profile = new Profile(
+                        user: admin,
+                        gravatarEmail: admin.email)
+                assert admin.addToRoles(adminRole)
+                        .addToRoles(editorRole)
+                        .addToRoles(observerRole)
+                        .save(flush: true, failOnError: true)
+
+            }
+        } else if (!admin.roles) {
+            admin.addToRoles(adminRole)
+                    .addToRoles(editorRole)
+                    .addToRoles(observerRole)
+                    .save(flush: true, failOnError: true)
+        }
+
+        setupEmailConfirmationService()
+
+        /*
         User user = new User(
                 fullName: 'Andres Almiray',
                 email: 'aalmiray@yahoo.com',
                 username: 'aalmiray',
                 password: MD5.encode('foo'),
                 membership: new Membership(
-                        status: Membership.Status.ADMIN,
+                        status: Membership.Status.ACCEPTED,
                         reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
                 )
         )
@@ -29,37 +69,7 @@ class BootStrap {
                 twitter: 'aalmiray'
         )
         user.save()
-
-        user = new User(
-                fullName: 'Alexander Klein',
-                email: 'info@aklein.org',
-                username: 'saschaklein',
-                password: MD5.encode('foo'),
-                membership: new Membership(
-                        status: Membership.Status.ACCEPTED,
-                        reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
-                )
-        )
-        user.profile = new Profile(
-                user: user,
-                gravatarEmail: user.email,
-                website: '',
-                twitter: 'saschaklein'
-        )
-        user.save()
-
-        new User(
-                fullName: 'Griffon',
-                email: 'aalmiray@gmail.com',
-                username: 'griffon',
-                password: MD5.encode('foo'),
-                membership: new Membership(
-                        status: Membership.Status.PENDING,
-                        reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
-                )
-        ).save()
-
-        setupEmailConfirmationService()
+        */
     }
 
     private void setupEmailConfirmationService() {
@@ -67,12 +77,11 @@ class BootStrap {
             User user = User.findByEmail(email)
             String nuid = MD5.encode(email)
             if (nuid == uid) {
-                user.membership.status = Membership.Status.ACCEPTED
                 user.profile = new Profile(user: user)
                 user.profile.gravatarEmail = user.email
                 user.save()
                 log.info("User with id $uid has confirmed their email address $email")
-                return [controller: "profile", action:  "show", id: user.username]
+                return [controller: "profile", action: "show", id: user.username]
             }
 
             return {
@@ -89,6 +98,28 @@ class BootStrap {
         emailConfirmationService.onTimeout = { String email, String uid ->
             log.warn("User with id $uid failed to confirm email address (${email}) after 30 days")
             User.findByEmail(email)?.delete()
+        }
+    }
+
+    private List<Role> setUpRoles() {
+        // Admin role first. Administrator can access all parts of the application.
+        def admin = Role.findByName(Role.ADMINISTRATOR) ?: new Role(name: Role.ADMINISTRATOR).save(failOnError: true)
+        safelyAddPermission admin, "*"
+
+        // Editor can edit pages, add screencasts, etc.
+        def editor = Role.findByName(Role.EDITOR) ?: new Role(name: Role.EDITOR).save(failOnError: true)
+        safelyAddPermission editor, 'faqTab:create,edit,save,update'
+        safelyAddPermission editor, 'screenshotsTab:create,edit,save,update'
+
+        // Observer: can't do anything that an anonymous user can't do.
+        def observer = Role.findByName(Role.OBSERVER) ?: new Role(name: Role.OBSERVER).save(failOnError: true)
+
+        return [admin, editor, observer]
+    }
+
+    private void safelyAddPermission(entity, String permission) {
+        if (!entity.permissions?.contains(permission)) {
+            entity.addToPermissions permission
         }
     }
 

@@ -33,7 +33,7 @@ class User {
 
     static hasOne = [profile: Profile]
     static embedded = ['membership']
-    static transients = ['captcha']
+    static hasMany = [roles: Role, permissions: String]
 
     static constraints = {
         username(nullable: false, blank: false, unique: true)
@@ -54,6 +54,13 @@ class User {
                 profileId: profile?.id
         ]
     }
+
+    static boolean hasAdminRole(User user) {
+        if (user == null) return false
+        Role adminRole = Role.findByName(Role.ADMINISTRATOR)
+        user = User.findByUsername(user.username)
+        user.roles.contains(adminRole)
+    }
 }
 
 class Membership {
@@ -69,7 +76,6 @@ class Membership {
         NOT_REQUESTED,
         PENDING,
         ACCEPTED,
-        REJECTED,
-        ADMIN
+        REJECTED
     }
 }

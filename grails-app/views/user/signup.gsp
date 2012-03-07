@@ -30,6 +30,16 @@
             </div>
           </div>
 
+          <div class="clearfix ${hasErrors(bean: command, field: 'fullName', 'error')}">
+            <label for="fullName">
+              <g:message code="user.fullName.label" default="Full Name"/>
+            </label>
+
+            <div class="input">
+              <g:textField name="fullName" required="" tabindex="1" value="${command?.fullName}"/>
+            </div>
+          </div>
+
           <div class="clearfix ${hasErrors(bean: command, field: 'email', 'error')}">
             <label for="email">
               <g:message code="user.email.label" default="Email"/>

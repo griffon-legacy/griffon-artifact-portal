@@ -31,12 +31,12 @@ class UrlMappings {
         "/api/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype' }
         "/api/archetypes/$name/$version/download"(controller: 'api', action: 'download') { type = 'archetype' }
 
-        '/admin'(controller: 'user', action: 'list') { type = 'user' }
-        '/admin/user'(controller: 'user', action: 'list') { type = 'user' }
-        "/admin/user/$id"(controller: 'user', action: 'show') { type = 'user' }
-        "/admin/user/$id/save"(controller: 'user', action: 'save') { type = 'user' }
-        "/admin/user/$id/delete"(controller: 'user', action: 'delete') { type = 'user' }
-        "/admin/user/$id/change/$status"(controller: 'user', action: 'changeMembership') { type = 'user' }
+        '/admin'(controller: 'admin', action: 'list') { type = 'user' }
+        '/admin/user'(controller: 'admin', action: 'list') { type = 'user' }
+        name admin_show_user: "/admin/user/$id"(controller: 'admin', action: 'show') { type = 'user' }
+        name admin_save_user:"/admin/user/$id/save"(controller: 'admin', action: 'save') { type = 'user' }
+        name admin_delete_user:"/admin/user/$id/delete"(controller: 'admin', action: 'delete') { type = 'user' }
+        name admin_change_user:"/admin/user/$id/change/$status"(controller: 'admin', action: 'changeMembership') { type = 'user' }
 
         '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}

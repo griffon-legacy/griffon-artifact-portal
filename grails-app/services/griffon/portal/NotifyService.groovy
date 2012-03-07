@@ -17,12 +17,12 @@
 package griffon.portal
 
 import grails.plugin.executor.PersistenceContextExecutorWrapper
+import grails.plugin.mail.MailService
 import grails.util.GrailsNameUtils
 import grails.util.GrailsUtil
 import griffon.portal.auth.User
 import groovy.text.SimpleTemplateEngine
 import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.grails.mail.MailService
 import org.twitter4j.grails.plugin.Twitter4jService
 
 /**

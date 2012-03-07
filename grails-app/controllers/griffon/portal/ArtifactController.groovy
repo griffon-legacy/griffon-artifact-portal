@@ -170,6 +170,8 @@ class ArtifactController {
         Map queryParams = [
                 sort: 'name',
                 order: 'asc',
+                max: params.max() ?: 5,
+                offset: params.offset ?: 0
         ]
 
         switch (params.type) {
@@ -181,14 +183,14 @@ class ArtifactController {
                 break
         }
 
-        def max = params.max?.toInteger() ?: 5
-        def offset = params.offset?.toInteger() ?: 0
-        def end = Math.min(offset+max, artifacts.size())
+        //def max = params.max?.toInteger() ?: 5
+        //def offset = params.offset?.toInteger() ?: 0
+        //def end = Math.min(offset+max, artifacts.size())
 
         render(view: 'list',
                 model: [
                         hasDownloads: false,
-                        artifactList: artifacts[offset..<end],
+                        artifactList: artifacts,
                         artifactTotal: artifacts.size(),
                         categoryType: Category.findByName(params.action)
                 ])

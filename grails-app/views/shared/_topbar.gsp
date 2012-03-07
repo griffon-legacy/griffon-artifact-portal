@@ -1,4 +1,4 @@
-<%@ page import="griffon.portal.auth.Membership" %>
+<%@ page import="griffon.portal.auth.User" %>
 <div class="topbar" data-dropdown="dropdown">
   <div class="topbar-inner">
     <div class="container">
@@ -35,7 +35,7 @@
               <li id="global-nav-profile" class="<%=isMenuActive('profile')%>"><a
                       href="${application.contextPath}/profile/${session.user.username}">Profile</a></li>
             </g:if>
-            <g:if test="${session.user?.membership?.status == Membership.Status.ADMIN}">
+            <g:if test="${User.hasAdminRole(session.user)}">
               <li id="global-nav-admin" class="<%=isAdminActive()%>"><a
                       href="${application.contextPath}/admin/user">Administration</a></li>
             </g:if>

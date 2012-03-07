@@ -40,7 +40,7 @@ grails.project.dependency.resolution = {
                 ":email-confirmation:1.0.5",
                 ":executor:0.3",
                 ":jcaptcha:1.2.1",
-                ":mail:0.7.1",
+                ":mail:1.0",
                 ":markdown:1.0.0.RC1",
                 ":quartz:0.4.2",
                 ":rateable:0.7.0",
@@ -51,7 +51,8 @@ grails.project.dependency.resolution = {
                 ":yui:2.8.2.1",
                 ":yui-minify-resources:0.1.4",
                 ":zipped-resources:1.0",
-                ":cached-resources:1.0"
+                ":cached-resources:1.0",
+                ":cache-headers:1.1.5"
 
         build ":tomcat:$grailsVersion"
     }

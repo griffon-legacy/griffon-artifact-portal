@@ -1,5 +1,7 @@
+import grails.util.Environment
+
 eventCompileEnd = {
-    if(System.getProperty('twitter.enabled')) {
+    if(Environment.current == Environment.PRODUCTION || System.getProperty('test.setup')) {
         ant.copy(todir: classesDirPath) {
             fileset(dir: "${basedir}/src/resources", includes: '*.xml, *.properties, *.groovy')
         }

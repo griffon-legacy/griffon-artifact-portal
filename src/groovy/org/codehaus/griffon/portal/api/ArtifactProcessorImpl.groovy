@@ -46,6 +46,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                 return
             }
         }
+        artifactInfo.file.delete()
 
         throw new IOException('Not a valid griffon artifact')
     }

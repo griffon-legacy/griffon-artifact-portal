@@ -9,4 +9,4 @@ If you didn't ask to join this group, then please disregard this e-mail with our
 
 
 --
-Sent from the Griffon Artifact Portal http://artifacts.griffoncentral.org
+Sent from the Griffon Artifact Portal ${portalUrl}
