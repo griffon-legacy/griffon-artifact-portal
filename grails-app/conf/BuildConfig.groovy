@@ -20,6 +20,7 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
+        grailsRepo("http://svn.codehaus.org/grails-plugins", "grailsCore2")
         mavenCentral()
     }
     dependencies {
@@ -27,6 +28,7 @@ grails.project.dependency.resolution = {
                 'org.apache.sshd:sshd-core:0.6.0',
                 'org.apache.sshd:sshd-pam:0.6.0'
         compile('org.codehaus.griffon:griffon-rt:0.9.4') { transitive = false }
+        runtime 'postgresql:postgresql:9.0-801.jdbc4'
     }
 
     plugins {
