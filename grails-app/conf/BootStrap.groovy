@@ -51,7 +51,7 @@ grails -Dinitial.admin.password=changeit run-app""")
 
         setupEmailConfirmationService()
 
-        /*
+
         User user = new User(
                 fullName: 'Andres Almiray',
                 email: 'aalmiray@yahoo.com',
@@ -69,7 +69,7 @@ grails -Dinitial.admin.password=changeit run-app""")
                 twitter: 'aalmiray'
         )
         user.save()
-        */
+
     }
 
     private void setupEmailConfirmationService() {

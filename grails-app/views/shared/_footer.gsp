@@ -1,1 +1,1 @@
-<p>&copy; Griffon 2011</p>
+<p>&copy; Griffon 2011 - 2012</p>

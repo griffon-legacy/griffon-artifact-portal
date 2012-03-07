@@ -8,16 +8,17 @@
                 align="left"/>&nbsp;Griffon</a>
         <%
           def isHomeActive = {->
-            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api', 'artifact']) ? 'active' : ''
+            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api', 'artifact', 'about']) ? 'active' : ''
           }
           def isAdminActive = {->
-              params.controller == 'user' ? 'active' : ''
+            params.controller == 'user' ? 'active' : ''
           }
           def isMenuActive = { String tabName ->
-            if(params?.controller == 'artifact')
-                params?.type == tabName ? 'active' : ''
-            else
-                params?.controller == tabName ? 'active' : ''
+            if (params?.controller == 'artifact') {
+              params?.type == tabName ? 'active' : ''
+            } else {
+              params?.controller == tabName ? 'active' : ''
+            }
           }
         %>
         <div id="global-nav">
@@ -39,6 +40,8 @@
               <li id="global-nav-admin" class="<%=isAdminActive()%>"><a
                       href="${application.contextPath}/admin/user">Administration</a></li>
             </g:if>
+            <li id="global-nav-about" class="<%=isMenuActive('about')%>"><a
+                    href="${application.contextPath}/about">About</a></li>
           </ul>
         </div>
         <%--
