@@ -17,6 +17,7 @@
 package griffon.portal.stats
 
 import griffon.portal.Release
+import griffon.portal.util.MD5
 
 /**
  * @author Andres Almiray
@@ -52,6 +53,7 @@ class Download {
     }
 
     def saveIt() {
+        username = MD5.encode(username)
         save()
         DownloadTotal total = DownloadTotal.findByRelease(release) ?: new DownloadTotal(release: release, type: type)
         total.total += 1
