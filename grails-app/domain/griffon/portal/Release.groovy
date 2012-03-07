@@ -51,7 +51,7 @@ class Release {
                 griffonVersion: griffonVersion,
                 comment: comment,
                 checksum: checksum,
-                date: dateCreated,
+                date: lastUpdated,
                 artifact: artifact,
                 dependencies: dependencies
         ]
