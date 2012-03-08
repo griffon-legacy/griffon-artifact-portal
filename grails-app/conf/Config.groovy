@@ -41,6 +41,8 @@ grails {
 sshd.port = 2222
 sshd.keystorage = 'artifact-portal.ser'
 
+allow.snapshots = true
+
 // ###################################################################
 //
 //    !!! DO NOT EDIT BEYOND THIS POINT !!!

@@ -23,7 +23,6 @@ import org.codehaus.griffon.portal.api.ArtifactProcessor;
 import org.codehaus.griffon.portal.ssh.PasswordAuthenticator;
 import org.codehaus.griffon.portal.ssh.ScpCommandFactory;
 import org.codehaus.groovy.grails.commons.GrailsApplication;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import static griffon.util.ConfigUtils.getConfigValueAsInt;
@@ -32,7 +31,7 @@ import static griffon.util.ConfigUtils.getConfigValueAsString;
 /**
  * @author Andres Almiray
  */
-public class SshServerFactory extends AbstractFactoryBean<SshServer> implements InitializingBean {
+public class SshServerFactory extends AbstractFactoryBean<SshServer> {
     private GrailsApplication grailsApplication;
     private PasswordAuthenticator passwordAuthenticator;
     private ArtifactProcessor artifactProcessor;

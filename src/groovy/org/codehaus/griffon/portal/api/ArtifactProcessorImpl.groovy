@@ -22,12 +22,14 @@ import groovy.json.JsonException
 import groovy.json.JsonSlurper
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pegdown.PegDownProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import griffon.portal.*
 import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
+import static griffon.util.ConfigUtils.getConfigValueAsBoolean
 
 /**
  * @author Andres Almiray
@@ -37,6 +39,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
     NotifyService notifyService
     PreferencesService preferencesService
+    GrailsApplication grailsApplication
 
     void process(ArtifactInfo artifactInfo) throws IOException {
         for (artifactType in ['plugin', 'archetype']) {
@@ -66,6 +69,11 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
         if (artifactInfo.artifactVersion != json.version) {
             throw new IOException("Artifact version is '${json.version}' but expected version is '${artifactInfo.artifactVersion}'")
+        }
+
+        boolean allowSnapshots = getConfigValueAsBoolean(grailsApplication.config, "allow.snapshots", true)
+        if (artifactInfo.artifactVersion.endsWith('-SNAPSHOT') && !allowSnapshots) {
+            throw new IOException("Snapshot releases are currently disabled")
         }
 
         try {

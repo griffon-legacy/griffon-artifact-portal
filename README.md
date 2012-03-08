@@ -50,10 +50,17 @@ values
 	sshd.port = 2222
 	sshd.keystorage = 'artifact-portal.ser'
 
+### Snapshot Releases
+
+Should you wish to disallow the publication of snapshot releases then set the
+following flag to false
+
+    allow.snapshots = false
+
 ### Server URL
 
 Lastly, don't forget to update `grails.serverURL` in `Config.groovy`. It should
-point to the URL from which you'll server the portal. Update this setting if
+point to the URL from which you'll serve the portal. Update this setting if
 deploying a WAR in production mode.
 
 Getting Started

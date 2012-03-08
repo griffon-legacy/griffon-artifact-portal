@@ -22,6 +22,7 @@ beans = {
     passwordAuthenticator(org.codehaus.griffon.portal.ssh.PasswordAuthenticator)
 
     artifactProcessor(org.codehaus.griffon.portal.api.ArtifactProcessorImpl) {
+        grailsApplication = ref('grailsApplication')
         notifyService = ref('notifyService')
         preferencesService = ref('preferencesService')
     }
