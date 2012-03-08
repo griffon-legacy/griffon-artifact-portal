@@ -38,7 +38,7 @@ grails {
     }
 }
 
-sshd.port = '2222'
+sshd.port = 2222
 sshd.keystorage = 'artifact-portal.ser'
 
 // ###################################################################

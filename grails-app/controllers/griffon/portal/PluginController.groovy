@@ -16,7 +16,6 @@
 
 package griffon.portal
 
-import grails.util.GrailsNameUtils
 import griffon.portal.auth.User
 import griffon.portal.stats.DownloadTotal
 import griffon.portal.values.ArtifactTab
@@ -32,14 +31,18 @@ class PluginController {
             params.name = request.getParameter('name')
         }
         if (!params.name) {
-            redirect(uri: '/')
+            redirect(uri: '/plugins')
             return
         }
 
         String pluginName = params.name.toLowerCase()
+        if (pluginName.contains('+')) {
+            pluginName = pluginName.replace('+', '-')
+        }
+
         Plugin pluginInstance = Plugin.findByName(pluginName)
         if (!pluginInstance) {
-            redirect(uri: '/')
+            redirect(uri: '/plugins')
             return
         }
 

@@ -32,14 +32,14 @@ class ArchetypeController {
             params.name = request.getParameter('name')
         }
         if (!params.name) {
-            redirect(uri: '/')
+            redirect(uri: '/archetypes')
             return
         }
 
         String archetypeName = params.name.toLowerCase()
         Archetype archetypeInstance = Archetype.findByName(archetypeName)
         if (!archetypeInstance) {
-            redirect(uri: '/')
+            redirect(uri: '/archetypes')
             return
         }
 

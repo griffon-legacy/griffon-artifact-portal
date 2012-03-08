@@ -103,6 +103,7 @@ class UrlMappings {
         name download_package: "/package/download/$id/$type/$name/$version"(controller: 'release', action: 'download_package')
         name display_package: "/package/$type/$name/$version"(controller: 'release', action: 'display')
         name download_release: "/release/download/$id/$type/$name/$version"(controller: 'release', action: 'download_release')
+        "/$name+Plugin"(controller: 'plugin', action: 'show')
 
         "/$controller/$action?/$id?" {
             constraints {

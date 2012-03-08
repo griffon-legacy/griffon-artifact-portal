@@ -47,7 +47,7 @@ In order to publish artifacts via SCP you must configure the SSH access port
 and the default key storage. These properties are set by default to the following
 values
 
-	sshd.port = '2222'
+	sshd.port = 2222
 	sshd.keystorage = 'artifact-portal.ser'
 
 Getting Started
