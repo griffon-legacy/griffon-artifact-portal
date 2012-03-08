@@ -1,11 +1,13 @@
 import com.grailsrocks.emailconfirmation.EmailConfirmationService
 import grails.util.Environment
+import grails.util.GrailsNameUtils
 import griffon.portal.Profile
 import griffon.portal.auth.Membership
 import griffon.portal.auth.Role
 import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.grails.rateable.Rateable
 
 class BootStrap {
     EmailConfirmationService emailConfirmationService
@@ -50,8 +52,9 @@ grails -Dinitial.admin.password=changeit run-app""")
         }
 
         setupEmailConfirmationService()
+        fixRateableForPostgres()
 
-
+        /*
         User user = new User(
                 fullName: 'Andres Almiray',
                 email: 'aalmiray@yahoo.com',
@@ -69,7 +72,7 @@ grails -Dinitial.admin.password=changeit run-app""")
                 twitter: 'aalmiray'
         )
         user.save()
-
+        */
     }
 
     private void setupEmailConfirmationService() {
@@ -120,6 +123,33 @@ grails -Dinitial.admin.password=changeit run-app""")
     private void safelyAddPermission(entity, String permission) {
         if (!entity.permissions?.contains(permission)) {
             entity.addToPermissions permission
+        }
+    }
+
+    private void fixRateableForPostgres() {
+        for (domainClass in grailsApplication.domainClasses) {
+            if (Rateable.class.isAssignableFrom(domainClass.clazz)) {
+                domainClass.clazz.metaClass {
+                    'static' {
+                        listOrderByAverageRatingFix { Map params = [:] ->
+                            if (params == null) params = [:]
+                            def clazz = delegate
+                            def type = GrailsNameUtils.getPropertyName(clazz)
+                            if (params.cache == null) params.cache = true
+                            def results = clazz.executeQuery("select r.ratingRef,avg(rating.stars),count(rating.stars) as c from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef order by count(rating.stars) desc ,avg(rating.stars) desc", params)
+                            if (results?.size()) {
+                                def instances = clazz.withCriteria {
+                                    inList 'id', results.collect { it[0] }
+                                    cache params.cache
+                                }
+                                return results.collect {  r -> instances.find { i -> r[0] == i.id } }
+                            } else {
+                                return []
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

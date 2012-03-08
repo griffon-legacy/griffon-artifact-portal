@@ -206,11 +206,11 @@ class ArtifactController {
 
         switch (params.type) {
             case 'plugin':
-                artifacts = Plugin.listOrderByAverageRating(qparams)
+                artifacts = Plugin.listOrderByAverageRatingFix(qparams)
                 total = Plugin.countRated()
                 break
             case 'archetype':
-                artifacts = Archetype.listOrderByAverageRating(qparams)
+                artifacts = Archetype.listOrderByAverageRatingFix(qparams)
                 total = Archetype.countRated()
                 break
         }
