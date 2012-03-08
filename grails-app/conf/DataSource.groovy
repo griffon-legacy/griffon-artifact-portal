@@ -43,4 +43,29 @@ environments {
             }
         }
     }
+    local {
+        dataSource {
+            logSql = true
+            formatSql = true
+            dbCreate = "create-drop"
+            driverClassName = "org.postgresql.Driver"
+            url = "jdbc:postgresql://localhost:5432/griffon"
+            username = 'postgres'
+            password = 'local'
+            pooled = true
+            properties {
+                maxActive = 50
+                maxIdle = 25
+                minIdle = 5
+                initialSize = 5
+                minEvictableIdleTimeMillis = 1800000
+                timeBetweenEvictionRunsMillis = 1800000
+                numTestsPerEvictionRun = 3
+                testOnBorrow = true
+                testWhileIdle = true
+                testOnReturn = true
+                validationQuery = "SELECT 1"
+            }
+        }
+    }
 }
