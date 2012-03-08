@@ -60,7 +60,7 @@
       </table>
 
       <div class="pagination">
-        <g:paginate action="list" total="${userCount}"/>
+        <g:paginate action="list" total="${userCount}" max="20"/>
       </div>
     </div>
   </div>

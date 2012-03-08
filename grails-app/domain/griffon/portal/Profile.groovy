@@ -34,7 +34,7 @@ class Profile {
     static embedded = ['notifications']
 
     static constraints = {
-        bio(nullable: true, blank: false, maxSize: 500)
+        bio(nullable: true, blank: false, maxSize: 1000)
         gravatarEmail(nullable: true, email: true)
         website(nullable: true, blank: false, url: true)
         twitter(nullable: true, blank: false)

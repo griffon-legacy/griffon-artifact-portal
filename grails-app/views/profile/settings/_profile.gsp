@@ -49,12 +49,12 @@
       <label for="bio">Bio</label>
 
       <div class="input">
-        <textarea class="xlarge" cols="40" id="bio" maxlength="500" name="bio"
+        <textarea class="xlarge" cols="40" id="bio" maxlength="1000" name="bio"
                   rows="3">${command.bio}</textarea>
 
         <p class="help-block">
 
-          About yourself in fewer than <span class='char-counter'>500</span> chars.
+          About yourself in fewer than <span class='char-counter'>1000</span> chars.
         </p>
       </div>
     </div>

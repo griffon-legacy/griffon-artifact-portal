@@ -61,9 +61,11 @@ class User {
 
     static boolean hasAdminRole(User user) {
         if (user == null) return false
-        Role adminRole = Role.findByName(Role.ADMINISTRATOR)
-        user = User.findByUsername(user.username)
-        user.roles.contains(adminRole)
+        return User.withTransaction {
+            Role adminRole = Role.findByName(Role.ADMINISTRATOR)
+            User u = User.findByUsername(user.username)
+            return u.roles.contains(adminRole)
+        }
     }
 }
 

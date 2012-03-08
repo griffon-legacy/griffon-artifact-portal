@@ -3,7 +3,7 @@
   <div class="topbar-inner">
     <div class="container">
       <div class="static-links">
-        <a class="brand" href="${application.contextPath}"><img
+        <a class="brand" href="${grailsApplication.config.serverURL}"><img
                 src="${resource(dir: 'images', file: 'griffon-icon-24x24.png')}" alt="Griffon"
                 align="left"/>&nbsp;Griffon</a>
         <%
@@ -23,7 +23,7 @@
         %>
         <div id="global-nav">
           <ul id="global-actions">
-            <li id="global-nav-home" class="<%=isHomeActive()%>"><a href="${application.contextPath}">Home</a></li>
+            <li id="global-nav-home" class="<%=isHomeActive()%>"><a href="${grailsApplication.config.serverURL}">Home</a></li>
             <li id="global-nav-plugins" class="<%=isMenuActive('plugin')%>"><g:link controller="artifact"
                                                                                     action="all"
                                                                                     mapping="categories_plugin">Plugins</g:link></li>

@@ -50,6 +50,12 @@ values
 	sshd.port = 2222
 	sshd.keystorage = 'artifact-portal.ser'
 
+### Server URL
+
+Lastly, don't forget to update `grails.serverURL` in `Config.groovy`. It should
+point to the URL from which you'll server the portal. Update this setting if
+deploying a WAR in production mode.
+
 Getting Started
 ---------------
 
