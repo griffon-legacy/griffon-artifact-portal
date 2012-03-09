@@ -36,7 +36,7 @@ class NotifyService {
     void tweetRelease(String type, String name, String version) {
         try {
             if (grailsApplication.config.twitter.enabled) {
-                String url = "http://${grailsApplication.config.grails.serverURL}/${type}/${name}"
+                String url = "${grailsApplication.config.grails.serverURL}/${type}/${name}"
                 twitter4jService.updateStatus("#griffon $name $version released $url")
             }
         } catch (Exception e) {
