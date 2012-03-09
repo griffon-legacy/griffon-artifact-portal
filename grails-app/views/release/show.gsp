@@ -72,8 +72,6 @@
   </div>
 
   <div class="span4">
-    <%--<g:link controller="release" action="download" params="[id: releaseInstance.id]" mapping="download_package"
-            class="btn success pull-right">${message(code: 'griffon.portal.button.download.label', default: 'Download')}</g:link>--%>
     <g:link controller="release"
             params="[id: releaseInstance.id, type: releaseInstance.artifact.type, name: releaseInstance.artifact.name, version: releaseInstance.artifactVersion]"
             mapping="download_package"
@@ -94,10 +92,7 @@
     <p>
       <g:if test="${releaseInstance.releaseNotes}">
         <%
-          String basePath = "/WEB-INF/releases/${releaseInstance.artifact.type}/${releaseInstance.artifact.name}/${releaseInstance.artifactVersion}/"
-          String fileName = 'README.html'
-          String releasePath = application.getRealPath("${basePath}${fileName}")
-          out << new File(releasePath).text
+          out << new File(releaseNotesFilePath).text
         %>
       </g:if>
       <g:else>

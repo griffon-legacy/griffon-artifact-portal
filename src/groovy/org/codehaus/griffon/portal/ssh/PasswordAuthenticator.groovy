@@ -32,7 +32,6 @@ class PasswordAuthenticator implements org.apache.sshd.server.PasswordAuthentica
     boolean authenticate(String username, String password, ServerSession serverSession) {
         User user = User.findWhere(username: username,
                 password: MD5.encode(password))
-        println user
         user?.membership?.status == Membership.Status.ACCEPTED
     }
 }

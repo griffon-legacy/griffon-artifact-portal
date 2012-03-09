@@ -50,9 +50,13 @@ class ReleaseController {
             return
         }
 
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        String basePath = "${packagesStoreDir}/${releaseInstance.artifact.type}/${releaseInstance.artifact.name}/${releaseInstance.artifactVersion}/"
+
         [
                 releaseInstance: releaseInstance,
-                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i
+                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i,
+                releaseNotesFilePath: "${basePath}/README.html"
         ]
     }
 
@@ -89,9 +93,13 @@ class ReleaseController {
             return
         }
 
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        String basePath = "${packagesStoreDir}/${releaseInstance.artifact.type}/${releaseInstance.artifact.name}/${releaseInstance.artifactVersion}/"
+
         render(view: 'show', model: [
                 releaseInstance: releaseInstance,
-                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i
+                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i,
+                releaseNotesFilePath: "${basePath}/README.html"
         ])
     }
 
