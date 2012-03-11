@@ -446,6 +446,26 @@ a.skip {
     text-decoration: none;
 }
 
+.tags .tagCloud .smallest {
+    font-size: 1em;
+}
+
+.tags .tagCloud .small {
+    font-size: 1.5em;
+}
+
+.tags .tagCloud .medium {
+    font-size: 2em;
+}
+
+.tags .tagCloud .large {
+    font-size: 2.5em;
+}
+
+.tags .tagCloud .largest {
+    font-size: 3em;
+}
+
 .comment-container {
     background: #FFFFFF;
     color: #333333;
