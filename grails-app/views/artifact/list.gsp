@@ -25,7 +25,7 @@
       <g:paginate controller="tags" action="${params.type}" id="${params.tagName}" total="${artifactTotal}"/>
     </g:if>
     <g:else>
-      <g:paginate action="${categoryType.name}" total="${artifactTotal}" max="5" maxsteps="5"/>
+      <g:paginate action="${categoryType.name}" total="${artifactTotal}"/>
     </g:else>
 </div>
 </body>

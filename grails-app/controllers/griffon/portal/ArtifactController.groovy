@@ -27,7 +27,7 @@ import griffon.portal.values.Category
  * @author Andres Almiray
  */
 class ArtifactController {
-    private static final int DEFAULT_MAX = 5
+    private static final int DEFAULT_MAX = 10
     MarkdownService markdownService
     NotifyService notifyService
 
