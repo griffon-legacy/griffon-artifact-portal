@@ -32,7 +32,7 @@
     </li>
     <li>
       <g:if test="${artifactInstance.documentation}">
-        <a href="${artifactInstance.source}"><g:img dir="images" file="docs_on.png"/> Docs</a>
+        <a href="${artifactInstance.documentation}"><g:img dir="images" file="docs_on.png"/> Docs</a>
       </g:if>
       <g:else>
         <g:img dir="images" file="docs_off.png" title="No docs have been uploaded"/> Docs
