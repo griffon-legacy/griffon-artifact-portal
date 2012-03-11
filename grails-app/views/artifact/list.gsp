@@ -9,7 +9,7 @@
 <body>
 
 <div class="row">
-  <tmpl:/pageheader><h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}<g:if test="${params.tagName}">: ${params.tagName}</g:if></h1></tmpl:/pageheader>
+  <tmpl:/pageheader><h1>${GrailsNameUtils.getNaturalName(params.type)}s - ${categoryType.capitalizedName}<g:if test="${params.tagName}">: ${params.tagName} (${artifactTotal})</g:if></h1></tmpl:/pageheader>
 </div>
 
 <div class="row">
