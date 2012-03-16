@@ -27,13 +27,16 @@ grails.project.dependency.resolution = {
         compile 'org.apache.mina:mina-core:2.0.4',
                 'org.apache.sshd:sshd-core:0.6.0',
                 'org.apache.sshd:sshd-pam:0.6.0'
-        compile('org.codehaus.griffon:griffon-rt:0.9.4') { transitive = false }
+        compile('org.codehaus.griffon:griffon-rt:0.9.5-rc2',
+                'org.codehaus.griffon:griffon-cli:0.9.5-rc2') {
+            transitive = false
+        }
         runtime 'postgresql:postgresql:9.0-801.jdbc4'
     }
 
     plugins {
         test    ":code-coverage:1.2.4",
-                ":spock:0.6-SNAPSHOT"
+                ":spock:0.6"
         compile ":hibernate:$grailsVersion",
                 ":jquery:1.7",
                 ":resources:1.1.3",

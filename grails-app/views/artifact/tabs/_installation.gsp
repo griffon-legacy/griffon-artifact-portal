@@ -1,6 +1,6 @@
 <div class="row">
 <%
-    griffon.portal.Release latestRelease = artifactInstance.latestRelease
+    String latestVersion = artifactInstance.latestRelease?.artifactVersion ?: '1.0'
 %>
   <div class="span16">
     <p>There are several ways to install a release of ${artifactInstance.name} using the <code>install-${artifactInstance.type}</code> target of the griffon command line tool.
@@ -18,7 +18,7 @@
         <br clear="all"/>
         <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name}</code>
         <br clear="all"/><br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name} ${latestRelease?.artifactVersion}</code>
+        <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name} ${latestVersion}</code>
       </div>
     </div>
 
@@ -32,9 +32,9 @@
 
       <div class="span9">
         <br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/api/${artifactInstance.type}s/${artifactInstance.name}/${latestRelease?.artifactVersion}/download</code>
+        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/api/${artifactInstance.type}s/${artifactInstance.name}/${latestVersion}/download</code>
         <br clear="all"/><br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/repository/${artifactInstance.type}s/${artifactInstance.name}/${latestRelease?.artifactVersion}/griffon-${artifactInstance.name}-${latestRelease?.artifactVersion}.zip</code>
+        <code>$ griffon install-${artifactInstance.type} ${grailsApplication.config.serverURL}/repository/${artifactInstance.type}s/${artifactInstance.name}/${latestVersion}/griffon-${artifactInstance.name}-${latestVersion}.zip</code>
       </div>
     </div>
 
@@ -48,7 +48,7 @@
 
       <div class="span9">
         <br clear="all"/>
-        <code>$ griffon install-${artifactInstance.type} /path/to/griffon-${artifactInstance.name}-${latestRelease?.artifactVersion}.zip</code>
+        <code>$ griffon install-${artifactInstance.type} /path/to/griffon-${artifactInstance.name}-${latestVersion}.zip</code>
       </div>
     </div>
   </div>
