@@ -46,7 +46,7 @@
           NONE
         </g:if>
         <g:each in="${releaseInstance.dependencies}" var="dependency">
-          <g:link controller="plugin" action="show" params="[name: dependency.key]">dependency.key</g:link>
+          <g:link controller="plugin" action="show" params="[name: dependency.key]">${dependency.key}</g:link>
         </g:each>
       </span>
     </div>
