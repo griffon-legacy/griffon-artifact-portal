@@ -274,8 +274,6 @@ class ArtifactController {
         List<Artifact> artifacts = []
         int total = 0
 
-        println params
-
         Map qparams = [
                 sort: 'name',
                 order: 'asc',
