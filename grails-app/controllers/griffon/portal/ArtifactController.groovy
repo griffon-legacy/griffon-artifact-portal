@@ -62,7 +62,10 @@ class ArtifactController {
         if (!artifact.save(flush: true)) {
             render([code: 'ERROR'] as JSON)
         } else {
-            render([code: 'OK', tags: artifact.tags.sort().join(', ')] as JSON)
+            String tags = artifact.tags.sort().collect([]) { tag ->
+                g.link(uri: "/tags/${artifact.type}/$tag", tag)
+            }.join(' ')
+            render([code: 'OK', tags: tags] as JSON)
         }
     }
 

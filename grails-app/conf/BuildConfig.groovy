@@ -35,11 +35,11 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        test    ":code-coverage:1.2.4",
+        test    ":code-coverage:1.2.5",
                 ":spock:0.6"
         compile ":hibernate:$grailsVersion",
-                ":jquery:1.7",
-                ":resources:1.1.3",
+                ":jquery:1.7.1",
+                ":resources:1.1.6",
                 ":avatar:0.5.2",
                 ":commentable:0.8.1",
                 ":email-confirmation:1.0.5",
@@ -48,17 +48,18 @@ grails.project.dependency.resolution = {
                 ":mail:1.0",
                 ":markdown:1.0.0.RC1",
                 ":quartz:0.4.2",
-                ":rateable:0.7.0",
+                ":rateable:0.7.1",
                 ":taggable:1.0.1",
                 ":twitter-bootstrap:1.4.0.12",
                 ":twitter4j:0.2",
-                ":webxml:1.3.1",
+                ":webxml:1.4.1",
                 ":yui:2.8.2.1",
-                ":yui-minify-resources:0.1.4",
+                ":yui-minify-resources:0.1.5",
                 ":zipped-resources:1.0",
                 ":cached-resources:1.0",
                 ":cache-headers:1.1.5"
 
-        build ":tomcat:$grailsVersion"
+        build ":tomcat:$grailsVersion",
+              ":svn:1.0.2"
     }
 }

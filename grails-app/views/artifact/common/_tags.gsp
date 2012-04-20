@@ -63,7 +63,14 @@
   &nbsp;<g:message code="artifact.tags.label" default="Tags"/></span>
 
   <span class="property-value" aria-labelledby="tags-label">
-    <div id="artifact-tags">${artifactInstance.tags.join(', ')}<g:if test="${!artifactInstance.tags}"><br/></g:if></div>
+    <div id="artifact-tags">
+      <g:if test="${!artifactInstance.tags}"><br/></g:if>
+      <g:else>
+        <g:each in="${artifactInstance.tags}" var="tag">
+           <g:link uri="/tags/${artifactInstance.type}/${tag}">${tag}</g:link>
+        </g:each>
+      </g:else>
+    </div>
   </span>
 </div>
 <!-- END: TAGS -->
