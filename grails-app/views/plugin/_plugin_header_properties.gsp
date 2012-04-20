@@ -29,3 +29,16 @@
     </g:each>
   </ul>
 </div>
+
+<div class="fieldcontain">
+  <span id="framework-label" class="property-label"><g:message code="plugin.framework.label"
+                                                               default="Framework"/></span>
+  <span class="property-value" aria-labelledby="framework-label">
+    <g:if test="${pluginInstance.framework}">
+      <r:img dir="images" file="yes.png"/>
+    </g:if>
+    <g:else>
+      <r:img dir="images" file="no.png"/>
+    </g:else>
+  </span>
+</div>
