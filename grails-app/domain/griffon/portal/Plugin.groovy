@@ -25,10 +25,12 @@ import griffon.portal.values.Toolkit
 class Plugin extends Artifact {
     String toolkits = ''
     String platforms = ''
+    boolean framework = false
 
     static constraints = {
         toolkits(nullable: false, blank: true)
         platforms(nullable: false, blank: true)
+        framework(nullable: false)
     }
 
     void toolkits(List<Toolkit> values) {
@@ -42,7 +44,8 @@ class Plugin extends Artifact {
     String toString() {
         super.toString() + [
                 toolkits: toolkits,
-                platforms: platforms
+                platforms: platforms,
+                framework: framework
         ]
     }
 }

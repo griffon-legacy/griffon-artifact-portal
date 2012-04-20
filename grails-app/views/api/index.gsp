@@ -131,7 +131,8 @@
                 "source": "https://github.com/griffon/griffon-glazedlists-plugin",
                 "documentation": "",
                 "toolkits": "swing",
-                "platforms": ""
+                "platforms": "",
+                "framework": false,
                 "authors": [
                     {
                         "name": "Andres Almiray",
@@ -189,6 +190,7 @@
             "documentation": "",
             "toolkits": "swing",
             "platforms": ""
+            "framework": false,
             "authors": [
                 {
                     "name": "Andres Almiray",
@@ -245,6 +247,7 @@
             "documentation": "",
             "toolkits": "swing",
             "platforms": ""
+            "framework": false,
             "authors": [
                 {
                     "name": "Andres Almiray",

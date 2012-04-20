@@ -221,6 +221,7 @@ class ApiController {
                 documentation: plugin.documentation ?: '',
                 toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
                 platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
+                framework: plugin.framework,
                 authors: plugin.authors.collect([]) { Author author ->
                     [name: author.name, email: author.email]
                 }

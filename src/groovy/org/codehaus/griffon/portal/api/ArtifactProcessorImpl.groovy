@@ -168,6 +168,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             documentation = json.documentation
             toolkits = json.toolkits.join(',')
             platforms = json.platforms.join(',')
+            framework = json.framework ?: false
         }
 
         handleAuthors(plugin, json)
