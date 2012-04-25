@@ -268,7 +268,7 @@ class ArtifactController {
         }
 
         [
-                tagMap: tagMap,
+                tagMap: tagMap.sort(),
                 categoryType: Category.findByName(params.action)
         ]
     }

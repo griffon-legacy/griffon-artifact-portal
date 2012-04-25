@@ -28,7 +28,6 @@ class TagsTagLib {
     static defaultCssClasses = ['smallest', 'small', 'medium', 'large', 'largest']
 
     def grailsApplication
-    def taggableService
 
     /**
      * Generates a tag cloud using CSS styles to identify the relative importance
@@ -60,8 +59,7 @@ class TagsTagLib {
             def tagRanking
             if (t.value == maxCount) {
                 tagRanking = classes.size() - 1
-            }
-            else {
+            } else {
                 // This calculation only works if t.value != maxCount, otherwise
                 // we end up with an array index that is equal to the length of
                 // the 'classes' list.
