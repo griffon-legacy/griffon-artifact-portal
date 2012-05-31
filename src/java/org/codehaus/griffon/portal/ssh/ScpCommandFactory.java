@@ -35,6 +35,9 @@ import java.util.List;
  */
 public class ScpCommandFactory implements CommandFactory {
     private final ArtifactProcessor artifactProcessor;
+    private boolean notifications;
+    private boolean email;
+    private boolean twitter;
 
     public ScpCommandFactory(ArtifactProcessor artifactProcessor) {
         this.artifactProcessor = artifactProcessor;
@@ -51,7 +54,14 @@ public class ScpCommandFactory implements CommandFactory {
      */
     public Command createCommand(String command) {
         try {
-            return new ScpCommand(splitCommandString(command), artifactProcessor);
+            notifications = true;
+            email = true;
+            twitter = true;
+            final ScpCommand scpCommand = new ScpCommand(splitCommandString(command), artifactProcessor);
+            scpCommand.setNotifications(notifications);
+            scpCommand.setEmail(email);
+            scpCommand.setTwitter(twitter);
+            return scpCommand;
         } catch (IllegalArgumentException iae) {
             throw iae;
         }
@@ -66,11 +76,18 @@ public class ScpCommandFactory implements CommandFactory {
         List<String> parts = new ArrayList<String>();
         parts.add(args[0]);
         for (int i = 1; i < args.length; i++) {
-            if (!args[i].trim().startsWith("-")) {
+            String arg = args[i].trim();
+            if (!arg.startsWith("-")) {
                 parts.add(concatenateWithSpace(args, i));
                 break;
+            } else if ("-no-notifications".equals(arg)) {
+                notifications = false;
+            } else if ("-no-email".equals(arg)) {
+                email = false;
+            } else if ("-no-twitter".equals(arg)) {
+                twitter = false;
             } else {
-                parts.add(args[i]);
+                parts.add(arg);
             }
         }
         return parts.toArray(new String[parts.size()]);

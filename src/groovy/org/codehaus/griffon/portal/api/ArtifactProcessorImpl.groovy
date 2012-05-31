@@ -20,13 +20,16 @@ import griffon.portal.stats.Upload
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
-import java.util.zip.ZipEntry
-import java.util.zip.ZipFile
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pegdown.PegDownProcessor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+
 import griffon.portal.*
+
 import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 import static griffon.util.ConfigUtils.getConfigValueAsBoolean
@@ -244,7 +247,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
                 type: json.type
         ).saveIt()
 
-        notifyService.tweetRelease(json.type, json.name, json.version)
-        notifyService.notifyWatchers(release, artifactInfo.username)
+        if (artifactInfo.notifications && artifactInfo.twitter) notifyService.tweetRelease(json.type, json.name, json.version)
+        if (artifactInfo.notifications && artifactInfo.email) notifyService.notifyWatchers(release, artifactInfo.username)
     }
 }

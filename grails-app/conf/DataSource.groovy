@@ -51,7 +51,7 @@ environments {
             driverClassName = "org.postgresql.Driver"
             url = "jdbc:postgresql://localhost:5432/griffon"
             username = 'postgres'
-            password = 'local'
+            password = 'postgres'
             pooled = true
             properties {
                 maxActive = 50

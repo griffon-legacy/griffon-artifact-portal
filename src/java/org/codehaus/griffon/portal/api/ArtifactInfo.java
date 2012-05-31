@@ -29,9 +29,19 @@ public final class ArtifactInfo {
     private final String artifactName;
     private final String artifactVersion;
     private final String username;
+    private final boolean notifications;
+    private final boolean email;
+    private final boolean twitter;
 
     public ArtifactInfo(File file, String artifactName, String artifactVersion, String username) throws IOException {
+        this(file, artifactName, artifactVersion, username, true, true, true);
+    }
+
+    public ArtifactInfo(File file, String artifactName, String artifactVersion, String username, boolean notifications, boolean email, boolean twitter) throws IOException {
         this.file = file;
+        this.notifications = notifications;
+        this.email = email;
+        this.twitter = twitter;
         this.zipFile = new ZipFile(file);
         this.artifactVersion = artifactVersion;
         this.artifactName = artifactName;
@@ -58,6 +68,18 @@ public final class ArtifactInfo {
         return username;
     }
 
+    public boolean isEmail() {
+        return email;
+    }
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public boolean isTwitter() {
+        return twitter;
+    }
+
     @Override
     public String toString() {
         return "ArtifactInfo{" +
@@ -66,6 +88,9 @@ public final class ArtifactInfo {
                 ", file=" + file +
                 ", artifactVersion='" + artifactVersion + '\'' +
                 ", username='" + username + '\'' +
+                ", notifications='" + notifications + '\'' +
+                ", email='" + email + '\'' +
+                ", twitter='" + twitter + '\'' +
                 '}';
     }
 }

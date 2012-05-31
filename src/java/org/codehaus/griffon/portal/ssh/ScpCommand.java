@@ -37,10 +37,37 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
 
     private final ArtifactProcessor artifactProcessor;
     private String username;
+    private boolean notifications = true;
+    private boolean email = true;
+    private boolean twitter = true;
 
     public ScpCommand(String[] args, ArtifactProcessor artifactProcessor) {
         super(args);
         this.artifactProcessor = artifactProcessor;
+    }
+
+    public boolean isEmail() {
+        return email;
+    }
+
+    public void setEmail(boolean email) {
+        this.email = email;
+    }
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
+    }
+
+    public boolean isTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(boolean twitter) {
+        this.twitter = twitter;
     }
 
     @Override
@@ -58,7 +85,7 @@ public class ScpCommand extends org.apache.sshd.server.command.ScpCommand {
         doWriteFile(header, file);
         String artifactName = matcher.group(1);
         String artifactVersion = matcher.group(2);
-        artifactProcessor.process(new ArtifactInfo(new File(file.getAbsolutePath()), artifactName, artifactVersion, username));
+        artifactProcessor.process(new ArtifactInfo(new File(file.getAbsolutePath()), artifactName, artifactVersion, username, notifications, email, twitter));
 
         ack();
         readAck(false);
