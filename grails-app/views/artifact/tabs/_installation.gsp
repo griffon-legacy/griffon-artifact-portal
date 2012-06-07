@@ -1,3 +1,4 @@
+<%@ page import="griffon.portal.Plugin" %>
 <div class="row">
   <%
     String latestVersion = artifactInstance.latestRelease?.artifactVersion ?: '1.0'
@@ -52,20 +53,22 @@
       </div>
     </div>
 
-    <g:if test="${artifactInstance.framework}">
-      <div class="row">
-        <div class="span7">
-          <h2>Framework</h2>
+    <g:if test="${artifactInstance instanceof Plugin}">
+        <g:if test="${artifactInstance.framework}">
+            <div class="row">
+                <div class="span7">
+                    <h2>Framework</h2>
 
-          <p>This plugin can be installed at the framework level. Either call the <code>install-${artifactInstance.type}</code> command outside of a Griffon project or specify a command flag <code>--framework=true</code> as shown.
-          </p>
-        </div>
+                    <p>This plugin can be installed at the framework level. Either call the <code>install-${artifactInstance.type}</code> command outside of a Griffon project or specify a command flag <code>--framework=true</code> as shown.
+                    </p>
+                </div>
 
-        <div class="span9">
-          <br clear="all"/>
-          <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name}-${latestVersion} --framework=true</code>
-        </div>
-      </div>
+                <div class="span9">
+                    <br clear="all"/>
+                    <code>$ griffon install-${artifactInstance.type} ${artifactInstance.name}-${latestVersion} --framework=true</code>
+                </div>
+            </div>
+        </g:if>
     </g:if>
   </div>
 </div>
