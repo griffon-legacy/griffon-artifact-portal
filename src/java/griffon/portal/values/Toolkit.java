@@ -27,7 +27,9 @@ import static grails.util.GrailsNameUtils.isBlank;
 public enum Toolkit {
     SWING("Swing"),
     JAVAFX("JavaFX"),
-    SWT("SWT");
+    SWT("SWT"),
+    PIVOT("Pivot"),
+    QT("Qt");
 
     private final String name;
 
