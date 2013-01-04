@@ -232,8 +232,8 @@ class ArtifactController {
     }
 
     def most_downloaded() {
-        int max    =  params.max ?: DEFAULT_MAX
-        int offset = params.offset ?: 0
+        int max    = (params.max ?: DEFAULT_MAX) as int
+        int offset = (params.offset ?: 0) as int
 
         List totals = []
         Sql sql = new Sql(dataSource)
