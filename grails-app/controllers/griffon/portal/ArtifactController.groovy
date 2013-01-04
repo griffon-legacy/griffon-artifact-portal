@@ -22,6 +22,8 @@ import griffon.portal.auth.User
 import griffon.portal.stats.DownloadTotal
 import griffon.portal.values.ArtifactTab
 import griffon.portal.values.Category
+import groovy.sql.Sql
+import javax.sql.DataSource
 
 /**
  * @author Andres Almiray
@@ -30,6 +32,7 @@ class ArtifactController {
     private static final int DEFAULT_MAX = 10
     MarkdownService markdownService
     NotifyService notifyService
+    DataSource dataSource
 
     def watch() {
         User user = session.user ? User.get(session.user.id) : null
@@ -229,22 +232,41 @@ class ArtifactController {
     }
 
     def most_downloaded() {
-        Map qparams = [
-                max: params.max ?: DEFAULT_MAX,
-                offset: params.offset ?: 0
-        ]
+        int max    =  params.max ?: DEFAULT_MAX
+        int offset = params.offset ?: 0
 
-        List<DownloadTotal> downloadList = DownloadTotal.createCriteria().list(max: qparams.max, offset: qparams.offset) {
-            eq('type', params.type)
-            order('total', 'desc')
+        List totals = []
+        Sql sql = new Sql(dataSource)
+        sql.eachRow("""
+            SELECT SUM(dt.total) AS tt, a.id AS art_id
+                FROM download_total AS dt, release AS r, artifact AS a
+                WHERE dt.release_id = r.id AND
+                      r.artifact_id = a.id AND
+                      dt.type = ?
+                GROUP BY art_id
+                ORDER BY tt DESC
+        """.stripIndent(12).trim(), [params.type]) { row ->
+            totals << [total: row.tt, id: row.art_id]
+        }
+        sql.close()
+
+        max = offset + max
+        offset = offset >= totals.size() ? -1 : offset
+        List ids = []
+        if (offset != -1) {
+            max = offset + max < totals.size() ? max : - 1
+            ids = totals.id[offset..max]
+        }
+        List artifacts = (ids ? Artifact.getAll(ids): []).collect([]) { artifact ->
+            [release: [artifact: artifact], total: totals.grep{ it.id == artifact.id }.total[0]]
         }
 
         // don't show more than 50 artifacts
         render(view: 'list',
                 model: [
                         hasDownloads: true,
-                        artifactList: downloadList,
-                        artifactTotal: downloadList.totalCount,
+                        artifactList: artifacts,
+                        artifactTotal: totals.size(),
                         categoryType: Category.findByName(params.action)
                 ])
     }
