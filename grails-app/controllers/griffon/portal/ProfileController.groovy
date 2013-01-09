@@ -16,6 +16,7 @@
 
 package griffon.portal
 
+import grails.validation.Validateable
 import griffon.portal.auth.User
 import griffon.portal.util.MD5
 import griffon.portal.values.ProfileTab
@@ -265,6 +266,7 @@ class ProfileController {
     }
 }
 
+@Validateable
 class UpdateAccountCommand {
     String fullName
     String email
@@ -275,6 +277,7 @@ class UpdateAccountCommand {
     }
 }
 
+@Validateable
 class UpdateProfileCommand {
     String bio
     String gravatarEmail
@@ -289,6 +292,7 @@ class UpdateProfileCommand {
     }
 }
 
+@Validateable
 class UpdatePasswordCommand {
     String oldPassword
     String newPassword
@@ -301,6 +305,7 @@ class UpdatePasswordCommand {
     }
 }
 
+@Validateable
 class UpdateNotificationsCommand {
     boolean watchlist
     boolean content

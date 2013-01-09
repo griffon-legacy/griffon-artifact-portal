@@ -3,10 +3,7 @@ package griffon.portal.auth
 import com.grailsrocks.emailconfirmation.EmailConfirmationService
 import grails.converters.JSON
 import grails.plugin.mail.MailService
-import griffon.portal.ForgotPasswordCommand
-import griffon.portal.ForgotUsernameCommand
-import griffon.portal.LoginCommand
-import griffon.portal.SignupCommand
+import grails.validation.Validateable
 import griffon.portal.util.MD5
 import org.apache.commons.lang.RandomStringUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -206,5 +203,61 @@ class UserController {
                     ]
             )
         }
+    }
+}
+
+@Validateable
+class SignupCommand {
+    boolean filled
+    String username
+    String fullName
+    String email
+    String password
+    String password2
+    String captcha
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        fullName(nullable: false, blank: true)
+        email(nullable: false, blank: false, email: true)
+        password(nullable: false, blank: false)
+        password2(nullable: false, blank: false)
+        captcha(nullable: false, blank: false)
+    }
+}
+
+@Validateable
+class LoginCommand {
+    boolean filled
+    String username
+    String passwd
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        passwd(nullable: false, blank: false)
+    }
+}
+
+@Validateable
+class ForgotPasswordCommand {
+    boolean filled
+    String username
+    String captcha
+
+    static constraints = {
+        username(nullable: false, blank: false)
+        captcha(nullable: false, blank: false)
+    }
+}
+
+@Validateable
+class ForgotUsernameCommand {
+    boolean filled
+    String email
+    String captcha
+
+    static constraints = {
+        email(nullable: false, email: true)
+        captcha(nullable: false, blank: false)
     }
 }
