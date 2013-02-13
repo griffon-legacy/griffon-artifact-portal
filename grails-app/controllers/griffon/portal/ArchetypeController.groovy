@@ -19,6 +19,7 @@ package griffon.portal
 import grails.util.GrailsNameUtils
 import griffon.portal.auth.User
 import griffon.portal.stats.DownloadTotal
+import griffon.portal.stats.DownloadTotalByCountry
 import griffon.portal.values.ArtifactTab
 
 /**
@@ -84,6 +85,13 @@ class ArchetypeController {
             releaseList = Release.findAllByArtifact(archetypeInstance, [sort: 'artifactVersion', order: 'desc'])
         }
 
+        List downloadsPerCountry = []
+        if (params.tab == ArtifactTab.STATISTICS.name) {
+            DownloadTotalByCountry.findAllByArtifact(archetypeInstance, [sort: 'total', order: 'asc']).collect(downloadsPerCountry) { DownloadTotalByCountry t ->
+                [t.country, t.total]
+            }
+        }
+
         [
                 archetypeName: archetypeName,
                 archetypeInstance: archetypeInstance,
@@ -91,6 +99,7 @@ class ArchetypeController {
                 releaseList: releaseList,
                 watching: watching,
                 downloads: downloads ?: 0i,
+                downloadsPerCountry: downloadsPerCountry,
                 tab: params.tab
         ]
     }

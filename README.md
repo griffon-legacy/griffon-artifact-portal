@@ -24,9 +24,9 @@ The portal stores zip files in two different directories. These directories
 should be durable and backed up regularly. Make sure to point the following
 properties to more appropriate locations
 
-	packages.store.dir = '/tmp/griffon-artifact-portal/packages'
-	releases.store.dir = '/tmp/griffon-artifact-portal/releases'
-	
+    packages.store.dir = '/tmp/griffon-artifact-portal/packages'
+    releases.store.dir = '/tmp/griffon-artifact-portal/releases'
+
 ### Twitter
 
 The portal has the option to send announcements via Twitter whenever a release
@@ -47,8 +47,8 @@ In order to publish artifacts via SCP you must configure the SSH access port
 and the default key storage. These properties are set by default to the following
 values
 
-	sshd.port = 2222
-	sshd.keystorage = 'artifact-portal.ser'
+    sshd.port = 2222
+    sshd.keystorage = 'artifact-portal.ser'
 
 ### Snapshot Releases
 
@@ -56,6 +56,13 @@ Should you wish to disallow the publication of snapshot releases then set the
 following flag to false
 
     allow.snapshots = false
+
+### GeoIP Database
+
+Check if there's a newer version of the `GeoLiteCity.dat` file provided by [Maxmind][5].
+This file is used to resolve download stats per country. The application already bundles
+this file however chances are it may be outdated.
+
 
 ### Server URL
 
@@ -68,7 +75,7 @@ Getting Started
 
 First you should run the application and configure an initial admin account:
 
-	grails -Dinitial.admin.password=mypasswd prod run-app
+    grails -Dinitial.admin.password=mypasswd prod run-app
 
 This assigns `mypasswd` as the password for the `admin` account in the production
 database. You can either continue to run the application in production mode or
@@ -79,3 +86,4 @@ quit to later package it in a war and deploy it to an application server.
 [2]: http://grails.org
 [3]: http://grails.org/plugin/twitter4j
 [4]: http://grails.org/plugin/mail
+[5]: http://www.maxmind.com/app/geolitecity

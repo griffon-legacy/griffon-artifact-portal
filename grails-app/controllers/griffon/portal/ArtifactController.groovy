@@ -19,7 +19,6 @@ package griffon.portal
 import com.naleid.grails.MarkdownService
 import grails.converters.JSON
 import griffon.portal.auth.User
-import griffon.portal.stats.DownloadTotal
 import griffon.portal.values.ArtifactTab
 import griffon.portal.values.Category
 import groovy.sql.Sql

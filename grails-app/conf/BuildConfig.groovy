@@ -57,7 +57,9 @@ grails.project.dependency.resolution = {
                 ":yui-minify-resources:0.1.5",
                 ":zipped-resources:1.0",
                 ":cached-resources:1.0",
-                ":cache-headers:1.1.5"
+                ":cache-headers:1.1.5",
+                ":google-visualization:0.6.1",
+                ":geoip:0.2"
 
         build ":tomcat:$grailsVersion",
               ":svn:1.0.2"

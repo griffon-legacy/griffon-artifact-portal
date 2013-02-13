@@ -30,7 +30,8 @@ public enum ArtifactTab {
     RELEASES,
     // FAQ,
     // SCREENSHOTS,
-    COMMENTS;
+    COMMENTS,
+    STATISTICS;
 
     public String getName() {
         return name().toLowerCase();

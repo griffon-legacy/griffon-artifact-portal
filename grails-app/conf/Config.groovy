@@ -43,6 +43,9 @@ sshd.keystorage = 'artifact-portal.ser'
 
 allow.snapshots = true
 
+geoip.data.resource= "/WEB-INF/GeoLiteCity.dat"
+geoip.data.cache = 0
+
 // ###################################################################
 //
 //    !!! DO NOT EDIT BEYOND THIS POINT !!!
