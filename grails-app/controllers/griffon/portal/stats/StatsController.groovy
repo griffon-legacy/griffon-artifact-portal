@@ -30,7 +30,8 @@ class StatsController {
 
         Map versions = [:]
         javaVersions.each { entry ->
-            String versionNumber = entry[0][0..2]
+            if (!entry || !entry[0] || entry[1] == null) return
+            String versionNumber = entry[0][0..4]
             def count = versions.get(versionNumber, 0)
             versions[versionNumber] = count + entry[1]
         }
@@ -45,6 +46,7 @@ class StatsController {
 
         versions.clear()
         griffonVersions.each { entry ->
+            if (!entry || !entry[0] || entry[1] == null) return
             String versionNumber = entry[0][0..4]
             def count = versions.get(versionNumber, 0)
             versions[versionNumber] = count + entry[1]
@@ -60,6 +62,7 @@ class StatsController {
 
         versions.clear()
         osNames.each { entry ->
+            if (!entry || !entry[0] || entry[1] == null) return
             String osName = entry[0].contains('Windows') ? 'Windows' : entry[0]
             def count = versions.get(osName, 0)
             versions[osName] = count + entry[1]
