@@ -30,7 +30,7 @@ class StatsController {
 
         Map versions = [:]
         javaVersions.each { entry ->
-            if (!entry || !entry[0] || entry[1] == null) return
+            if (!entry || !entry[0] || !entry[1]) return
             String versionNumber = entry[0][0..4]
             def count = versions.get(versionNumber, 0)
             versions[versionNumber] = count + entry[1]
@@ -46,11 +46,13 @@ class StatsController {
 
         versions.clear()
         griffonVersions.each { entry ->
-            if (!entry || !entry[0] || entry[1] == null) return
+            if (!entry || !entry[0] || !entry[1]) return
             String versionNumber = entry[0][0..4]
             def count = versions.get(versionNumber, 0)
             versions[versionNumber] = count + entry[1]
         }
+        // sort from latest version to earliest
+        versions.sort { a, b -> b.key <=> a.key }
         griffonVersions = versions.collect { [it.key, it.value] }
 
         List osNames = Download.createCriteria().list() {
@@ -62,7 +64,7 @@ class StatsController {
 
         versions.clear()
         osNames.each { entry ->
-            if (!entry || !entry[0] || entry[1] == null) return
+            if (!entry || !entry[0] || !entry[1]) return
             String osName = entry[0].contains('Windows') ? 'Windows' : entry[0]
             def count = versions.get(osName, 0)
             versions[osName] = count + entry[1]
