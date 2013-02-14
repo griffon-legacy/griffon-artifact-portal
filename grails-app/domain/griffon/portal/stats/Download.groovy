@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
 package griffon.portal.stats
 
 import griffon.portal.Release
-import griffon.portal.util.MD5
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 /**
  * @author Andres Almiray
@@ -51,20 +49,5 @@ class Download {
         javaVmVersion(nullable: true, blank: true)
         javaVmName(nullable: true, blank: true)
         griffonVersion(nullable: true, blank: true)
-    }
-
-    def saveIt() {
-        username = MD5.encode(username)
-        save()
-        DownloadTotal total = DownloadTotal.findByRelease(release) ?: new DownloadTotal(release: release, type: type)
-        total.total += 1
-        total.save()
-
-        def location = ApplicationHolder.application.mainContext.geoIpService.getLocation(ipAddress)
-        String country = location?.countryName ?: 'Unresolved'
-        if (location?.latitude == -20.0 && location?.longitude == 47.0) country = 'Unresolved'
-        DownloadTotalByCountry totalByCountry = DownloadTotalByCountry.findOrCreateWhere(artifact: release.artifact, country: country)
-        totalByCountry.total += 1
-        totalByCountry.save()
     }
 }

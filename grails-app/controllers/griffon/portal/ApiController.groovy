@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package griffon.portal
 
 import grails.converters.JSON
 import griffon.portal.auth.User
-import griffon.portal.stats.Download
 import griffon.portal.util.MD5
+
 import static grails.util.GrailsNameUtils.isBlank
 import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
@@ -32,11 +32,12 @@ class ApiController {
     private final static Map SORT_SETTINGS = [sort: 'artifactVersion', order: 'desc']
 
     static allowedMethods = [
-            list: 'GET',
-            info: 'GET',
-            download: 'GET']
+        list: 'GET',
+        info: 'GET',
+        download: 'GET']
 
     PreferencesService preferencesService
+    StatsService statsService
 
     def index() {}
 
@@ -52,7 +53,7 @@ class ApiController {
 
         list = list.collect([]) { artifact ->
             Map data = asMap(artifact, false)
-            data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
+            data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) { Release release ->
                 asMap(release)
             }
             data
@@ -86,29 +87,29 @@ class ApiController {
                 } else {
                     response.status = 404
                     data = [
-                            action: 'info',
-                            response: 'Not Found',
-                            params: [
-                                    type: params.type,
-                                    name: params.name,
-                                    name: params.version
-                            ]
+                        action: 'info',
+                        response: 'Not Found',
+                        params: [
+                            type: params.type,
+                            name: params.name,
+                            name: params.version
+                        ]
                     ]
                 }
             } else {
-                data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) {Release release ->
+                data.releases = Release.findAllByArtifact(artifact, SORT_SETTINGS).collect([]) { Release release ->
                     asMap(release)
                 }
             }
         } else {
             response.status = 404
             data = [
-                    action: 'info',
-                    response: 'Not Found',
-                    params: [
-                            type: params.type,
-                            name: params.name
-                    ]
+                action: 'info',
+                response: 'Not Found',
+                params: [
+                    type: params.type,
+                    name: params.name
+                ]
             ]
         }
         render data as JSON
@@ -126,13 +127,13 @@ class ApiController {
         if (!artifact) {
             response.status = 404
             render([
-                    action: 'download',
-                    response: 'Not Found',
-                    params: [
-                            type: params.type,
-                            name: params.name,
-                            version: params.version
-                    ]
+                action: 'download',
+                response: 'Not Found',
+                params: [
+                    type: params.type,
+                    name: params.name,
+                    version: params.version
+                ]
             ] as JSON)
             return
         }
@@ -146,13 +147,13 @@ class ApiController {
         if (!release) {
             response.status = 404
             render([
-                    action: 'download',
-                    response: 'Not Found',
-                    params: [
-                            type: params.type,
-                            name: params.name,
-                            version: params.version
-                    ]
+                action: 'download',
+                response: 'Not Found',
+                params: [
+                    type: params.type,
+                    name: params.name,
+                    version: params.version
+                ]
             ] as JSON)
             return
         }
@@ -179,20 +180,20 @@ class ApiController {
 
         response.contentType = 'text/plain'
         if (!params.md5 && !params.release) {
-            new Download(
-                    username: username,
-                    release: release,
-                    type: params.type,
-                    userAgent: request.getHeader('user-agent'),
-                    ipAddress: request.remoteAddr,
-                    osName: request.getHeader('x-os-name'),
-                    osArch: request.getHeader('x-os-arch'),
-                    osVersion: request.getHeader('x-os-version'),
-                    javaVersion: request.getHeader('x-java-version'),
-                    javaVmVersion: request.getHeader('x-java-vm-version'),
-                    javaVmName: request.getHeader('x-java-vm-name'),
-                    griffonVersion: request.getHeader('x-griffon-version')
-            ).saveIt()
+            statsService.download(
+                username: username,
+                release: release,
+                type: params.type,
+                userAgent: request.getHeader('user-agent'),
+                ipAddress: request.remoteAddr,
+                osName: request.getHeader('x-os-name'),
+                osArch: request.getHeader('x-os-arch'),
+                osVersion: request.getHeader('x-os-version'),
+                javaVersion: request.getHeader('x-java-version'),
+                javaVmVersion: request.getHeader('x-java-vm-version'),
+                javaVmName: request.getHeader('x-java-vm-name'),
+                griffonVersion: request.getHeader('x-griffon-version')
+            )
 
             response.contentType = 'application/zip'
             response.setHeader('Cache-Control', 'must-revalidate')
@@ -208,56 +209,56 @@ class ApiController {
 
     private Map asMap(Plugin plugin, boolean includeDescription = true) {
         Map map = [
-                name: plugin.name,
-                title: plugin.title
+            name: plugin.name,
+            title: plugin.title
         ]
         if (includeDescription) {
             map.description = plugin.description
         }
 
         map + [
-                license: plugin.license,
-                source: plugin.source ?: '',
-                documentation: plugin.documentation ?: '',
-                toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
-                platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
-                framework: plugin.framework,
-                authors: plugin.authors.collect([]) { Author author ->
-                    [name: author.name, email: author.email]
-                }
+            license: plugin.license,
+            source: plugin.source ?: '',
+            documentation: plugin.documentation ?: '',
+            toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
+            platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
+            framework: plugin.framework,
+            authors: plugin.authors.collect([]) { Author author ->
+                [name: author.name, email: author.email]
+            }
         ]
     }
 
     private Map asMap(Archetype archetype, boolean includeDescription = true) {
         Map map = [
-                name: archetype.name,
-                title: archetype.title]
+            name: archetype.name,
+            title: archetype.title]
 
         if (includeDescription) {
             map.description = archetype.description
         }
 
         map + [
-                license: archetype.license,
-                source: archetype.source ?: '',
-                documentation: archetype.documentation ?: '',
-                authors: archetype.authors.collect([]) { Author author ->
-                    [name: author.name, email: author.email]
-                }
+            license: archetype.license,
+            source: archetype.source ?: '',
+            documentation: archetype.documentation ?: '',
+            authors: archetype.authors.collect([]) { Author author ->
+                [name: author.name, email: author.email]
+            }
         ]
     }
 
     private Map asMap(Release release) {
         [
-                version: release.artifactVersion,
-                griffonVersion: release.griffonVersion,
-                date: release.dateCreated.format(TIMESTAMP_FORMAT),
-                checksum: release.checksum,
-                comment: release.comment,
-                dependencies: release.dependencies.inject([]) { l, entry ->
-                    l << [name: entry.key, version: entry.value]
-                    l
-                },
+            version: release.artifactVersion,
+            griffonVersion: release.griffonVersion,
+            date: release.dateCreated.format(TIMESTAMP_FORMAT),
+            checksum: release.checksum,
+            comment: release.comment,
+            dependencies: release.dependencies.inject([]) { l, entry ->
+                l << [name: entry.key, version: entry.value]
+                l
+            },
         ]
     }
 }

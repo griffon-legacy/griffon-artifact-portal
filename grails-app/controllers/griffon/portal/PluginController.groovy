@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 package griffon.portal
 
 import griffon.portal.auth.User
+import griffon.portal.stats.DownloadByCountry
 import griffon.portal.stats.DownloadTotal
-import griffon.portal.stats.DownloadTotalByCountry
 import griffon.portal.values.ArtifactTab
 
 /**
@@ -49,20 +49,20 @@ class PluginController {
 
         params.tab = params.tab ?: ArtifactTab.DESCRIPTION.name
 
-        List authorList = pluginInstance.authors.collect([]) {Author author ->
+        List authorList = pluginInstance.authors.collect([]) { Author author ->
             User user = User.findWhere(email: author.email)
             if (user && user.profile) {
                 [
-                        name: author.name,
-                        email: user.profile.gravatarEmail,
-                        username: user.username,
+                    name: author.name,
+                    email: user.profile.gravatarEmail,
+                    username: user.username,
                 ]
             } else {
                 [
-                        id: author.id,
-                        name: author.name,
-                        email: author.email,
-                        username: ''
+                    id: author.id,
+                    name: author.name,
+                    email: author.email,
+                    username: ''
                 ]
             }
         }
@@ -88,22 +88,22 @@ class PluginController {
             releaseList = Release.findAllByArtifact(pluginInstance, [sort: 'artifactVersion', order: 'desc'])
         }
 
-        List downloadsPerCountry = []
+        List downloadsByCountry = []
         if (params.tab == ArtifactTab.STATISTICS.name) {
-            DownloadTotalByCountry.findAllByArtifact(pluginInstance, [sort: 'total', order: 'asc']).collect(downloadsPerCountry) { DownloadTotalByCountry t ->
+            DownloadByCountry.findAllByArtifact(pluginInstance, [sort: 'total', order: 'asc']).collect(downloadsByCountry) { DownloadByCountry t ->
                 [t.country, t.total]
             }
         }
 
         [
-                pluginName: pluginName,
-                pluginInstance: pluginInstance,
-                authorList: authorList,
-                releaseList: releaseList,
-                watching: watching,
-                downloads: downloads ?: 0i,
-                downloadsPerCountry: downloadsPerCountry,
-                tab: params.tab
+            pluginName: pluginName,
+            pluginInstance: pluginInstance,
+            authorList: authorList,
+            releaseList: releaseList,
+            watching: watching,
+            downloads: downloads ?: 0i,
+            downloadsByCountry: downloadsByCountry,
+            tab: params.tab
         ]
     }
 }

@@ -21,6 +21,8 @@ class UrlMappings {
 
         name confirm: "/confirm/$id?"(controller: 'emailConfirmation', action: 'index')
 
+        '/stats'(controller: 'stats', action: 'index')
+
         '/api'(controller: 'api', action: 'index')
         '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
         "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}

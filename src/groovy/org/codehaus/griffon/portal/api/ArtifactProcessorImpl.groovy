@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package org.codehaus.griffon.portal.api
 
-import griffon.portal.stats.Upload
+import griffon.portal.*
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
@@ -27,8 +27,6 @@ import org.slf4j.LoggerFactory
 
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-
-import griffon.portal.*
 
 import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
@@ -43,6 +41,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
     NotifyService notifyService
     PreferencesService preferencesService
     GrailsApplication grailsApplication
+    StatsService statsService
 
     void process(ArtifactInfo artifactInfo) throws IOException {
         for (artifactType in ['plugin', 'archetype']) {
@@ -198,12 +197,12 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
     }
 
     private void handleAuthors(Artifact artifact, json) {
-        json.authors.each {data ->
+        json.authors.each { data ->
             Author author = Author.findByEmail(data.email)
             if (!author) {
                 author = new Author(
-                        name: data.name,
-                        email: data.email
+                    name: data.name,
+                    email: data.email
                 )
             }
             if (!artifact.authors?.contains(author)) {
@@ -223,7 +222,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
         if (!release) {
             release = new Release(
-                    artifactVersion: json.version)
+                artifactVersion: json.version)
         }
         release.with {
             griffonVersion = json.griffonVersion
@@ -233,7 +232,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             releaseNotes = json.releaseNotes ?: ''
         }
         if (json.dependencies) {
-            release.dependencies = json.dependencies.inject([:]) {m, dep ->
+            release.dependencies = json.dependencies.inject([:]) { m, dep ->
                 m[dep.name] = dep.version
                 m
             }
@@ -241,11 +240,11 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
 
         release.save()
 
-        new Upload(
-                username: artifactInfo.username,
-                release: release,
-                type: json.type
-        ).saveIt()
+        statsService.upload(
+            username: artifactInfo.username,
+            release: release,
+            type: json.type
+        )
 
         if (artifactInfo.notifications && artifactInfo.twitter) notifyService.tweetRelease(json.type, json.name, json.version)
         if (artifactInfo.notifications && artifactInfo.email) notifyService.notifyWatchers(release, artifactInfo.username)

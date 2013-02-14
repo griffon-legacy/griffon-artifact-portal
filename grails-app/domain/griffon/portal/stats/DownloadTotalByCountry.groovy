@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,16 @@
  */
 
 package griffon.portal.stats
-
-import griffon.portal.Artifact
-
 /**
  * @author Andres Almiray
  */
 class DownloadTotalByCountry {
-    Artifact artifact
     String country
     int total = 0
     Date dateCreated
     Date lastUpdated
 
     static constraints = {
-        artifact(nullable: false)
-        country(nullable: false)
+        country(nullable: false, blank: false, unique: true)
     }
 }

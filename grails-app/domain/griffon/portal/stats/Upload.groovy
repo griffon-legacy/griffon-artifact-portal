@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package griffon.portal.stats
 
 import griffon.portal.Release
-import griffon.portal.util.MD5
 
 /**
  * @author Andres Almiray
@@ -31,13 +30,5 @@ class Upload {
     static constraints = {
         username(nullable: false, blank: false)
         release(nullable: false)
-    }
-
-    def saveIt() {
-        username = MD5.encode(username)
-        save()
-        UploadTotal total = UploadTotal.findByRelease(release) ?: new UploadTotal(release: release, type: type)
-        total.total += 1
-        total.save()
     }
 }

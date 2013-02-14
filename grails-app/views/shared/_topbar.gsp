@@ -8,7 +8,7 @@
                 align="left"/>&nbsp;Griffon</a>
         <%
           def isHomeActive = {->
-            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'api', 'artifact', 'about']) ? 'active' : ''
+            !params.controller || !(params.controller in ['plugin', 'archetype', 'profile', 'stats', 'api', 'artifact', 'about']) ? 'active' : ''
           }
           def isAdminActive = {->
             params.controller == 'user' ? 'active' : ''
@@ -30,6 +30,8 @@
             <li id="global-nav-archetypes" class="<%=isMenuActive('archetype')%>"><g:link controller="artifact"
                                                                                           action="all"
                                                                                           mapping="categories_archetype">Archetypes</g:link></li>
+            <li id="global-nav-stats" class="<%=isMenuActive('stats')%>"><a
+                  href="${application.contextPath}/stats">Stats</a></li>
             <li id="global-nav-api" class="<%=isMenuActive('api')%>"><a
                     href="${application.contextPath}/api">API</a></li>
             <g:if test="${session.user}">

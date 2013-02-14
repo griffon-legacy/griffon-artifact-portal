@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package griffon.portal
+package griffon.portal.stats
 
-import griffon.portal.auth.User
+import griffon.portal.Artifact
 
 /**
  * @author Andres Almiray
  */
-class Watcher {
+class DownloadByCountry {
     Artifact artifact
-
-    static hasMany = [users: User]
+    String country
+    int total = 0
+    Date dateCreated
+    Date lastUpdated
 
     static constraints = {
-        artifact(nullable: false, unique: true)
+        artifact(nullable: false)
+        country(nullable: false, blank: false)
     }
 }

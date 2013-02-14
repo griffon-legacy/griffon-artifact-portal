@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 the original author or authors.
+ * Copyright 2011-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,15 @@
 package griffon.portal
 
 import grails.converters.JSON
-import griffon.portal.stats.Download
 import griffon.portal.stats.DownloadTotal
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-import javax.servlet.http.HttpServletRequest
 import org.codehaus.griffon.portal.api.ArtifactInfo
 import org.codehaus.griffon.portal.api.ArtifactProcessor
 import org.springframework.web.multipart.MultipartHttpServletRequest
+
+import javax.servlet.http.HttpServletRequest
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
 import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
 
@@ -36,6 +37,7 @@ class ReleaseController {
 
     ArtifactProcessor artifactProcessor
     PreferencesService preferencesService
+    StatsService statsService
 
     def show() {
         if (!params.id) {
@@ -54,9 +56,9 @@ class ReleaseController {
         String basePath = "${packagesStoreDir}/${releaseInstance.artifact.type}/${releaseInstance.artifact.name}/${releaseInstance.artifactVersion}/"
 
         [
-                releaseInstance: releaseInstance,
-                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i,
-                releaseNotesFilePath: "${basePath}/README.html"
+            releaseInstance: releaseInstance,
+            downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i,
+            releaseNotesFilePath: "${basePath}/README.html"
         ]
     }
 
@@ -97,9 +99,9 @@ class ReleaseController {
         String basePath = "${packagesStoreDir}/${releaseInstance.artifact.type}/${releaseInstance.artifact.name}/${releaseInstance.artifactVersion}/"
 
         render(view: 'show', model: [
-                releaseInstance: releaseInstance,
-                downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i,
-                releaseNotesFilePath: "${basePath}/README.html"
+            releaseInstance: releaseInstance,
+            downloads: DownloadTotal.findByRelease(releaseInstance)?.total ?: 0i,
+            releaseNotesFilePath: "${basePath}/README.html"
         ])
     }
 
@@ -124,20 +126,20 @@ class ReleaseController {
         File file = new File("${basePath}${fileName}")
         byte[] content = file.bytes
 
-        new Download(
-                username: session.user?.username ?: 'GRIFFON_WEB',
-                release: releaseInstance,
-                type: type,
-                userAgent: request.getHeader('user-agent'),
-                ipAddress: request.remoteAddr,
-                osName: request.getHeader('x-os-name'),
-                osArch: request.getHeader('x-os-arch'),
-                osVersion: request.getHeader('x-os-version'),
-                javaVersion: request.getHeader('x-java-version'),
-                javaVmVersion: request.getHeader('x-java-vm-version'),
-                javaVmName: request.getHeader('x-java-vm-name'),
-                griffonVersion: request.getHeader('x-griffon-version')
-        ).saveIt()
+        statsService.download(
+            username: session.user?.username ?: 'GRIFFON_WEB',
+            release: releaseInstance,
+            type: type,
+            userAgent: request.getHeader('user-agent'),
+            ipAddress: request.remoteAddr,
+            osName: request.getHeader('x-os-name'),
+            osArch: request.getHeader('x-os-arch'),
+            osVersion: request.getHeader('x-os-version'),
+            javaVersion: request.getHeader('x-java-version'),
+            javaVmVersion: request.getHeader('x-java-vm-version'),
+            javaVmName: request.getHeader('x-java-vm-name'),
+            griffonVersion: request.getHeader('x-griffon-version')
+        )
 
         Date lastModified = new Date(file.lastModified())
         response.contentType = 'application/zip'
@@ -196,10 +198,10 @@ class ReleaseController {
             tmpFile << inputStream
 
             artifactProcessor.process(new ArtifactInfo(
-                    tmpFile,
-                    artifactName,
-                    artifactVersion,
-                    session.user.username))
+                tmpFile,
+                artifactName,
+                artifactVersion,
+                session.user.username))
         } catch (IOException ioe) {
             render([success: false, message: ioe.message] as JSON)
             return
