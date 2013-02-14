@@ -66,11 +66,11 @@
         <div class="span4">
             <h2>Java</h2>
 
-            <p>Java version as reported by <code>X-Java-Version</code>.</p>
+            <p>Java version reported by <code>X-Java-Version</code>, aggregated by major release</p>
         </div>
 
         <div class="span12">
-            <gvisualization:barCoreChart elementId="javaVersions" width="660" height="${60 + (20*javaVersions.size())}"
+            <gvisualization:pieCoreChart elementId="javaVersions" width="660" height="400"
                                      columns="${[['string', 'Version'], ['number', 'Total']]}"
                                      data="${javaVersions}"/>
             <div id="javaVersions"></div>
@@ -80,7 +80,7 @@
         <div class="span4">
             <h2>Griffon</h2>
 
-            <p>Griffon version as reported by <code>X-Griffon-Version</code>.</p>
+            <p>Griffon version reported by <code>X-Griffon-Version</code>, aggregated by release. Snapshot releases are summed up to their corresponding stable release.</p>
         </div>
 
         <div class="span12">
@@ -94,28 +94,15 @@
         <div class="span4">
             <h2>Operating System</h2>
 
-            <p>Operating System version as reported by <code>X-Os-Name</code>.</p>
+            <p>Operating System version reported by <code>X-Os-Name</code> aggregated by type.</p>
         </div>
 
         <div class="span12">
-            <gvisualization:barCoreChart elementId="osNames" width="660" height="${60 + (20*osNames.size())}"
-                                         columns="${[['string', 'Version'], ['number', 'Total']]}"
+            <gvisualization:pieCoreChart elementId="osNames" width="660" height="400"
+                                         columns="${[['string', 'Name'], ['number', 'Total']]}"
                                          data="${osNames}"/>
             <div id="osNames"></div>
         </div>
-
-        <g:each in="${osVersions}" var="os" status="index">
-            <div class="span4">
-                <h3>${os.key}</h3>
-            </div>
-
-            <div class="span12">
-                <gvisualization:pieCoreChart elementId="osversion-${index}" width="660" height="400"
-                                             columns="${[['string', 'Version'], ['number', 'Total']]}"
-                                             data="${os.value}"/>
-                <div id="osversion-${index}"></div>
-            </div>
-        </g:each>
     </div>
 </section>
 

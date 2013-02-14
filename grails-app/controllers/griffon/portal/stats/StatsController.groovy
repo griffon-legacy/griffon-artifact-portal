@@ -28,12 +28,28 @@ class StatsController {
             }
         }
 
+        Map versions = [:]
+        javaVersions.each { entry ->
+            String versionNumber = entry[0][0..2]
+            def count = versions.get(versionNumber, 0)
+            versions[versionNumber] = count + entry[1]
+        }
+        javaVersions = versions.collect { [it.key, it.value] }
+
         List griffonVersions = Download.createCriteria().list() {
             projections {
                 groupProperty('griffonVersion')
                 count('griffonVersion')
             }
         }
+
+        versions.clear()
+        griffonVersions.each { entry ->
+            String versionNumber = entry[0][0..4]
+            def count = versions.get(versionNumber, 0)
+            versions[versionNumber] = count + entry[1]
+        }
+        griffonVersions = versions.collect { [it.key, it.value] }
 
         List osNames = Download.createCriteria().list() {
             projections {
@@ -42,17 +58,13 @@ class StatsController {
             }
         }
 
-        Map osVersions = [:]
-        osNames.each { osentry ->
-            osVersions[osentry[0]] = Download.createCriteria().list() {
-                eq('osName', osentry[0])
-                projections {
-                    groupProperty('osVersion')
-                    count('osVersion')
-                }
-            }
+        versions.clear()
+        osNames.each { entry ->
+            String osName = entry[0].contains('Windows') ? 'Windows' : entry[0]
+            def count = versions.get(osName, 0)
+            versions[osName] = count + entry[1]
         }
-        println osVersions
+        osNames = versions.collect { [it.key, it.value] }
 
         [
             downloadTotalsByCountry: DownloadTotalByCountry.list(sort: 'total', order: 'asc').collect([]) {
@@ -60,8 +72,7 @@ class StatsController {
             },
             javaVersions: javaVersions,
             griffonVersions: griffonVersions,
-            osNames: osNames,
-            osVersions: osVersions
+            osNames: osNames
         ]
     }
 }
