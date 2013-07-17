@@ -29,7 +29,8 @@ public enum Toolkit {
     JAVAFX("JavaFX"),
     SWT("SWT"),
     PIVOT("Pivot"),
-    QT("Qt");
+    QT("Qt"),
+    LANTERNA("Lanterna");
 
     private final String name;
 
