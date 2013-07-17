@@ -1,0 +1,48 @@
+h1. ui:th
+
+h2. Purpose
+
+This tag renders an HTML table heading cell.
+
+It makes it easy to provide localized text for the heading, and also gives the UI Set the opportunity to add other decoration or functionality like sorting.
+
+This supports i18n of the heading out of the box, and allows UI Sets to add special markup for column headings, such as sortable lists icons.
+
+h2. Example
+
+{docx:xml}
+<ui:table>
+    <thead>
+    <tr>
+        <ui:th text="table.id"/>
+        <ui:th text="table.artist"/>
+        <ui:th text="table.title"/>
+        <ui:th text="table.genre"/>
+    </tr>
+    </thead>
+    <tbody>
+    <g:each in="${1..10}" var="i">
+    <ui:tr>
+        <td>${i.encodeAsHTML()}</td>
+        <td>Farmers Market</td>
+        <td>Slav To Rhythm</td>
+        <td>Jazz</td>
+    </ui:tr>
+    </g:each>
+    <ui:tr>
+        <td colspan="4">This final row is ${row}</td>
+    </ui:tr>
+    </tbody>
+</ui:table>
+{docx}
+
+h2. Attributes
+
+{table}
+*Name* | *Required?* | *Description*
+text | | If specified, will be used as the text content for the cell, translated using i18n message bundle if found
+textArgs | | Used as the arguments for the "text" i18n message if used.
+{table}
+
+All other attributes are passed through. 
+

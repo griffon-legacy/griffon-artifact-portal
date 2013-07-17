@@ -1,0 +1,26 @@
+The @\_th.gsp@ template is used to render the [th|uiTags] tag.
+
+h3. Contract
+
+This template is used to render table header cells for the [th|uiTags] tag.
+
+This can be used to render out metadata or extra elements for e.g. sortable columns, and uses Platform UI conventions to resolve i18n heading text.
+
+h3. Variables available
+
+{table}
+*Name* | *Description*
+thClass | CSS class to use for the element, from UI Set config
+classes | A string containing the list of CSS classes to apply to the outer container
+bodyContent | The body of the heading
+attrs | The attributes to pass through to the outermost element
+{table}
+
+h3. Example template implementation
+
+{docx:xml}
+<th class="${p.joinClasses(values:[thClass, classes])}"${ui.attributes()}>
+    ${bodyContent}
+</th>
+{docx}
+

@@ -1,0 +1,79 @@
+overview: 
+  title: Overview
+changelog: Change Log
+gettingStarted:
+  title: Getting Started
+  gettingStartedInstall: Installing dependencies
+  gettingStartedViews: Adapting views to Themes
+  gettingStartedForms: Creating forms with UI Sets
+integratingPluginUi: Making plugin UIs that integrate with apps
+recipes:
+  title: Recipes
+  recipesSettingThemeAtRuntime: Setting the theme at runtime
+  recipesRenderingComplexInputs: Rendering complex inputs
+  recipesUIWithoutThemes: Using UI Sets without Themes
+ui:
+  title: UI API
+  uisets: About UI Sets
+  uielements:
+      title: The UI Elements
+      widgets: Widgets
+      grouping: Grouping
+      forms: Forms
+      typography: Typography
+themes: 
+  title: Themes API
+  themesUsing: Using Themes In Your Application
+  themeZones: Content Zones
+  themesDefault: About The _default Theme 
+creatingThemes:
+  title: Creating A Theme
+  themeRequirements: Requirements
+  themeLayout: Creating Theme Layouts
+  themeRequiredZones: The Required Zones Of Each Theme Layout
+  themeResources: Defining and Including Theme Resources
+  themeTemplates: Reusable Theme Templates
+  themeBranding: Branding
+  themeConfiguration: Configuration
+creatingUiSets:
+  title: Creating Custom UI Sets
+  resources: UI Set Resources
+  cssclasses: CSS Classes
+  uiConfiguration: Configuration
+  gsptemplates:
+    avatar: The Avatar template
+    block: The Block template
+    carousel: The Carousel template
+    slide: The Slide template
+    form: The Form template
+    actions: The Actions template
+    field: The Field template
+    input: The input template
+    fieldGroup: The Field Group template
+    image: The Image template
+    logo: The Logo template
+    message: The Message template
+    paginate: The Paginate template
+    primaryNavigation: The Primary Navigation template
+    secondaryNavigation: The Secondary Navigation template
+    nav: The navigation template
+    table: The Table template
+    tr: The Table Row template
+    th: The Table Heading template
+    tabs: The Tabs template
+    tab: The Tab template
+    title: UI Set GSP Template Reference
+  utilitytags: Utility Tags
+debugging: 
+  title: Debugging - What the hell is going on?
+  debuggingUISets: Troubleshooting UI Sets
+  debuggingThemes: Troubleshooting Themes
+advanced:
+  title: Doing advanced things
+  advancedCustomUIElements: Creating non-standard UI elements
+  advancedAdaptiveThemeLayouts: Creating adaptive theme layouts
+  advancedOverridingThemeLayouts: Overriding theme layouts in your app
+  advancedOverridingUISetTemplates: Overriding UI set templates in your app
+  advancedOverridingResources: Modifying resources provided by Themes or UI Sets
+
+

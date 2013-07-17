@@ -1,0 +1,35 @@
+h1. ui:resources
+
+h2. Purpose
+
+Includes the resources required for the current UI Set.
+
+This uses the Resources framework, so you must have r:layoutResources calls to render the resources - unless you are rendering an HTML Ajax response in which case you must call this and use the @ignore@ attribute.
+
+If you are using themes or UI Sets in the normal way you do not need to use this tag.
+
+h2. Example
+
+Using this tag to ignore the resources for UI Sets:
+
+{docx:xml}
+<html>
+<head>
+    <ui:resources ignore="true"/>
+    <r:layoutResources/>
+</head>
+<body>
+..
+    <r:layoutResources/>
+</body>
+</html>
+{docx}
+
+h2. Attributes
+
+{table}
+*Name* | *Description*
+ignore | Optional boolean. If set to true, will prevent the "r:requires" of any resources the current UI Set needs. Use in Ajax response GSP templates to prevent "missing r:layoutResources" call error.
+{table}
+
+

@@ -1,0 +1,18 @@
+It is perfectly possible to use UI Sets without themes. You may not want to use the Theme layout system at all, but want to leverage the abstracted UI elements.
+
+To do this you simply need to tell the UI API which UI Set to use for the current request. Normally this is inferred from the request's current Theme.
+
+You can do this in a couple of ways. In Config you can set the UI Set to use:
+
+{docx}
+plugin.platformUi.ui.set = 'myUISet'
+{docx}
+
+Alternatively you can set it at runtime e.g. in a tag, controller or filter using the grailsUISets bean:
+
+{docx}
+grailsUISets.setRequestUISet(request, "myUISet")
+{docx}
+
+
+

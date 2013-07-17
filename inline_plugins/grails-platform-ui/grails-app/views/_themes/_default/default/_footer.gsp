@@ -1,0 +1,1 @@
+&copy; <p:year/> <p:organization/>

@@ -1,0 +1,1 @@
+<p:callTag tag="nav:secondary" attrs="${attrs + [class:p.joinClasses(values:[secondaryNavigationClass, classes])]}"/>

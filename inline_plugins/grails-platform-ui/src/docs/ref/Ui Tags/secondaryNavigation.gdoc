@@ -1,0 +1,20 @@
+h1. ui:secondaryNavigation
+
+h2. Purpose
+
+Renders the site's secondary navigation menu.
+
+Where the data for the navigation menu comes from is not defined by this tag. The default UI Set template uses the Platform Core Navigation API, but other UI Sets can use any API they like.
+
+h2. Example
+
+{docx:xml}
+<ui:secondaryNavigation/>
+{docx}
+
+h2. Attributes
+
+None, they are all passed through to the UI template.
+
+
+

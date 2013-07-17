@@ -1,0 +1,71 @@
+h1. ui:input
+
+h2. Purpose
+
+This tag renders an HTML form field, according to the type and constraint info of the field/property. The rendering is of the input only, and no field, label, hint or errors. Use [field|uiTags] for fully decorated field rendering.
+
+UI Sets and Themes can customise the rendering of the field to suit their HTML/CSS requirements, and the rendering can use any mechanism it likes i.e. grails-fields plugin or an inline implementation.
+
+The various elements of a field can be overridden for situations where a GSP needs to supply customized markup but still operate within he structural markup provided by the UI Set. For example you may want to render a field that has a single label but contains to or more input controls. Use the nested tags [fieldLabel|uiTags], [fieldInput|uiTags], [fieldErrors|uiTags] and [fieldHint|uiTags] to achieve this.
+
+{note}
+There are at least two field rendering plugins for Grails - Bean Fields and the newer and better Fields plugin. In future there may be more options. A UI Set does not need to use any of them either, and can hand code the handling of fields.
+
+As a result, the i18n message resolution for field labels and hints must be handled by Platform UI so that plugins can supply label i18n messages
+using a standard naming convention.
+{note}
+
+h2. Example
+
+{docx:xml}
+<ui:input bean="${form}" name="name"/>
+<ui:input bean="${contact}" name="address.cityOrState"/>
+<ui:input name="field1" type="text" label="Text field"/>
+{docx}
+
+h2. Attributes
+
+{table}
+*Name* | *Required?* | *Description*
+name | yes | The name of the field or property to use. If a property the @bean@ instance must be supplied, and the name can be a property path
+type | | The type of field to render. See below for list of types that are (and must be) supported by a UI Set. If not specified, the UI Set must attempt to detect an appropriate type of field to use based on the available information - i.e. bean property type and/or value type. If this is specified, the UI Set must render the type requested, even if it differs from the type of the property (i.e. allows rendering number fields as text)
+bean | | The bean to use when resolving the property specified in "name". Used to render fields for values represented by a property of an object in the current page
+id | | An implicit "id" attribute is given the same value as the name unless you explicitly specify one.
+value | | Use to provide an explicit value for the field, if it must be different from the value of a bean property or if you are not using bean properties
+{table}
+
+h2. Supported field types
+
+When rendering fields for bean properties where type information is available, the UI Set must support
+editing of any property type, using the best input style for the type - with a fallback to input type="text" for types that do not have a specific rendering in the UI Set.
+
+In this scenario the field type is not needed unless you wish to override the default behaviour
+
+The following types must be supported by the UI Set for overriding the field type used for a bean property, or to set the field type for non-bean inputs.
+
+* text
+* checkbox
+* radio
+* textarea
+* datepicker
+* select
+
+Any unrecognized types must be passed through to @<input>@ and its @type@ attribute, so that standard HTML5 element type attributes are honoured.
+
+h2. Localization of labels
+
+If specifying a bean, the label defaults to:
+
+# i18n message retrieved using <bean's Class>.<name>.label
+# i18n message retrieved using <name>.label
+# the value of the @name@ attributed converted to "This Is My Field" natural language format
+
+If not using a bean:
+
+# i18n message retrieved using field.<name>.label
+# i18n message retrieved using <name>.label
+# the value of the @name@ attributed converted to "This Is My Field" natural language format
+ 
+h2. Localization of hints
+
+This is done the same as labels, but with ".hint" instead of ".label" at the end of the keys

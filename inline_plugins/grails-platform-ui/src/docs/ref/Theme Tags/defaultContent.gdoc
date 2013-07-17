@@ -1,0 +1,22 @@
+h1. theme:defaultContent
+
+h2. Purpose
+
+Utility tag to render default content for a given theme zone.
+
+Resolves the default content via Theme template overrides, falling back to Platform Core's @p:dummyText@ if no default content template is provided by the Theme.
+
+h2. Example
+
+{docx:xml}
+<theme:defaultContent name="body"/>
+{docx}
+
+h2. Attributes
+
+{table}
+*Name* | *Required?* | *Description*
+zone | Yes | The name of the zone for which you require default content
+{table}
+
+

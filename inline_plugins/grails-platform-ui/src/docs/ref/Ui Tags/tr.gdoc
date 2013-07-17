@@ -1,0 +1,40 @@
+h1. ui:tr
+
+h2. Purpose
+
+This tag is used to render a table row. It can only be used in bodies of the [table|uiTags] tag as it relies on contextual information (row number).
+
+See the @ui:table@ example for usage. UI Sets can easily detect if the row being rendered is odd or not using a model variable, or use the row number for other effects or functionality.
+
+h2. Example
+
+{docx:xml}
+<ui:table>
+    <thead>
+    <tr>
+        <ui:th text="table.id"/>
+        <ui:th text="table.artist"/>
+        <ui:th text="table.title"/>
+        <ui:th text="table.genre"/>
+    </tr>
+    </thead>
+    <tbody>
+    <g:each in="${1..10}" var="i">
+    <ui:tr>
+        <td>${i.encodeAsHTML()}</td>
+        <td>Farmers Market</td>
+        <td>Slav To Rhythm</td>
+        <td>Jazz</td>
+    </ui:tr>
+    </g:each>
+    <ui:tr>
+        <td colspan="4">This final row is ${row}</td>
+    </ui:tr>
+    </tbody>
+</ui:table>
+{docx}
+
+h2. Attributes
+
+All attributes are passed through. 
+

@@ -1,0 +1,1 @@
+<p:callTag tag="nav:menu" attrs="${attrs + [class:p.joinClasses(values:[navigationClass, classes]), scope:scope]}"/>

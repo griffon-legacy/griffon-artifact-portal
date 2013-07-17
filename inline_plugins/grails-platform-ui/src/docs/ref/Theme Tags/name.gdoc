@@ -1,0 +1,17 @@
+h1. theme:name
+
+h2. Purpose
+
+Outputs the name of the currently active theme for this request.
+
+h2. Example
+
+{docx:xml}
+Using theme: <theme:name/>
+{docx}
+
+h2. Attributes
+
+None
+
+

@@ -1,0 +1,5 @@
+This section will take you through the process of creating a simple application that shows you how the Theme and UI APIs work together
+to provide pluggable UI rendering.
+
+To get started you need to install the Platform UI plugin, and for this example you'll also need a Theme plugin.
+

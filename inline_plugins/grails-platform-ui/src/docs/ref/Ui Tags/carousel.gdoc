@@ -1,0 +1,28 @@
+h1. ui:carousel
+
+h2. Purpose
+
+Renders a revolving "carousel" of slides, typically used on a site home page. How this is implemented is entirely dependent on the UI Set implementation.
+
+Using nested [slide|uiTags] tags you define the content of each slide, and which is active at the start.
+
+h2. Example
+
+{docx:xml}
+<ui:carousel>
+    <ui:slide active="true">
+        This is slide one
+    </ui:slide>
+    <ui:slide>
+        This is our second marketing slide
+    </ui:slide>
+    <ui:slide>
+        And here is our third marketing slide
+    </ui:slide>
+</ui:carousel>
+{docx}
+
+h2. Attributes
+
+None - all passed through to the UI template.
+

@@ -1,0 +1,31 @@
+h1. theme:layout
+
+h2. Purpose
+
+Sets the desired theme layout for the current request.
+
+Call this tag to indicate which Theme layout your page requires.
+
+h2. Example
+
+{docx:xml}
+<html>
+<head>
+    <theme:layout name="dialog"/>
+</head>
+<body>
+    <theme:zone name="body">
+        <g:render template="/mycommon/loginForm"/>
+    </theme:zone>
+</body>
+</html>
+{docx}
+
+h2. Attributes
+
+{table}
+*Name* | *Required?* | *Description*
+name | Yes | The name of the theme layout desired.
+{table}
+
+
