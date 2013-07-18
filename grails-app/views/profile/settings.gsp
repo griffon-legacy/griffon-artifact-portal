@@ -2,53 +2,42 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="layout" content="main">
-  <g:set var="username" value="${profileInstance.user.username}"/>
-  <title><g:message code="griffon.portal.Profile.show.label" args="[username]"/></title>
-
-  <meta name="layout" content="main"/>
+    <theme:layout name="plain"/>
+    <g:set var="username" value="${profileInstance.user.username}"/>
+    <theme:title><g:message code="griffon.portal.Profile.show.label"
+                            args="[username]"/></theme:title>
 </head>
 
 <body>
+<theme:zone name="body">
+    <tmpl:/shared/pageheader>
+        <div class="media">
+            <a href="#" class="pull-left">
+                <ui:avatar user="${profileInstance.gravatarEmail}"
+                           size="90"
+                           class="media-object img-rounded"/>
+            </a>
 
-<tmpl:/shared/pageheader>
-  <div class="row">
-    <div class="span1">
-      <ul class="media-grid" style="float: left; margin-right: 10px;">
-        <li>
-          <a href="#">
-            <avatar:gravatar cssClass="avatar thumbnail"
-                             email="${profileInstance.gravatarEmail}" size="40"/>
-          </a>
-        </li>
-      </ul>
-      <div class="span12">
-        <h1><g:fieldValue bean="${profileInstance.user}" field="username"/>'s settings</h1>
-      </div>
-    </div>
-  </div>
-</tmpl:/shared/pageheader>
+            <div class="media-body">
+                <h3 class="media-heading"><g:fieldValue
+                    bean="${profileInstance.user}"
+                    field="username"/>'s settings</h3>
+            </div>
+        </div>
+    </tmpl:/shared/pageheader>
 
-<div class="row">
-  <div class="span16">
-    <%
-      def tabClassFor = { SettingsTab settingsTab ->
-        tab == settingsTab.name ? 'active' : ''
-      }
-    %>
-    <ul class="tabs" role="navigation">
-      <g:each in="${SettingsTab.values()}" var="settingsTab">
-        <li class="${tabClassFor(settingsTab)}"><g:link controller="profile" action="settings"
-                                                        mappingName="settings"
-                                                        params="[tab: settingsTab.name, username: profileInstance.user.username]">${settingsTab.capitalizedName}</g:link></li>
-      </g:each>
-    </ul>
-  </div>
-</div>
-
-<div class="row">
-  <g:render template="settings/${tab}"/>
-</div>
-
+    <ui:tabs>
+        <g:each in="${SettingsTab.values().flatten()}" var="settingsTab">
+            <ui:tab title="${settingsTab.capitalizedName}"
+                    active="${tab == settingsTab.name}">
+                <g:render template="settings/${settingsTab.name}" model="[
+                    command: commands[settingsTab.name],
+                    tab: settingsTab.name,
+                    profileInstance: profileInstance
+                ]"/>
+            </ui:tab>
+        </g:each>
+    </ui:tabs>
+</theme:zone>
 </body>
 </html>

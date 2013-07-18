@@ -119,6 +119,7 @@ class ProfileController {
 
         params.tab = params.tab ?: SettingsTab.PROFILE.name
 
+        /*
         def command = null
         switch (params.tab) {
             case SettingsTab.ACCOUNT.name:
@@ -146,11 +147,29 @@ class ProfileController {
                 )
                 break
         }
+        */
 
         [
             profileInstance: session.profile,
             tab: params.tab,
-            command: command
+            commands: [
+                account: new UpdateAccountCommand(
+                    fullName: session.user.fullName,
+                    email: session.user.email
+                ),
+                profile: new UpdateProfileCommand(
+                    bio: session.profile.bio,
+                    gravatarEmail: session.profile.gravatarEmail,
+                    website: session.profile.website,
+                    twitter: session.profile.twitter
+                ),
+                password: new UpdatePasswordCommand(),
+                notifications: new UpdateNotificationsCommand(
+                    watchlist: session.profile.notifications.watchlist,
+                    content: session.profile.notifications.content,
+                    comments: session.profile.notifications.comments
+                )
+            ]
         ]
     }
 
