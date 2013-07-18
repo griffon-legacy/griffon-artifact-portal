@@ -29,6 +29,8 @@ class AdminController {
 
     def list() {
         if (!User.hasAdminRole(session.user)) redirect(uri: '/')
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.offset = params.offset ?: 0
         [users: User.listOrderByUsername(params), userCount: User.count()]
     }
 

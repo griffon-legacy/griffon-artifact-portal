@@ -1,12 +1,12 @@
 $(document).ready(function () {
     var options = {
-        target:'#upload-message',
-        beforeSubmit:validateUpload,
-        success:processUploadResponse,
-        type:'post',
-        dataType:'json',
-        clearForm:true,
-        resetForm:true
+        target: '#upload-message',
+        beforeSubmit: validateUpload,
+        success: processUploadResponse,
+        type: 'post',
+        dataType: 'json',
+        clearForm: true,
+        resetForm: true
 
     };
 
@@ -28,7 +28,7 @@ function processUploadResponse(response, statusText, xhr, $form) {
     if (response.success) {
         $('#upload-submit').hide();
         $('#upload-file').hide();
-        $('#upload-cancel').toggleClass('danger success', true);
+        $('#upload-cancel').toggleClass('btn-danger btn-success', true);
     }
 }
 
@@ -40,8 +40,9 @@ function handleMembershipResponse(response) {
         $('#membership-message').hide();
         $('#membership-submit').hide();
         $('#reason').hide();
-        $('#membership-cancel').toggleClass('danger success', true);
-        $('#membership-apply').toggleClass('primary info', true);
+        $('#modal-membership').modal('hide');
+        $('#membership-cancel').toggleClass('btn-danger btn-success', true);
+        $('#membership-apply').toggleClass('btn-danger btn-inverse', true);
         $('#membership-apply').attr('disabled', true);
         $('#membership-apply').val("${message(code: 'griffon.portal.button.membership.pending.label', default: 'Applied for Membership')}");
     }

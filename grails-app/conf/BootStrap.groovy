@@ -29,50 +29,63 @@ During the first run you must specify a password to use for the admin account. F
 grails -Dinitial.admin.password=changeit run-app""")
             } else {
                 admin = new User(
-                        username: 'admin',
-                        password: MD5.encode(password),
-                        membership: new Membership(status: Membership.Status.ACCEPTED, reason: 'Artifact portal admin'),
-                        fullName: 'Admin',
-                        email: 'theaviary@griffon-framework.org'
+                    username: 'admin',
+                    password: MD5.encode(password),
+                    membership: new Membership(status: Membership.Status.ACCEPTED, reason: 'Artifact portal admin'),
+                    fullName: 'Admin',
+                    email: 'theaviary@griffon-framework.org'
                 )
                 admin.profile = new Profile(
-                        user: admin,
-                        gravatarEmail: admin.email)
+                    user: admin,
+                    gravatarEmail: admin.email)
                 assert admin.addToRoles(adminRole)
-                        .addToRoles(editorRole)
-                        .addToRoles(observerRole)
-                        .save(flush: true, failOnError: true)
+                    .addToRoles(editorRole)
+                    .addToRoles(observerRole)
+                    .save(flush: true, failOnError: true)
 
             }
         } else if (!admin.roles) {
             admin.addToRoles(adminRole)
-                    .addToRoles(editorRole)
-                    .addToRoles(observerRole)
-                    .save(flush: true, failOnError: true)
+                .addToRoles(editorRole)
+                .addToRoles(observerRole)
+                .save(flush: true, failOnError: true)
         }
 
         setupEmailConfirmationService()
         fixRateableForPostgres()
 
-        /*
         User user = new User(
-                fullName: 'Andres Almiray',
-                email: 'aalmiray@yahoo.com',
-                username: 'aalmiray',
-                password: MD5.encode('foo'),
-                membership: new Membership(
-                        status: Membership.Status.ACCEPTED,
-                        reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
-                )
+            fullName: 'Andres Almiray',
+            email: 'aalmiray@yahoo.com',
+            username: 'aalmiray',
+            password: MD5.encode('foo'),
+            membership: new Membership(
+                status: Membership.Status.ACCEPTED,
+                reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
+            )
         )
         user.profile = new Profile(
-                user: user,
-                gravatarEmail: user.email,
-                website: 'http://jroller.com/aalmiray',
-                twitter: 'aalmiray'
+            user: user,
+            gravatarEmail: user.email,
+            website: 'http://jroller.com/aalmiray',
+            twitter: 'aalmiray'
         )
         user.save()
-        */
+
+        user = new User(
+            fullName: 'User0',
+            email: 'user0@yahoo.com',
+            username: 'user0',
+            password: MD5.encode('user0'),
+            membership: new Membership(
+                status: Membership.Status.NOT_REQUESTED,
+                reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
+            )
+        )
+        user.profile = new Profile(
+            user: user
+        )
+        user.save()
     }
 
     private void setupEmailConfirmationService() {
@@ -142,7 +155,7 @@ grails -Dinitial.admin.password=changeit run-app""")
                                     inList 'id', results.collect { it[0] }
                                     cache params.cache
                                 }
-                                return results.collect {  r -> instances.find { i -> r[0] == i.id } }
+                                return results.collect { r -> instances.find { i -> r[0] == i.id } }
                             } else {
                                 return []
                             }

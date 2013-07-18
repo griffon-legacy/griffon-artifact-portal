@@ -39,38 +39,33 @@ class UserController {
     def login(LoginCommand command) {
         if (!params.filled) {
             // renders 1st hit
-            render(view: 'signin', model: [command: new LoginCommand()])
-            return
+            return render(view: 'signin', model: [command: new LoginCommand()])
         }
 
         if (!command.validate()) {
             // renders with errors
-            render(view: 'signin', model: [command: command])
-            return
+            return render(view: 'signin', model: [command: command])
         }
 
         User user = User.findWhere(username: command.username,
                 password: MD5.encode(command.passwd))
         if (!user) {
             command.errors.rejectValue('username', 'griffon.portal.auth.User.username.nomatch.message')
-            render(view: 'signin', model: [command: command, originalURI: params.orinialURI])
-            return
+            return render(view: 'signin', model: [command: command, originalURI: params.orinialURI])
         }
 
         session.user = user
         session.profile = user.profile
 
         if (user.username == 'admin') {
-            redirect(controller: 'admin', action: 'index')
-            return
+            return redirect(controller: 'admin', action: 'index')
         } else if (!user.profile) {
-            render(view: 'subscribe', model: [userInstance: user])
-            return
+            return render(view: 'subscribe', model: [userInstance: user])
         }
         if (params.originalURI) {
             redirect(uri: params.originalURI)
         } else {
-            redirect(controller: "profile", action: "show", id: user.username)
+            redirect(controller: 'profile', action: 'show', id: user.username)
         }
     }
 
@@ -82,19 +77,16 @@ class UserController {
 
     def signup(SignupCommand command) {
         if (!params.filled) {
-            render(view: 'signup', model: [command: new SignupCommand()])
-            return
+            return render(view: 'signup', model: [command: new SignupCommand()])
         }
 
         if (!command.validate()) {
-            render(view: 'signup', model: [command: command])
-            return
+            return render(view: 'signup', model: [command: command])
         }
 
         if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
             command.errors.rejectValue('captcha', 'griffon.portal.auth.User.invalid.captcha.message')
-            render(view: 'signup', model: [command: command])
-            return
+            return render(view: 'signup', model: [command: command])
         }
 
         User user = new User()
@@ -146,26 +138,22 @@ class UserController {
 
     def forgot_password(ForgotPasswordCommand command) {
         if (!params.filled) {
-            render(view: 'forgot_password', model: [command: new ForgotPasswordCommand()])
-            return
+            return render(view: 'forgot_password', model: [command: new ForgotPasswordCommand()])
         }
 
         if (!command.validate()) {
-            render(view: 'forgot_password', model: [command: command])
-            return
+            return render(view: 'forgot_password', model: [command: command])
         }
 
         if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
             command.errors.rejectValue('captcha', 'griffon.portal.auth.User.invalid.captcha.message')
-            render(view: 'forgot_password', model: [command: command])
-            return
+            return render(view: 'forgot_password', model: [command: command])
         }
 
         User user = User.findByUsername(command.username)
         if (!user) {
             command.errors.rejectValue('username', 'griffon.portal.auth.User.username.notfound.message')
-            render(view: 'forgot_password', model: [command: command])
-            return
+            return render(view: 'forgot_password', model: [command: command])
         }
 
         sendCredentials(user)
@@ -176,26 +164,22 @@ class UserController {
 
     def forgot_username(ForgotUsernameCommand command) {
         if (!params.filled) {
-            render(view: 'forgot_username', model: [command: new ForgotUsernameCommand()])
-            return
+            return render(view: 'forgot_username', model: [command: new ForgotUsernameCommand()])
         }
 
         if (!command.validate()) {
-            render(view: 'forgot_username', model: [command: command])
-            return
+            return render(view: 'forgot_username', model: [command: command])
         }
 
         if (!jcaptchaService.validateResponse('image', session.id, command.captcha)) {
             command.errors.rejectValue('captcha', 'griffon.portal.auth.User.invalid.captcha.message')
-            render(view: 'forgot_username', model: [command: command])
-            return
+            return render(view: 'forgot_username', model: [command: command])
         }
 
         User user = User.findByEmail(command.email)
         if (!user) {
             command.errors.rejectValue('email', 'griffon.portal.auth.User.email.notfound.message')
-            render(view: 'forgot_username', model: [command: command])
-            return
+            return render(view: 'forgot_username', model: [command: command])
         }
 
         sendCredentials(user)

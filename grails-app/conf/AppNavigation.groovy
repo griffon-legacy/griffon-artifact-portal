@@ -6,7 +6,7 @@ navigation = {
         archetypes(uri: '/archetypes')
         stats()
         api()
-        profile(visible: { session.user != null })
+        profile(action: 'show', visible: { session.user != null })
         about()
         admin(visible: { User.hasAdminRole(session.user) })
     }

@@ -13,7 +13,7 @@ class UrlMappings {
         name settings_update_password: "/settings/$username/update/password"(controller: 'profile', action: 'update_password')
         name settings_update_notifications: "/settings/$username/update/notifications"(controller: 'profile', action: 'update_notifications')
         name settings: "/settings/$username/$tab"(controller: 'profile', action: 'settings')
-        //"/profile/$id"(controller: 'profile', action: 'show')
+        "/profile/$id"(controller: 'profile', action: 'show')
         "/settings"(controller: 'profile', action: 'settings')
 
         name profile: "/profile/$id/$tab?"(controller: 'profile', action: 'show')

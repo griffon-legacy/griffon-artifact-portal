@@ -20,10 +20,7 @@
         </tbody>
     </ui:table>
 
-    <div class="pagination">
-        <g:paginate action="show" params="[tab: tab, id: userId]"
-                    total="${pluginTotal}" maxsteps="5"/>
-    </div>
+    <ui:paginate action="show" total="${pluginTotal}" params="[tab: tab, id: userId]"/>
 </g:if>
 <g:else>
     <p>None available.</p>

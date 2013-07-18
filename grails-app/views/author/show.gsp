@@ -20,7 +20,7 @@
             <ui:tab title="${profileTab.capitalizedName}"
                     active="${'Plugins' == profileTab.capitalizedName}">
                 <g:render template="/profile/profile/${profileTab}"
-                          model="[listSpan: 'span16', tab: profileTab, userId: authorInstance.id]"/>
+                          model="[tab: profileTab, userId: authorInstance.id]"/>
             </ui:tab>
         </g:each>
     </ui:tabs>

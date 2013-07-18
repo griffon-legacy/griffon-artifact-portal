@@ -3,7 +3,7 @@
         <tr>
             <td class="thumbnail">
                 <a href="#">
-                    <ui:avatar user="${authorInstance.email}" size="80"
+                    <ui:avatar user="${authorInstance.email}" size="100"
                                class="img-rounded"/>
                 </a>
             </td>

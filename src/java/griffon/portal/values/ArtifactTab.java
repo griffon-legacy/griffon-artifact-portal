@@ -25,8 +25,8 @@ import java.util.List;
  * @author Andres Almiray
  */
 public enum ArtifactTab {
-    INSTALLATION,
     DESCRIPTION,
+    INSTALLATION,
     RELEASES,
     // FAQ,
     // SCREENSHOTS,

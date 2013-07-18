@@ -6,7 +6,7 @@
 
 <g:if test="${!session.user}">
     <g:link controller="user" action="login" mapping="signin"
-            class="btn primary"
+            class="btn btn-inverse"
             params="[originalURI: (request.forwardURI - application.contextPath)]">Post a comment</g:link>
 </g:if>
 <g:else>
@@ -23,27 +23,25 @@
             <div class="span7">
 
                 <div class="row">
-                    <ul id="comment-tabs" name="comment-tabs" class="tabs"
-                        data-tabs="tabs">
-                        <li class="active"><a href="#comment-source">Source</a>
-                        </li>
-                        <li><a href="#comment-preview">Preview</a></li>
+                    <ul class="nav nav-tabs" id="comment-tabs"
+                        name="comment-tabs">
+                        <li class="active"><a href="#comment-tab-1"
+                                              id="tab-source">Source</a></li>
+                        <li><a href="#comment-tab-2"
+                               id="tab-preview">Preview</a></li>
                     </ul>
 
                     <div class="tab-content">
-                        <div class="active tab-pane clearfix"
-                             id="comment-source">
-                            <div class="input clearfix">
-                                <g:textArea name="comment-source-text" rows="5"
-                                            cols="60" class="xxlarge"
-                                            tabindex="1"/>
-                            </div>
+                        <div id="comment-tab-1" class="tab-pane active">
+                            <g:textArea name="comment-source-text" rows="5"
+                                        cols="60" class="input-xxlarge"/>
                         </div>
 
-                        <div class="tab-pane" id="comment-preview"></div>
+                        <div id="comment-tab-2" class="tab-pane">
+                            <div class="tab-pane" id="comment-preview"></div>
+                        </div>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="actions">
@@ -83,9 +81,9 @@
             $('#comment-new').show();
             $('#comment-trigger').hide();
         });
-        $('#comment-tabs').bind('change', function (e) {
+        $('#tab-preview').bind('click', function (e) {
             $('#comment-preview').html('');
-            if (endsWith(e.target.toString(), 'comment-preview')) {
+            if (endsWith(e.target.toString(), 'comment-tab-2')) {
                 var text = $("#comment-source-text").val();
                 if (!isEmpty(text)) {
                     $('#commentPreview').val(text);

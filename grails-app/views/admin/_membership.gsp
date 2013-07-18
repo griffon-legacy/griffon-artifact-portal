@@ -12,9 +12,9 @@
                 <g:else>
                     <g:remoteLink
                         uri="/admin/user/${user}/change/${status.key}"
-                        class="btn btn-inverse"
+                        class="btn"
                         update='["success": "${user}_membership", "failure": "messages"]'>
-                        <i class="${status.value} icon-white"></i>
+                        <i class="${status.value}"></i>
                     </g:remoteLink>
                 </g:else>
             </g:each>

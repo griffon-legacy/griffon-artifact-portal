@@ -11,8 +11,6 @@
         <g:else>
             <div id="modal-tags" class="modal hide fade">
                 <div class="modal-header">
-                    <a href="#" class="close">&times;</a>
-
                     <h3>${artifactInstance.capitalizedType} ${artifactInstance.capitalizedName} - Tags</h3>
                 </div>
 
@@ -21,16 +19,14 @@
                     name="tagsForm" update="[failure: 'tags-error']"
                     onSuccess="handleTagsResponse(data)">
                     <div class="modal-body">
-                        <div class="input clearfix">
-                            <p>Add or remove tags for this artifact</p>
-                            <input id="tags" name="tags" class="x-large"
-                                   size="100" type="text"
-                                   value="${artifactInstance.tags.join(', ')}"/>
+                        <p>Add or remove tags for this artifact</p>
+                        <input id="tags" name="tags" class="input-xlarge"
+                               size="100" type="text"
+                               value="${artifactInstance.tags.join(', ')}"/>
 
-                            <p class="help-block">
-                                Comma-separated list of terms.
-                            </p>
-                        </div>
+                        <p class="help-block">
+                            Comma-separated list of terms.
+                        </p>
 
                         <div id="tags-message"></div>
 
@@ -41,7 +37,7 @@
                         <button type="submit" id="tags-submit"
                                 class="btn btn-inverse">${message(code: 'default.button.submit.label', default: 'Submit')}</button>
                         <a href="#" id="tags-cancel"
-                           class="btn danger">${message(code: 'default.button.close.label', default: 'Close')}</a>
+                           class="btn btn-danger">${message(code: 'default.button.close.label', default: 'Close')}</a>
                         <script language="javascript">
                             $('#tags-cancel').click(function () {
                                 $('#modal-tags').modal('hide');
@@ -51,20 +47,21 @@
                     </div>
                 </g:formRemote>
             </div>
-            <a href="#" data-controls-modal="modal-tags" data-backdrop="static"
-               data-keyboard="true" id="tags-apply"
-               title="Add or remove tags"><g:img dir="images" file="tag.png"
-                                                 style="vertical-align: middle"/></a>
+
+            <a href="#modal-tags" role="button"
+               class="btn btn-info"
+               data-toggle="modal"
+               id="tags-apply"><i class="icon-tags icon-white"></i></a>
             <script language="javascript">
                 $('#tags-apply').click(function () {
                     $('#tags-submit').show();
                     $('#tags-message').html('');
-                    $('#tags-cancel').removeClass('success');
-                    $('#tags-cancel').addClass('danger');
+                    $('#tags-cancel').removeClass('btn-success');
+                    $('#tags-cancel').addClass('btn-danger');
                 });
             </script>
         </g:else>
-    &nbsp;<g:message code="artifact.tags.label" default="Tags"/></span>
+    </span>
 
     <span class="property-value" aria-labelledby="tags-label">
         <div id="artifact-tags">
