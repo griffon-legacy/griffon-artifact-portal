@@ -2,52 +2,38 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="layout" content="main">
-  <title><g:message code="griffon.portal.Archetype.show.label" args="[archetypeName]"/></title>
+    <theme:layout name="plain"/>
+    <theme:title><g:message code="griffon.portal.Archetype.show.label"
+                            args="[archetypeName]"/></theme:title>
 </head>
 
 <body>
 
-<div class="row">
-  <div class="span16">
-    <tmpl:/pageheader><h1>${archetypeName}</h1>${archetypeInstance.title}</tmpl:/pageheader>
-  </div>
-</div>
+<theme:zone name="body">
+    <tmpl:/shared/pageheader><h1>${archetypeName}</h1>${archetypeInstance.title}</tmpl:/shared/pageheader>
 
-<div class="row">
-  <div class="span10">
-    <g:render template="/artifact/common/artifact_header_properties"
-              model="[artifactInstance: archetypeInstance, downloads: downloads]"/>
-  </div>
+    <div class="row">
+        <div class="span7">
+            <g:render template="/artifact/common/artifact_header_properties"
+                      model="[artifactInstance: archetypeInstance, downloads: downloads]"/>
+        </div>
 
-  <div class="span6">
-    <g:render template="/artifact/common/authored_by" bean="${authorList}" model="[authorList: authorList]"/>
-  </div>
-</div>
+        <div class="span4">
+            <g:render template="/artifact/common/authored_by"
+                      bean="${authorList}" model="[authorList: authorList]"/>
+        </div>
+    </div>
 
-<%
-  def tabClassFor = { ArtifactTab artifactTab ->
-    tab == artifactTab.name ? 'active' : ''
-  }
-%>
+    <ui:tabs>
+        <g:each in="${ArtifactTab.values()}" var="artifactTab">
+            <ui:tab title="${artifactTab.capitalizedName}"
+                    active="${'Description' == artifactTab.capitalizedName}">
+                <g:render template="/artifact/tabs/$artifactTab"
+                          model="[artifactInstance: archetypeInstance]"/>
+            </ui:tab>
+        </g:each>
+    </ui:tabs>
 
-<div class="row">
-  <div class="span16">
-    <ul class="tabs">
-      <g:each in="${ArtifactTab.values()}" var="artifactTab">
-        <li class="${tabClassFor(artifactTab)}"><g:link controller="archetype" action="show"
-                                                        mapping="show_archetype"
-                                                        params="[name: archetypeInstance.name, tab: artifactTab.name]">${artifactTab.capitalizedName}</g:link></li>
-      </g:each>
-    </ul>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span16">
-    <g:render template="/artifact/tabs/$tab" model="[artifactInstance: archetypeInstance]"/>
-  </div>
-</div>
-
+</theme:zone>
 </body>
 </html>

@@ -6,9 +6,9 @@
 </head>
 
 <body>
-<tmpl:/pageheader>
+<tmpl:/shared/pageheader>
   <h1>Thank you!</h1>We'll get back to you soon.
-</tmpl:/pageheader>
+</tmpl:/shared/pageheader>
 
 <div class="row">
   <div class="span16">

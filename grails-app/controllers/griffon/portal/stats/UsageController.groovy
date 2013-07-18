@@ -22,6 +22,7 @@ import grails.converters.JSON
  * @author Andres Almiray
  */
 class UsageController {
+    static navigationScope = 'hidden'
     static defaultAction = 'usage'
 
     def usage() {

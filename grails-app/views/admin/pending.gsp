@@ -8,9 +8,9 @@
 
 <body>
 
-<tmpl:/pageheader>
+<tmpl:/shared/pageheader>
   <h1><g:message code="griffon.portal.auth.User.pending.label"/></h1>
-</tmpl:/pageheader>
+</tmpl:/shared/pageheader>
 
 <div class="row">
   <div class="span16">
@@ -42,9 +42,9 @@
                 <g:form action="approveOrReject">
                   <g:hiddenField name="id" value="${userInstance.id}"/>
                   <g:hiddenField id="status" name="status" value=""/>
-                  <button class="btn primary" type="submit" id="approve" name="approve">
+                  <button class="btn btn-inverse" type="submit" id="approve" name="approve">
                     ${message(code: 'griffon.portal.button.approve.label', default: 'Approve')}</button>
-                  <button class="btn danger" type="submit" id="reject" name="reject">
+                  <button class="btn btn-danger" type="submit" id="reject" name="reject">
                     ${message(code: 'griffon.portal.button.reject.label', default: 'Reject')}</button>
                 </g:form>
               </div>

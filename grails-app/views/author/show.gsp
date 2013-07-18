@@ -2,39 +2,29 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="layout" content="main">
-  <title>Author - ${authorInstance.name}</title>
+    <theme:layout name="plain"/>
+    <theme:title>Author - ${authorInstance.name}</theme:title>
 </head>
 
 <body>
 
-<g:render template="header"/>
-
-<div class="row">
-
-  <%
-    def tabClassFor = { ProfileTab profileTab ->
-      tab == profileTab.name ? 'active' : ''
-    }
-  %>
-
-  <div class="span16">
-    <ul class="tabs">
-      <%
+<theme:zone name="body">
+    <g:render template="header"/>
+    <%
         def tabs = ProfileTab.values().flatten()
         tabs.remove ProfileTab.WATCHLIST
-      %>
-      <g:each in="${tabs}" var="profileTab">
-        <li class="${tabClassFor(profileTab)}"><g:link controller="author" action="show"
-                                                       id="${authorInstance.id}" mapping="author"
-                                                       params="[tab: profileTab.name]">${profileTab.capitalizedName}</g:link></li>
-      </g:each>
-    </ul>
-  </div>
+    %>
 
-  <g:render template="/profile/profile/${tab}" model="[listSpan: 'span16', tab: tab, userId: authorInstance.id]"/>
+    <ui:tabs>
+        <g:each in="${tabs}" var="profileTab">
+            <ui:tab title="${profileTab.capitalizedName}"
+                    active="${'Plugins' == profileTab.capitalizedName}">
+                <g:render template="/profile/profile/${profileTab}"
+                          model="[listSpan: 'span16', tab: profileTab, userId: authorInstance.id]"/>
+            </ui:tab>
+        </g:each>
+    </ui:tabs>
 
-</div>
-
+</theme:zone>
 </body>
 </html>

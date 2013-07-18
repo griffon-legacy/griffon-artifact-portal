@@ -25,15 +25,18 @@ import griffon.portal.values.ArtifactTab
  * @author Andres Almiray
  */
 class PluginController {
+    static navigationScope = 'hidden'
+
     static defaultAction = 'show'
+
+    String artifactType() { 'plugin' }
 
     def show() {
         if (params.name == 'show') {
             params.name = request.getParameter('name')
         }
         if (!params.name) {
-            redirect(uri: '/plugins')
-            return
+            return redirect(uri: '/plugins')
         }
 
         String pluginName = params.name.toLowerCase()
@@ -43,8 +46,7 @@ class PluginController {
 
         Plugin pluginInstance = Plugin.findByName(pluginName)
         if (!pluginInstance) {
-            redirect(uri: '/plugins')
-            return
+            return redirect(uri: '/plugins')
         }
 
         params.tab = params.tab ?: ArtifactTab.DESCRIPTION.name
@@ -83,16 +85,9 @@ class PluginController {
             }
         }.total.sum()
 
-        List releaseList = []
-        if (params.tab == ArtifactTab.RELEASES.name) {
-            releaseList = Release.findAllByArtifact(pluginInstance, [sort: 'artifactVersion', order: 'desc'])
-        }
-
-        List downloadsByCountry = []
-        if (params.tab == ArtifactTab.STATISTICS.name) {
-            DownloadByCountry.findAllByArtifact(pluginInstance, [sort: 'total', order: 'asc']).collect(downloadsByCountry) { DownloadByCountry t ->
-                [t.country, t.total]
-            }
+        List releaseList = Release.findAllByArtifact(pluginInstance, [sort: 'artifactVersion', order: 'desc'])
+        List downloadsByCountry = DownloadByCountry.findAllByArtifact(pluginInstance, [sort: 'total', order: 'asc']).collect() { DownloadByCountry t ->
+            [t.country, t.total]
         }
 
         [

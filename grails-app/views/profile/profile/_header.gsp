@@ -1,6 +1,6 @@
 <%@ page import="grails.util.GrailsNameUtils; griffon.portal.auth.Membership" %>
 
-<tmpl:/pageheader>
+<tmpl:/shared/pageheader>
   <div class="row">
     <div class="span14">
       <div class="row">
@@ -30,7 +30,7 @@
       </div>
     </div>
   </div>
-</tmpl:/pageheader>
+</tmpl:/shared/pageheader>
 <div class="span16">
   <g:if test="${!GrailsNameUtils.isBlank(profileInstance.bio)}">
     <h3>Bio</h3>

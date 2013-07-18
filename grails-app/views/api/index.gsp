@@ -1,15 +1,17 @@
 <!doctype html>
 <html>
 <head>
-  <title>Griffon Artifact Portal - API</title>
-  <meta name="layout" content="main"/>
+<theme:layout name="plain"/>
+<theme:title text="portal.about.title"/>
 </head>
 
 <body>
-<tmpl:/pageheader><h1>Griffon Artifact Portal API</h1></tmpl:/pageheader>
+
+<theme:zone name="body">
+<tmpl:/shared/pageheader><h2>Griffon Artifact Portal API</h2></tmpl:/shared/pageheader>
 
 <div class="row">
-  <div class="span16">
+  <div class="span11">
     <p>This describes the resources that make up the official Griffon Portal API v1.</p>
     <ul>
       <li><a href="#basics">Basics</a>
@@ -44,39 +46,39 @@
 <br/><br/>
 
 <section id="basics">
-  <tmpl:/pageheader><h1>Basics</h1>Connections &amp; errors.</tmpl:/pageheader>
+  <tmpl:/shared/pageheader><h1>Basics</h1>Connections &amp; errors.</tmpl:/shared/pageheader>
 
   <div class="row" id="connection">
-    <div class="span5">
+    <div class="span4">
       <h2>Connection</h2>
 
       <p>All API access is over HTTP, and accessed from <code>${grailsApplication.config.serverURL}/api</code>. All data is received as JSON unless an artifact file or checksum is requested.
       </p>
     </div>
 
-    <div class="span11">
+    <div class="span7">
       <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins</code><br/><br/>
       <pre class="prettyprint">
-        HTTP/1.1 200 OK
-        Server: Apache-Coyote/1.1
-        Content-Type: application/json;charset=UTF-8
-        Transfer-Encoding: chunked
-        Date: Tue, 20 Dec 2011 12:20:40 GMT
+          HTTP/1.1 200 OK
+          Server: Apache-Coyote/1.1
+          Content-Type: application/json;charset=UTF-8
+          Transfer-Encoding: chunked
+          Date: Tue, 20 Dec 2011 12:20:40 GMT
 
-        []
+          []
       </pre>
     </div>
   </div>
 
   <div class="row" id="errors">
-    <div class="span5">
+    <div class="span4">
       <h2>Errors</h2>
 
       <p>All requests that result in a not found record will receive an HTTP <code>404</code> error in response, with a JSON payload containing the parameters sent.
       </p>
     </div>
 
-    <div class="span11">
+    <div class="span7">
       <code>$ curl -i http://localhost:8080/griffon-artifact-portal/api/plugins/bogus</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 404 Not Found
@@ -101,10 +103,10 @@
 <br/><br/>
 
 <section id="queries">
-  <tmpl:/pageheader><h1>Queries</h1>Retrieving artifact metadata.</tmpl:/pageheader>
+  <tmpl:/shared/pageheader><h1>Queries</h1>Retrieving artifact metadata.</tmpl:/shared/pageheader>
 
   <div class="row" id="allartifacts">
-    <div class="span5">
+    <div class="span4">
       <h2>All artifacts</h2>
 
       <p>Obtain a list of all available plugins and/or archetypes by defining <code>/plugins</code> or <code>/archetypes</code>
@@ -114,7 +116,7 @@
       <p>Successful responses will list artifacts sorted alphabetically by name. Releases will be sorted by their version in descending order.</p>
     </div>
 
-    <div class="span11">
+    <div class="span7">
       <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
@@ -161,7 +163,7 @@
    </div>
 
   <div class="row" id="singleartifact">
-    <div class="span5">
+    <div class="span4">
       <h2>Single artifact</h2>
 
       <p>Use <code>/plugins/&lt;name&gt;</code> or <code>/archetypes/&lt;name&gt;</code> where <code>&lt;name&gt;</code> stands in
@@ -172,7 +174,7 @@
       <p>Releases will be sorted by their version in descending order.</p>
     </div>
 
-    <div class="span11">
+    <div class="span7">
       <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
@@ -218,7 +220,7 @@
   </div>
 
   <div class="row" id="singlerelease">
-    <div class="span5">
+    <div class="span4">
       <h2>Single release</h2>
 
       <p>Use <code>/plugins/&lt;name&gt;/&lt;version&gt;</code> or <code>/archetypes/&lt;name&gt;/&lt;version&gt;</code> where <code>&lt;name&gt;</code> stands in
@@ -229,7 +231,7 @@
       <p>Releases will be sorted by their version in descending order.</p>
     </div>
 
-    <div class="span11">
+    <div class="span7">
       <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0</code><br/><br/>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
@@ -311,10 +313,10 @@
 <br/><br/>
 
 <section id="download">
-  <tmpl:/pageheader><h1>Download</h1>Retrieving Zip files</tmpl:/pageheader>
+  <tmpl:/shared/pageheader><h1>Download</h1>Retrieving Zip files</tmpl:/shared/pageheader>
 
   <div class="row" id="artifacts">
-    <div class="span5">
+    <div class="span4">
       <h2>Artifacts</h2>
 
       <p>Use <code>/plugins/&lt;name&gt;/&lt;version&gt;/download</code> or <code>/archetypes/&lt;name&gt;/&lt;version&gt;/download</code> where <code>&lt;name&gt;</code> stands in
@@ -322,9 +324,8 @@
       </p>
     </div>
 
-    <div class="span11">
-      <code>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0/download</code>
-      <br/><br/>
+    <div class="span7">
+      <pre>$ curl -i ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0/download</pre>
       <pre class="prettyprint">
         HTTP/1.1 200 OK
         Server: Apache-Coyote/1.1
@@ -342,17 +343,20 @@
   </div>
 
   <div class="row" id="stats">
-    <div class="span5">
+    <div class="span4">
       <h2>Stats</h2>
 
       <p>Should you choose to help us gather download data that can be used to provide better services in the future please add any of the following HTTP headers to the download instructions.
       </p>
     </div>
 
-    <div class="span11">
-      <code>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0/download</code>
-      <br/><br/>
-      <table class="condensed-table">
+    <div class="span7">
+      <pre>$ curl -H 'X-Griffon-Version:0.9.5' -H 'X-Java-Version:1.6.0_29' \
+      -H 'X-Os-Name:Mac Os X' -H 'X-Os-Version:10.6.8' \
+      -H 'X-Os-Arch:x86_64' -H 'X-Java-Vm-Version:20.4-b02-402' \
+      -H 'X-Java-Vm-Name:Java HotSpot(TM) 64-Bit Server VM' \
+      ${grailsApplication.config.serverURL}/api/plugins/glazedlists/1.0/download</pre>
+      <table class="table table-condensed">
         <thead>
         <th>Name</th>
         <th>Value</th>
@@ -360,31 +364,31 @@
         <tbody>
         <tr>
           <td>X-Griffon-Version</td>
-          <td>Metadata.current.getGriffonVersion()</td>
+          <td><code>Metadata.current.getGriffonVersion()</code></td>
         </tr>
         <tr>
           <td>X-Java-Version</td>
-          <td>System.getProperty('java.version')</td>
+          <td><code>System.getProperty('java.version')</code></td>
         </tr>
         <tr>
           <td>X-Os-Name</td>
-          <td>System.getProperty('os.name')</td>
+          <td><code>System.getProperty('os.name')</code></td>
         </tr>
         <tr>
           <td>X-Os-Version</td>
-          <td>System.getProperty('os.version')</td>
+          <td><code>System.getProperty('os.version')</code></td>
         </tr>
         <tr>
           <td>X-Os-arch</td>
-          <td>System.getProperty('os.arch')</td>
+          <td><code>System.getProperty('os.arch'</code>)</td>
         </tr>
         <tr>
           <td>X-Java-Vm-Version</td>
-          <td>System.getProperty('java.vm.version')</td>
+          <td><code>System.getProperty('java.vm.version')</code></td>
         </tr>
         <tr>
           <td>X-Java-Vm-Name</td>
-          <td>System.getProperty('java.vm.name')</td>
+          <td><code>System.getProperty('java.vm.name')</code></td>
         </tr>
         </tbody>
       </table>
@@ -395,16 +399,16 @@
 <br/><br/>
 
 <section id="repository">
-  <tmpl:/pageheader><h1>Repository</h1>Ivy style repository view</tmpl:/pageheader>
+  <tmpl:/shared/pageheader><h1>Repository</h1>Ivy style repository view</tmpl:/shared/pageheader>
 
   <div class="row" id="metadata">
-    <div class="span5">
+    <div class="span4">
       <h2>Metadata</h2>
 
       <p>It's possible to query all kinds of artifact metadata using an Ivy style repository with custom layout.</p>
     </div>
 
-    <div class="span11">
+    <div class="span7">
       <p><code>/repository/plugins/</code><br/>
         Returns a JSON list of all plugins.</p>
       <p><code>/repository/plugins/&lt;name&gt;</code><br/>
@@ -434,5 +438,6 @@
   </div>
 </section>
 
+</theme:zone>
 </body>
 </html>

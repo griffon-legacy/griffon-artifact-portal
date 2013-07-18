@@ -22,6 +22,8 @@ import griffon.portal.values.ProfileTab
  * @author Andres Almiray
  */
 class AuthorController {
+    static navigationScope = 'hidden'
+
     static defaultAction = 'show'
 
     def show() {
@@ -41,37 +43,31 @@ class AuthorController {
         params.tab = params.tab ?: ProfileTab.PLUGINS.name
 
         Map qparams = [
-                max: params.max ?: 10,
-                offset: params.offset ?: 0
+            max: params.max ?: 10,
+            offset: params.offset ?: 0
         ]
 
-        List<Plugin> pluginList = []
-        if (params.tab == ProfileTab.PLUGINS.name) {
-            pluginList = Plugin.createCriteria().list(qparams) {
-                authors {
-                    eq('email', authorInstance.email)
-                }
-                order('name', 'asc')
+        List<Plugin> pluginList = Plugin.createCriteria().list(qparams) {
+            authors {
+                eq('email', authorInstance.email)
             }
+            order('name', 'asc')
         }
 
-        List<Archetype> archetypeList = []
-        if (params.tab == ProfileTab.ARCHETYPES.name) {
-            archetypeList = Archetype.createCriteria().list(qparams) {
-                authors {
-                    eq('email', authorInstance.email)
-                }
-                order('name', 'asc')
+        List<Archetype> archetypeList = Archetype.createCriteria().list(qparams) {
+            authors {
+                eq('email', authorInstance.email)
             }
+            order('name', 'asc')
         }
 
         [
-                authorInstance: authorInstance,
-                pluginList: pluginList,
-                archetypeList: archetypeList,
-                pluginTotal: pluginList.totalCount,
-                archetypeTotal: archetypeList.totalCount,
-                tab: params.tab
+            authorInstance: authorInstance,
+            pluginList: pluginList,
+            archetypeList: archetypeList,
+            pluginTotal: pluginList.totalCount,
+            archetypeTotal: archetypeList.totalCount,
+            tab: params.tab
         ]
     }
 }

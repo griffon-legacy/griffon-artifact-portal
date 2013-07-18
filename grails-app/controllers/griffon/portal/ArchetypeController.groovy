@@ -25,22 +25,26 @@ import griffon.portal.values.ArtifactTab
  * @author Andres Almiray
  */
 class ArchetypeController {
+    static navigationScope = 'hidden'
+
     static defaultAction = 'show'
+
+    def list() {
+        return redirect(uri: '/archetypes')
+    }
 
     def show() {
         if (params.name == 'show') {
             params.name = request.getParameter('name')
         }
         if (!params.name) {
-            redirect(uri: '/archetypes')
-            return
+            return redirect(uri: '/archetypes')
         }
 
         String archetypeName = params.name.toLowerCase()
         Archetype archetypeInstance = Archetype.findByName(archetypeName)
         if (!archetypeInstance) {
-            redirect(uri: '/archetypes')
-            return
+            return redirect(uri: '/archetypes')
         }
 
         params.tab = params.tab ?: ArtifactTab.DESCRIPTION.name
@@ -79,16 +83,9 @@ class ArchetypeController {
             }
         }.total.sum()
 
-        List releaseList = []
-        if (params.tab == ArtifactTab.RELEASES.name) {
-            releaseList = Release.findAllByArtifact(archetypeInstance, [sort: 'artifactVersion', order: 'desc'])
-        }
-
-        List downloadsByCountry = []
-        if (params.tab == ArtifactTab.STATISTICS.name) {
-            DownloadByCountry.findAllByArtifact(archetypeInstance, [sort: 'total', order: 'asc']).collect(downloadsByCountry) { DownloadByCountry t ->
-                [t.country, t.total]
-            }
+        List releaseList = Release.findAllByArtifact(archetypeInstance, [sort: 'artifactVersion', order: 'desc'])
+        List downloadsByCountry = DownloadByCountry.findAllByArtifact(archetypeInstance, [sort: 'total', order: 'asc']).collect(downloadsByCountry) { DownloadByCountry t ->
+            [t.country, t.total]
         }
 
         [

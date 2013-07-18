@@ -29,6 +29,8 @@ import org.grails.plugin.jcaptcha.JcaptchaService
  * @author Andres Almiray
  */
 class UserController {
+    static navigationScope = 'hidden'
+
     JcaptchaService jcaptchaService
     MailService mailService
     EmailConfirmationService emailConfirmationService

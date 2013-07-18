@@ -84,20 +84,20 @@ class UrlMappings {
             }
         }
 
+
         name categories_archetype: "/category/$action/archetypes/$character?"(controller: 'artifact') {
             type = 'archetype'
             constraints {
                 action(inList: griffon.portal.values.Category.getNamesAsList())
             }
         }
-
         name comment_preview: '/artifact/comment/preview'(controller: 'artifact', action: 'preview_comment')
         name comment_post: "/artifact/comment/post/$name"(controller: 'artifact', action: 'post_comment')
         name watch_artifact: "/artifact/watch/$id"(controller: 'artifact', action: 'watch')
         name tag_artifact: "/artifact/tag/$id"(controller: 'artifact', action: 'tag')
         name list_tagged: "/tags/$type/$tagName"(controller: 'artifact', action: 'list_tagged')
         "/plugins"(controller: 'artifact', action: 'all') { type = 'plugin' }
-        "/archetypes"(controller: 'archetype', action: 'all') { type = 'archetype'}
+        "/archetypes"(controller: 'artifact', action: 'all') { type = 'archetype'}
         name show_plugin: "/plugin/$name/$tab?"(controller: 'plugin', action: 'show')
         name show_archetype: "/archetype/$name/$tab?"(controller: 'archetype', action: 'show')
         name show_docs: "/docs/$type/$name"(controller: 'docs', action: 'show')
@@ -107,6 +107,7 @@ class UrlMappings {
         name download_release: "/release/download/$id/$type/$name/$version"(controller: 'release', action: 'download_release')
         "/$name+Plugin"(controller: 'plugin', action: 'show')
 
+
         "/$controller/$action?/$id?" {
             constraints {
                 // apply constraints here
@@ -115,6 +116,6 @@ class UrlMappings {
 
         "/"(view: "/index")
         "500"(view: '/error')
-        "404"(view: "/index")
+        // "404"(view: "/index")
     }
 }

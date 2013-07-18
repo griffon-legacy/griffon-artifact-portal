@@ -28,6 +28,8 @@ import javax.sql.DataSource
  * @author Andres Almiray
  */
 class ArtifactController {
+    static navigationScope = 'hidden'
+
     private static final int DEFAULT_MAX = 10
     MarkdownService markdownService
     NotifyService notifyService

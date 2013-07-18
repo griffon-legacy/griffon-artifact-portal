@@ -8,7 +8,7 @@
 
 <body>
 
-<tmpl:/pageheader><h1>${releaseName}</h1>${releaseInstance.artifact.title}</tmpl:/pageheader>
+<tmpl:/shared/pageheader><h1>${releaseName}</h1>${releaseInstance.artifact.title}</tmpl:/shared/pageheader>
 
 <div class="row">
   <div class="span12">

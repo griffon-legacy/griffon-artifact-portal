@@ -2,125 +2,76 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="layout" content="main">
-  <title><g:message code="griffon.portal.auth.User.signup.label"/></title>
+    <theme:layout name="sidebar"/>
+    <theme:title text="griffon.portal.auth.User.signup.label"/>
 </head>
 
 <body>
 
-<tmpl:/pageheader>
-  <h1><g:message code="griffon.portal.auth.User.signup.label"/></h1>
-    <g:message code="griffon.portal.auth.User.signup.message"/>
-</tmpl:/pageheader>
+<theme:zone name="pageheader">
+    <tmpl:/shared/pageheader>
+        <h2><g:message code="griffon.portal.auth.User.signup.label"/></h2>
+        <g:message code="griffon.portal.auth.User.signup.message"/>
+    </tmpl:/shared/pageheader>
+</theme:zone>
 
-<div class="row">
-  <div class="span16">
-    <div id="create-user" class="scaffold-create" role="main">
-      <g:render template="/shared/errors_and_messages" model="[bean: command, cssClass: 'span10']"/>
-      <g:form action="subscribe" name="subscriptionForm" mapping="subscribe">
-        <g:hiddenField name="filled" value="true"/>
-        <fieldset>
-          <div class="clearfix ${hasErrors(bean: command, field: 'username', 'error')}">
-            <label for="username">
-              <g:message code="user.username.label" default="Username"/>
-            </label>
-
-            <div class="input">
-              <g:textField name="username" required="" tabindex="1" value="${command?.username}"/>
-            </div>
-          </div>
-
-          <div class="clearfix ${hasErrors(bean: command, field: 'fullName', 'error')}">
-            <label for="fullName">
-              <g:message code="user.fullName.label" default="Full Name"/>
-            </label>
-
-            <div class="input">
-              <g:textField name="fullName" required="" tabindex="1" value="${command?.fullName}"/>
-            </div>
-          </div>
-
-          <div class="clearfix ${hasErrors(bean: command, field: 'email', 'error')}">
-            <label for="email">
-              <g:message code="user.email.label" default="Email"/>
-            </label>
-
-            <div class="input">
-              <g:textField name="email" required="" tabindex="2" value="${command?.email}"/>
-            </div>
-          </div>
-
-          <div class="clearfix ${hasErrors(bean: command, field: 'password', 'error')}">
-            <label for="password">
-              <g:message code="user.password.label" default="Password"/>
-            </label>
-
-            <div class="input">
-              <g:passwordField id="password" name="password" autocomplete="off" required="" tabindex="2"
-                               value="${command?.password}"/>
-            </div>
-          </div>
-
-          <div class="clearfix required" id="containerPassword2">
-            <label for="password2">
-              Confirm password
-            </label>
-
-            <div class="input">
-              <g:passwordField id="password2" name="password2" autocomplete="off" required="" tabindex="3"
-                               value="${command?.password2}"/>
-              <small class="help-inline help-error" id="nomatch" style="display:none;">Passwords don't match</small>
-            </div>
-          </div>
-
-          <div class="clearfix ${hasErrors(bean: command, field: 'captcha', 'error')}">
-            <label for="captcha">
-              <g:message code="user.captcha.label" default="Please enter the text as shown below"/>
-            </label>
-
-            <div class="input">
-              <g:textField name="captcha" required="true" tabindex="4" value=""/>
-              <br/><br/><br/>
-              <jcaptcha:jpeg name="image"/>
-            </div>
-          </div>
-        </fieldset>
-
-        <div class="actions">
-          <button class="btn primary" type="submit" id="subscribe" name="subscribe" tabindex="7">
-            ${message(code: 'griffon.portal.button.signup.label', default: 'Sign up')}</button>
-        </div>
-      </g:form>
-    </div>
-  </div>
-
-  <div class="span-one-third" style="position: absolute; margin-left: -300px;">
+<theme:zone name="sidebar">
     <h3>Account Benefits</h3>
 
     <p>Signing up for an account grants you the following benefits:
     <ul>
-      <li>Rate and comment artifacts.</li>
-      <li>Edit artifact details.</li>
-      <li>Apply for developer membership.</li>
+        <li>Rate and comment artifacts.</li>
+        <li>Edit artifact details.</li>
+        <li>Apply for developer membership.</li>
     </ul>
-  </p>
-  </div>
-</div>
+    </p>
+</theme:zone>
 
-<script language="javascript">
-  $('#username').focus()
-  $('#password2,#password').keyup(function () {
-    if ($('#password2').val() != '') {
-      if ($('#password2').val() != $('#password').val()) {
-        $('#nomatch').show();
-        $('#password2').parent().addClass('error');
-      } else {
-        $('#nomatch').hide();
-        $('#password2').parent().removeClass('error');
-      }
-    }
-  });
-</script>
+<theme:zone name="body">
+    <g:render template="/shared/errors_and_messages"
+              model="[bean: command]"/>
+
+    <ui:form action="subscribe" name="subscriptionForm" mapping="subscribe">
+        <g:hiddenField name="filled" value="true"/>
+
+        <g:render template="/shared/form_field" model="[bean: command, field: 'username']"/>
+        <g:render template="/shared/form_field" model="[bean: command, field: 'fullName']"/>
+        <g:render template="/shared/form_field" model="[bean: command, field: 'email']"/>
+        <g:render template="/shared/form_field" model="[bean: command, field: 'password', password: true]"/>
+
+        <ui:field bean="${command}" name="password2" label="Confirm password">
+            <ui:fieldInput>
+                <g:passwordField name="password2" id="password2" required="true"
+                             class="input-xlarge" value="${command.password2}"/>
+                <small class="help-inline help-error" id="nomatch"
+                       style="display:none;">Passwords don't match</small>
+            </ui:fieldInput>
+            <ui:fieldErrors> </ui:fieldErrors>
+        </ui:field>
+
+        <g:render template="/shared/captcha_field" model="[bean: command]"/>
+        <ui:actions>
+            <ui:button mode="inverse">Sign up</ui:button>
+            <ui:button mode="cancel">Cancel</ui:button>
+        </ui:actions>
+    </ui:form>
+
+    <script language="javascript">
+        $('#username').focus()
+        $('#password2,#password').keyup(function () {
+
+            if ($('#password2').val() != '') {
+                if ($('#password2').val() != $('#password').val()) {
+                    $('#nomatch').show();
+                    $('#password2').parent().parent().addClass('error');
+                } else {
+                    $('#nomatch').hide();
+                    $('#password2').parent().parent().removeClass('error');
+                }
+            }
+        });
+    </script>
+</theme:zone>
 
 </body>
 </html>

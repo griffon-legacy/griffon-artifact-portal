@@ -6,10 +6,10 @@
 </head>
 
 <body>
-<tmpl:/pageheader>
+<tmpl:/shared/pageheader>
     <h1><g:message code="admin.user.show.label"/></h1>
     <g:message code="admin.user.show.message"/>
-</tmpl:/pageheader>
+</tmpl:/shared/pageheader>
 
 <div class="row">
     <div class="span16">
@@ -132,7 +132,7 @@
                     </div>
 
                     <div class="actions">
-                        <input class="btn primary" type="submit" value="Save"/>
+                        <input class="btn btn-inverse" type="submit" value="Save"/>
                     </div>
                 </div>
             </g:form>

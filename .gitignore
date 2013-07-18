@@ -1,9 +1,6 @@
-Griffon-artifact-portal-grailsPlugins.iml
-griffon-artifact-portal-grailsPlugins.iml
-Griffon-artifact-portal.iml
-griffon-artifact-portal.iml
-griffon-artifact-portal.ipr
-griffon-artifact-portal.iws
+*.iml
+*.ipr
+*.iws
 .idea
 .gradle
 target

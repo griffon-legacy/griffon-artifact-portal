@@ -11,7 +11,7 @@
 
 <body>
 
-<tmpl:/pageheader>
+<tmpl:/shared/pageheader>
   <div class="row">
     <div class="span1">
       <ul class="media-grid" style="float: left; margin-right: 10px;">
@@ -27,7 +27,7 @@
       </div>
     </div>
   </div>
-</tmpl:/pageheader>
+</tmpl:/shared/pageheader>
 
 <div class="row">
   <div class="span16">

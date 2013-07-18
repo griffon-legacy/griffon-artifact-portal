@@ -17,7 +17,7 @@
       <%-- preload images --%>
         <g:img dir="images" file="watch_off.png" style="display: none"/>
         <g:img dir="images" file="watch_on.png" style="display: none"/>
-        <table class="condensed-table zebra-striped">
+        <table class="table-condensed zebra-striped">
           <thead>
           <tr>
             <th></th>

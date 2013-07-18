@@ -33,6 +33,8 @@ import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
  * @author Andres Almiray
  */
 class ReleaseController {
+    static navigationScope = 'hidden'
+
     private static final Pattern ARTIFACT_PATTERN = Pattern.compile("^griffon-([\\w][\\w\\.-]*)-([0-9][\\w\\.\\-]*)\\-release.zip\$")
 
     ArtifactProcessor artifactProcessor

@@ -60,7 +60,7 @@
     </div>
 
     <div class="actions">
-      <input class="btn primary" type="submit" value="Save"/>
+      <input class="btn btn-inverse" type="submit" value="Save"/>
     </div>
 
   </g:form>

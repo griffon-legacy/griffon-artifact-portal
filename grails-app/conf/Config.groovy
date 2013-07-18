@@ -56,11 +56,6 @@ grails.rateable.rater.evaluator = { session.user }
 
 grails.commentable.poster.evaluator = { session.user }
 
-avatarPlugin {
-    defaultGravatarUrl = '/images/griffon-icon-128x128.grayscale.png'
-    gravatarRating = 'G'
-}
-
 import com.octo.captcha.component.image.backgroundgenerator.GradientBackgroundGenerator
 import com.octo.captcha.component.image.color.SingleColorGenerator
 import com.octo.captcha.component.image.fontgenerator.RandomFontGenerator
@@ -109,22 +104,6 @@ grails.config.locations = ["classpath:${appName}-config.properties",
                            "classpath:${appName}-config.groovy"]
 
 grails.plugins.twitterbootstrap.fixtaglib = true
-
-grails.resources.modules = {
-    portal {
-        resource url: '/js/portal.js'
-    }
-    'jquery-form' {
-        resource url: '/js/jquery.form.js', disposition: 'head'
-    }
-    upload {
-        dependsOn 'jquery-form'
-        resource url: '/js/upload.js', disposition: 'head'
-    }
-    twitter {
-        resource url: '/js/twitter-widget.js', disposition: 'head'
-    }
-}
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format

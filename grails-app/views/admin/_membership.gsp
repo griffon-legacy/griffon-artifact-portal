@@ -1,14 +1,23 @@
 <%@ page import="griffon.portal.auth.Membership" %>
 <div id="${user}_membership">
-  <g:each in="['PENDING', 'ACCEPTED', 'REJECTED', 'NOT_REQUESTED']" var="status">
-    <g:if test="${status == currentStatus}">
-      <g:img id="${user}_${status}" dir="images" file="membership/${status}_active.png" alt='${status}'/>
-    </g:if>
-    <g:else>
-      <g:remoteLink uri="/admin/user/$user/change/$status"
-                    update='["success": "${user}_membership", "failure": "messages"]'>
-        <g:img id="${user}_${status}" dir="images" file="membership/${status}.png" alt='${status}'/>
-      </g:remoteLink>
-    </g:else>
-  </g:each>
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <g:each
+                in="['PENDING': 'icon-exclamation-sign', 'ACCEPTED': 'icon-ok-sign', 'REJECTED': 'icon-minus-sign', 'NOT_REQUESTED': ' icon-remove-sign']"
+                var="status">
+                <g:if test="${status.key == currentStatus}">
+                    <a href="#" class="btn btn-danger"><i
+                        class="${status.value} icon-white"></i></a>
+                </g:if>
+                <g:else>
+                    <g:remoteLink
+                        uri="/admin/user/${user}/change/${status.key}"
+                        class="btn btn-inverse"
+                        update='["success": "${user}_membership", "failure": "messages"]'>
+                        <i class="${status.value} icon-white"></i>
+                    </g:remoteLink>
+                </g:else>
+            </g:each>
+        </div>
+    </div>
 </div>
