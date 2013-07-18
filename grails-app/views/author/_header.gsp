@@ -1,21 +1,17 @@
 <tmpl:/shared/pageheader>
-    <table>
-        <tr>
-            <td class="thumbnail">
-                <a href="#">
-                    <ui:avatar user="${authorInstance.email}" size="100"
-                               class="img-rounded"/>
-                </a>
-            </td>
-            <td>&nbsp;</td>
-            <td>
-                <address>
-                    <h2><g:fieldValue bean="${authorInstance}"
-                                      field="name"/></h2>
-                    <g:fieldValue bean="${authorInstance}"
-                                  field="email"/><br/>
-                </address>
-            </td>
-        </tr>
-    </table>
+    <div class="media">
+        <a href="#" class="pull-left">
+            <ui:avatar user="${authorInstance.email}"
+                       size="90"
+                       class="media-object img-rounded"/>
+        </a>
+
+        <div class="media-body">
+            <address>
+                <h3><g:fieldValue bean="${authorInstance}"
+                                  field="name"/></h3>
+                <a mailto="">${authorInstance.email}</a>
+            </address>
+        </div>
+    </div>
 </tmpl:/shared/pageheader>

@@ -4,9 +4,7 @@
         <g:if test="${!session.user}">
             <g:link controller="user" action="login" mapping="signin"
                     params="[originalURI: (request.forwardURI - application.contextPath)]"
-                    title="Add or remove tags"><g:img
-                dir="images"
-                file="tag.png" style="vertical-align: middle"/></g:link>
+                    title="Add or remove tags" class="btn btn-info"><i class="icon-tags icon-white"></i></g:link>
         </g:if>
         <g:else>
             <div id="modal-tags" class="modal hide fade">

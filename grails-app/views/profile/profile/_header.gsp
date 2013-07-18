@@ -1,35 +1,33 @@
 <%@ page import="grails.util.GrailsNameUtils; griffon.portal.auth.Membership" %>
 
 <tmpl:/shared/pageheader>
-    <table>
-        <tr>
-            <td class="thumbnail">
-                <a href="#">
-                    <ui:avatar user="${profileInstance.gravatarEmail}"
-                               size="100"
-                               class="img-rounded"/>
-                </a>
-            </td>
-            <td>&nbsp;</td>
-            <td>
-                <address>
-                    <h2><g:fieldValue bean="${profileInstance.user}"
-                                      field="username"/></h2>
-                    <g:fieldValue bean="${profileInstance.user}"
-                                  field="fullName"/>
-                    <small>(<g:message code="user.membership.label"
-                                       default="Member since"/></small>
-                    <g:formatDate date="${profileInstance.user.dateCreated}"
-                                  format="MMM dd, yyyy"/><small>)</small>
-                    <br/>
-                    <g:if test="${profileInstance.website}">
-                        <a href="${profileInstance.website}"><g:fieldValue
-                            bean="${profileInstance}" field="website"/></a>
-                    </g:if>
-                </address>
-            </td>
-        </tr>
-    </table>
+    <div class="media">
+        <a href="#" class="pull-left">
+            <ui:avatar user="${profileInstance.gravatarEmail}"
+                       size="90"
+                       class="media-object img-rounded"/>
+        </a>
+
+        <div class="media-body">
+            <h3 class="media-heading"><g:fieldValue
+                bean="${profileInstance.user}"
+                field="username"/></h3>
+
+            <address>
+                <g:fieldValue bean="${profileInstance.user}"
+                              field="fullName"/>
+                <small>(<g:message code="user.membership.label"
+                                   default="Member since"/></small>
+                <g:formatDate date="${profileInstance.user.dateCreated}"
+                              format="MMM dd, yyyy"/><small>)</small>
+                <br/>
+                <g:if test="${profileInstance.website}">
+                    <a href="${profileInstance.website}"><g:fieldValue
+                        bean="${profileInstance}" field="website"/></a>
+                </g:if>
+            </address>
+        </div>
+    </div>
 </tmpl:/shared/pageheader>
 
 <g:if test="${!GrailsNameUtils.isBlank(profileInstance.bio)}">

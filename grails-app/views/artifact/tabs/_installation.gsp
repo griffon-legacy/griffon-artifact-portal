@@ -6,6 +6,7 @@
 <p>There are several ways to install a release of ${artifactInstance.name} using the <code>install-${artifactInstance.type}</code> target of the griffon command line tool.
 </p>
 
+
 <div class="row">
     <div class="span5">
         <h2>Name and Version</h2>

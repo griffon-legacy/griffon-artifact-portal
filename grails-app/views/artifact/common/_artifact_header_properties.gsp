@@ -67,12 +67,13 @@
     <div class="artifact-show" aria-labelledby="rating-label">
         <g:if test="${session.user}">
             <div class="artifact-ratings ratings">
-                <rateable:ratings bean='${artifactInstance}'/>
+                <rateable:ratings bean='${artifactInstance}'/><br clear="all"/><br clear="all"/>
             </div>
         </g:if>
         <g:else>
             <g:render template="/shared/rating_offline"
                       model="[artifactInstance: artifactInstance, login: true]"/>
+            <br clear="all"/><br clear="all"/>
         </g:else>
     </div>
 </div>
