@@ -8,6 +8,6 @@ modules = {
         resource url: '/js/twitter-widget.js', disposition: 'head'
 
         resource url: '/css/griffon.css'
-        // resource url: '/css/griffon_bootstrap.css'
+        resource url: '/css/griffon_bootstrap.css'
     }
 }
