@@ -10,7 +10,7 @@
 <body>
 
 <theme:zone name="body">
-    <tmpl:/shared/pageheader><h1>${archetypeName}</h1>${archetypeInstance.title}</tmpl:/shared/pageheader>
+    <tmpl:/shared/pageheader><h2>${archetypeName}</h2>${archetypeInstance.title}</tmpl:/shared/pageheader>
 
     <div class="row">
         <div class="span7">

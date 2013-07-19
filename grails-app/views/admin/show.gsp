@@ -1,143 +1,135 @@
 <!doctype html>
 <html>
 <head>
-    <meta name="layout" content="main">
-    <title><g:message code="admin.user.show.label"/></title>
+    <theme:layout name="plain"/>
+    <theme:title text="admin.user.show.label"/>
 </head>
 
 <body>
-<tmpl:/shared/pageheader>
-    <h1><g:message code="admin.user.show.label"/></h1>
-    <g:message code="admin.user.show.message"/>
-</tmpl:/shared/pageheader>
 
-<div class="row">
-    <div class="span16">
-        <div class="" role="main">
-            <div id="messages">
-                <g:render template="/shared/errors_and_messages" model="[cssClass: 'span16']"/>
+<theme:zone name="body">
+    <tmpl:/shared/pageheader>
+        <h2><g:message code="admin.user.show.message"
+                       args="[user.username]"/></h2>
+    </tmpl:/shared/pageheader>
+
+    <g:render template="/shared/errors_and_messages"
+              model="[bean: user]"/>
+
+    <ui:form action="save">
+        <g:hiddenField name="id" value="${user.username}"/>
+
+        <div class="clearfix">
+            <h2>User</h2>
+        </div>
+        <g:render template="/shared/form_field"
+                  model="[bean: user, field: 'username']"/>
+
+        <g:render template="/shared/form_field"
+                  model="[bean: user, field: 'fullName']"/>
+
+        <g:render template="/shared/form_field"
+                  model="[bean: user, field: 'email']"/>
+
+        <ui:field bean="${user}" name="membership.status">
+            <ui:fieldLabel><label for="membership.status"
+                                  class="control-label">Membership</label></ui:fieldLabel>
+            <ui:fieldInput>
+                <g:select name="membership.status" class="input-xlarge"
+                          from="${griffon.portal.auth.Membership.Status.values()}"
+                          value="${user.membership.status}" required=""/>
+            </ui:fieldInput>
+            <ui:fieldErrors></ui:fieldErrors>
+        </ui:field>
+
+        <g:if test="${user.profile}">
+            <div class="clearfix">
+                <h2>Profile</h2>
+                <ui:field bean="${user.profile}" name="profile.gravatarEmail">
+                    <ui:fieldLabel><label for="profile.gravatarEmail"
+                                          class="control-label">Avatar</label></ui:fieldLabel>
+                    <ui:fieldInput>
+                        <g:textField name="profile.gravatarEmail"
+                                     required="true"
+                                     class="input-xlarge"
+                                     value="${user.profile.gravatarEmail}"/>
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
+
+                <ui:field bean="${user.profile}" name="profile.website">
+
+                    <ui:fieldInput>
+                        <g:textField name="profile.website" required="true"
+                                     class="input-xlarge"
+                                     value="${user.profile.website}"/>
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
+
+                <ui:field bean="${user.profile}" name="profile.twitter">
+                    <ui:fieldInput>
+                        <g:textField name="profile.twitter" required="true"
+                                     class="input-xlarge"
+                                     value="${user.profile.twitter}"/>
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
+
+                <ui:field bean="${user.profile}" name="profile.bio">
+                    <ui:fieldInput>
+                        <g:textArea name="profile.bio" cols="40" rows="3"
+                                    maxlength="1000"
+                                    class="input-xxlarge"
+                                    value="${user.profile.bio}"/>
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
             </div>
 
-            <g:form action="save">
-                <g:hiddenField name="id" value="${user.username}"/>
-                <div class="span8" style="float: left">
-                    <div class="clearfix">
-                        <h2>User</h2>
-                    </div>
+            <div class="clearfix">
+                <h2>Notifications</h2>
 
-                    <div class="clearfix ${hasErrors(bean: user, field: 'username', 'error')}">
-                        <label for="username"><g:message code="user.username.label" default="Username"/></label>
+                <ui:field bean="${user.profile.notifications}"
+                          name="profile.notifications.watchlist">
+                    <ui:fieldLabel><label for="profile.notifications.watchlist"
+                                          class="control-label">Watchlist</label></ui:fieldLabel>
+                    <ui:fieldInput>
+                        <g:checkBox name="profile.notifications.watchlist"
+                                    value="${user.profile.notifications.watchlist}"/> Enable all items in watchlist.
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
 
-                        <div class="input"><g:textField name="username" value="${user.username}" required=""
-                                                        tabindex="1"></g:textField></div>
-                    </div>
+                <ui:field bean="${user.profile.notifications}"
+                          name="profile.notifications.content">
+                    <ui:fieldLabel><label for="profile.notifications.content"
+                                          class="control-label">Content Updates</label></ui:fieldLabel>
+                    <ui:fieldInput>
+                        <g:checkBox name="profile.notifications.content"
+                                    value="${user.profile.notifications.content}"/>  Notify user when his content is updated.
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
 
-                    <div class="clearfix ${hasErrors(bean: user, field: 'email', 'error')}">
-                        <label for="email"><g:message code="user.email.label" default="Email"/></label>
+                <ui:field bean="${user.profile.notifications}"
+                          name="profile.notifications.comments">
+                    <ui:fieldLabel><label for="profile.notifications.comments"
+                                          class="control-label">Comments</label></ui:fieldLabel>
+                    <ui:fieldInput>
+                        <g:checkBox name="profile.notifications.comments"
+                                    value="${user.profile.notifications.comments}"/> Notify user when a comment is posted.
+                    </ui:fieldInput>
+                    <ui:fieldErrors></ui:fieldErrors>
+                </ui:field>
+            </div>
 
-                        <div class="input"><g:textField name="email" value="${user.email}" required=""
-                                                        tabindex="2"></g:textField></div>
-                    </div>
+        </g:if>
+        <ui:actions>
+            <ui:button mode="inverse">Save</ui:button>
+        </ui:actions>
+    </ui:form>
 
-                    <div class="clearfix ${hasErrors(bean: user, field: 'fullName', 'error')}">
-                        <label for="fullName"><g:message code="user.fullName.label" default="Full name"/></label>
-
-                        <div class="input"><g:textField name="fullName" value="${user.fullName}" required=""
-                                                        tabindex="3"></g:textField></div>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'membership.status', 'error')}">
-                        <label for="membership.status"><g:message code="user.membership.label"
-                                                                  default="Membership"/></label>
-
-                        <div class="input"><g:select name="membership.status"
-                                                     from="${['ACCEPTED', 'PENDING', 'REJECTED', 'ADMIN', 'NOT_REQUESTED']}"
-                                                     value="${user.membership.status}" tabindex="4" required=""/></div>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'dateCreated', 'error')}">
-                        <label for="dateCreated"><g:message code="user.dateCreated.label"
-                                                            default="Creation date"/></label>
-
-                        <div class="input"><g:textField name="dateCreated" value="${user.dateCreated}" readonly="true"
-                                                        tabindex="5"></g:textField></div>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'lastUpdated', 'error')}">
-                        <label for="lastUpdated"><g:message code="user.lastUpdated.label"
-                                                            default="Last updated"/></label>
-
-                        <div class="input"><g:textField name="lastUpdated" value="${user.lastUpdated}" readonly="true"
-                                                        tabindex="6"></g:textField></div>
-                    </div>
-                </div>
-
-                <div class="span8" style="float: left">
-                    <div class="clearfix">
-                        <h2>Profile</h2>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'profile.gravatarEmail', 'error')}">
-                        <label for="profile.gravatarEmail"><g:message code="user.profile.gravatarEmail.label"
-                                                                      default="Gravatar email"/></label>
-
-                        <div class="input"><g:textField name="profile.gravatarEmail"
-                                                        value="${user.profile?.gravatarEmail}"
-                                                        tabindex="7"></g:textField></div>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'profile.bio', 'error')}">
-                        <label for="profile.bio"><g:message code="user.profile.bio.label" default="Biography"/></label>
-
-                        <div class="input"><g:textArea name="profile.bio" value="${user.profile?.bio}" rows="5"
-                                                       cols="50"
-                                                       tabindex="8"/></div>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'profile.website', 'error')}">
-                        <label for="profile.website"><g:message code="user.profile.website.label"
-                                                                default="Website"/></label>
-
-                        <div class="input"><g:textField name="profile.website" value="${user.profile?.website}"
-                                                        tabindex="9"></g:textField></div>
-                    </div>
-
-                    <div class="clearfix ${hasErrors(bean: user, field: 'profile.twitter', 'error')}">
-                        <label for="profile.twitter"><g:message code="user.profile.twitter.label"
-                                                                default="Twitter"/></label>
-
-                        <div class="input"><g:textField name="profile.twitter" value="${user.profile?.twitter}"
-                                                        tabindex="10"></g:textField></div>
-                    </div>
-                </div>
-
-                <div class="span16" style="clear: left">
-                    <div class="clearfix">
-                        <h3>Notifications</h3>
-                            <label for="profile.notifications.watchlist"><g:message
-                                    code="user.profile.notifications.watchlist.label" default="Watchlist"/></label>
-                            <g:checkBox name="profile.notifications.watchlist"
-                                        value="${user.profile?.notifications?.watchlist}"
-                                        style="float: left; margin: 9px;"/>
-                            <label for="profile.notifications.content"><g:message
-                                    code="user.profile.notifications.content.label" default="Content"/></label>
-                            <g:checkBox name="profile.notifications.content"
-                                        value="${user.profile?.notifications?.content}"
-                                        style="float: left; margin: 9px;"/>
-                            <label for="profile.notifications.comments"><g:message
-                                    code="user.profile.notifications.comments.label" default="Comments"/></label>
-                            <g:checkBox name="profile.notifications.comments"
-                                        value="${user.profile?.notifications?.comments}"
-                                        style="float: left; margin: 9px;"/>
-                    </div>
-
-                    <div class="actions">
-                        <input class="btn btn-inverse" type="submit" value="Save"/>
-                    </div>
-                </div>
-            </g:form>
-        </div>
-    </div>
-</div>
+</theme:zone>
 </body>
 </html>

@@ -9,7 +9,7 @@
 
             <ui:field bean="${command}" name="oldPassword">
                 <ui:fieldLabel><label for="oldPassword"
-                                      class="control-label">Current Password:</label></ui:fieldLabel>
+                                      class="control-label">Current Password</label></ui:fieldLabel>
                 <ui:fieldInput>
                     <input autocomplete="off" id="oldPassword"
                            name="oldPassword"
@@ -26,7 +26,7 @@
 
             <ui:field bean="${command}" name="newPassword">
                 <ui:fieldLabel><label for="newPassword"
-                                      class="control-label">New Password:</label></ui:fieldLabel>
+                                      class="control-label">New Password</label></ui:fieldLabel>
                 <ui:fieldInput>
                     <g:passwordField name="newPassword" required="true"
                                      class="input-xlarge" autocomplete="off"
@@ -37,7 +37,7 @@
 
             <ui:field bean="${command}" name="newPassword2">
                 <ui:fieldLabel><label for="newPassword2"
-                                      class="control-label">Verify New Password:</label></ui:fieldLabel>
+                                      class="control-label">Verify New Password</label></ui:fieldLabel>
                 <ui:fieldInput>
                     <g:passwordField name="newPassword2" required="true"
                                      class="input-xlarge" autocomplete="off"

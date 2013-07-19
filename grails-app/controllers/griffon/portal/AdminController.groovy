@@ -37,23 +37,20 @@ class AdminController {
     def show() {
         if (!User.hasAdminRole(session.user)) redirect(uri: '/')
         if (!params.id) {
-            redirect(action: 'list')
-            return
+            return redirect(action: 'list')
         }
-        [user: User.findByUsername(params.id)]
+        [user: User.findByUsername(params.id), id: params.id]
     }
 
     def save() {
         if (!User.hasAdminRole(session.user)) redirect(uri: '/')
         if (!params.id) {
-            redirect(action: 'list')
-            return
+            return redirect(action: 'list')
         }
         User userInstance = User.findByUsername(params.id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
-            redirect(action: 'list')
-            return
+            return redirect(action: 'list')
         }
         userInstance.properties = params.properties
         userInstance.profile.notifications.watchlist = params["profile.notifications.watchlist"] != null
@@ -64,20 +61,18 @@ class AdminController {
             return render(view: 'show', model: [user: userInstance])
         }
         flash.message = message(code: 'admin.user.save.success', args: [params.id])
-        redirect(action: "show", id: userInstance.username)
+        redirect(action: 'show', id: userInstance.username)
     }
 
     def delete() {
         if (!User.hasAdminRole(session.user)) redirect(uri: '/')
         if (!params.id) {
-            redirect(action: 'list')
-            return
+            return redirect(action: 'list')
         }
         User userInstance = User.findByUsername(params.id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
-            redirect(action: 'list')
-            return
+            return redirect(action: 'list')
         }
         userInstance.delete()
         flash.message = message(code: 'admin.user.delete.success', args: [params.id])
@@ -89,31 +84,32 @@ class AdminController {
         if (!params.id) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             response.status = 404
-            render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
+            return render(template: '/shared/errors_and_messages')
         }
         if (!params.status) {
             flash.message = message(code: 'admin.user.changeMembership.nostatus', args: [params.id])
             response.status = 400
-            render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
+            return render(template: '/shared/errors_and_messages')
         }
         User userInstance = User.findByUsername(params.id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             response.status = 404
-            render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
+            return render(template: '/shared/errors_and_messages')
         }
         try {
             Membership.Status status = Membership.Status.valueOf(Membership.Status, params.status)
             userInstance.membership.status = status
             userInstance.save()
-            render(template: "membership", model: ['user': params.id, 'currentStatus': params.status])
+            return render(template: 'membership', model: ['user': params.id, 'currentStatus': params.status])
         } catch (IllegalArgumentException e) {
             flash.message = message(code: 'admin.user.changeMembership.wrongstatus', args: [params.status])
             response.status = 400
-            render(template: "/shared/errors_and_messages", model: [cssClass: 'span16'])
+            return render(template: '/shared/errors_and_messages')
         }
     }
 
+    /*
     def pending() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         String query = 'from User as u where u.membership.status = :status'
@@ -127,4 +123,5 @@ class AdminController {
         user.save()
         redirect(action: 'pending')
     }
+    */
 }

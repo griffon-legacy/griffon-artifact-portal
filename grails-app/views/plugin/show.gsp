@@ -10,7 +10,7 @@
 <body>
 
 <theme:zone name="body">
-    <tmpl:/shared/pageheader><h1>${pluginName}</h1>${pluginInstance.title}</tmpl:/shared/pageheader>
+    <tmpl:/shared/pageheader><h2>${pluginName}</h2>${pluginInstance.title}</tmpl:/shared/pageheader>
 
     <div class="row">
         <div class="span7">

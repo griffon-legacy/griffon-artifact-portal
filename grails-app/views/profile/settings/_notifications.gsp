@@ -9,7 +9,7 @@
 
             <ui:field bean="${command}" name="watchlist">
                 <ui:fieldLabel><label for="watchlist"
-                                      class="control-label">Watchlist:</label></ui:fieldLabel>
+                                      class="control-label">Watchlist</label></ui:fieldLabel>
                 <ui:fieldInput>
                     <g:checkBox name="watchlist"
                                 value="${profileInstance.notifications.watchlist}"/> Enable all items in my watchlist.
@@ -22,7 +22,7 @@
 
             <ui:field bean="${command}" name="content">
                 <ui:fieldLabel><label for="content"
-                                      class="control-label">Content Updates:</label></ui:fieldLabel>
+                                      class="control-label">Content Updates</label></ui:fieldLabel>
                 <ui:fieldInput>
                     <g:checkBox name="content"
                                 value="${profileInstance.notifications.content}"/>  Notify me when my content is updated.
@@ -35,7 +35,7 @@
 
             <ui:field bean="${command}" name="comments">
                 <ui:fieldLabel><label for="comments"
-                                      class="control-label">Comments:</label></ui:fieldLabel>
+                                      class="control-label">Comments</label></ui:fieldLabel>
                 <ui:fieldInput>
                     <g:checkBox name="comments"
                                 value="${profileInstance.notifications.comments}"/> Notify me when a comment is posted.
