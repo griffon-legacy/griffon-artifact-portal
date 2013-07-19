@@ -54,7 +54,8 @@
         <g:link controller="${artifactInstance.type}" action="show"
                 params="[name: artifactInstance.name]"
                 mapping="show_${artifactInstance.type}"
-                class="btn btn-inverse pull-right"><i class="icon-info-sign icon-white"></i> ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
+                class="btn btn-inverse pull-right"><i
+            class="icon-info-sign icon-white"></i> ${message(code: 'griffon.portal.button.info.label', default: 'More Info')}</g:link>
     </div>
 </div>
 <br clear="all"/>

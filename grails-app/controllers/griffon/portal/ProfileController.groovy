@@ -37,7 +37,6 @@ class ProfileController {
 
     def show() {
         if (!params.id) {
-            println "Going back to root"
             return redirect(uri: '/')
         }
 

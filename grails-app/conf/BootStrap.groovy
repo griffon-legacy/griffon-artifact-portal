@@ -71,21 +71,6 @@ grails -Dinitial.admin.password=changeit run-app""")
             twitter: 'aalmiray'
         )
         user.save()
-
-        user = new User(
-            fullName: 'User0',
-            email: 'user0@yahoo.com',
-            username: 'user0',
-            password: MD5.encode('user0'),
-            membership: new Membership(
-                status: Membership.Status.NOT_REQUESTED,
-                reason: 'lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum'
-            )
-        )
-        user.profile = new Profile(
-            user: user
-        )
-        user.save()
     }
 
     private void setupEmailConfirmationService() {
