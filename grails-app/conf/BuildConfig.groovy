@@ -26,7 +26,8 @@ grails.project.dependency.resolution = {
     dependencies {
         compile 'org.apache.mina:mina-core:2.0.4',
                 'org.apache.sshd:sshd-core:0.6.0',
-                'org.apache.sshd:sshd-pam:0.6.0'
+                'org.apache.sshd:sshd-pam:0.6.0',
+                'org.twitter4j:twitter4j-core:3.0.3'
         compile('org.codehaus.griffon:griffon-rt:1.3.0',
                 'org.codehaus.griffon:griffon-cli:1.3.0') {
             transitive = false
@@ -52,7 +53,6 @@ grails.project.dependency.resolution = {
                 ":quartz:1.0-RC9",
                 ":rateable:0.7.1",
                 ":taggable:1.0.1",
-                ":twitter4j:0.3.2",
                 ":webxml:1.4.1",
                 ":yui:2.8.2.1",
                 ":yui-minify-resources:0.1.5",
@@ -62,8 +62,7 @@ grails.project.dependency.resolution = {
                 ":google-visualization:0.6.1",
                 ":geoip:0.2",
                 ":bootstrap-theme:1.0.RC3",
-                ":platform-ui:1.0.RC5-SNAPSHOT",
-                ":fields:1.3"
+                ":platform-ui:1.0.RC5-SNAPSHOT"
 
         build ":tomcat:$grailsVersion"
     }
