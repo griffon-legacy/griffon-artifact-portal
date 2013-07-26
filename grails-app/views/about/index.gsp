@@ -30,7 +30,7 @@
 
     <h2>Credits</h2>
 
-    <p><span class="label success">A big thank you!</span> goes to <a
+    <p><span class="label label-success">A big thank you!</span> goes to <a
         href="http://www.cylatech.com/">Cylatech</a> for providing hosting, bandwidth and lots of tips during the development of this portal.
     </p>
 </theme:zone>
