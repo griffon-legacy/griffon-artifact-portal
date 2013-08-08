@@ -2,7 +2,6 @@ package griffon.portal
 
 import griffon.portal.stats.*
 import griffon.portal.util.MD5
-import griffon.portal.values.PreferenceKey
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.grails.geoip.service.GeoIpService
 
@@ -42,6 +41,34 @@ class StatsService {
         downloadByCountry.save()
 
         DownloadTotalByCountry totalByCountry = DownloadTotalByCountry.findOrCreateWhere(country: country)
+        totalByCountry.total += 1
+        totalByCountry.save()
+    }
+
+    void mavenDownload(Map params) {
+        // preferencesService.getValueOf(PreferenceKey.USER_AGENT_FILTERS)
+
+        MavenDownload download = new MavenDownload(
+            release: params.release,
+            filename: params.filename,
+            userAgent: params.userAgent,
+            ipAddress: params.ipAddress
+        ).save()
+
+        MavenDownloadTotal total = MavenDownloadTotal.findOrCreateWhere(release: params.release, filename: params.filename)
+        total.total += 1
+        total.save()
+
+        def location = geoIpService.getLocation(download.ipAddress)
+        String country = location?.countryName ?: 'Unresolved'
+        if (location?.latitude == -20.0 && location?.longitude == 47.0) country = 'Unresolved'
+
+        MavenDownloadByCountry downloadByCountry = MavenDownloadByCountry.findOrCreateWhere(
+            artifact: download.release.artifact, country: country, filename: params.filename)
+        downloadByCountry.total += 1
+        downloadByCountry.save()
+
+        MavenDownloadTotalByCountry totalByCountry = MavenDownloadTotalByCountry.findOrCreateWhere(country: country)
         totalByCountry.total += 1
         totalByCountry.save()
     }

@@ -4,6 +4,7 @@
 //
 // ###################################################################
 
+maven.store.dir = '/tmp/griffon-artifact-portal/maven'
 packages.store.dir = '/tmp/griffon-artifact-portal/packages'
 releases.store.dir = '/tmp/griffon-artifact-portal/releases'
 

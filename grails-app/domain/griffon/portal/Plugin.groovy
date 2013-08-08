@@ -23,29 +23,37 @@ import griffon.portal.values.Toolkit
  * @author Andres Almiray
  */
 class Plugin extends Artifact {
+    static final String DEFAULT_GROUP = 'org.codehaus.griffon.plugins'
+
     String toolkits = ''
     String platforms = ''
+    String groupId = DEFAULT_GROUP
     boolean framework = false
+    boolean pomRuntime = false
+    boolean pomCompile = false
+    boolean pomTest = false
 
     static constraints = {
+        groupId(nullable: false)
         toolkits(nullable: false, blank: true)
         platforms(nullable: false, blank: true)
         framework(nullable: false)
     }
 
     void toolkits(List<Toolkit> values) {
-        toolkits = values.collect([]) {it.name.toLowerCase()}.join(',')
+        toolkits = values.collect([]) { it.name.toLowerCase() }.join(',')
     }
 
     void platforms(List<Platform> values) {
-        platforms = values.collect([]) {it.name.toLowerCase()}.join(',')
+        platforms = values.collect([]) { it.name.toLowerCase() }.join(',')
     }
 
     String toString() {
         super.toString() + [
-                toolkits: toolkits,
-                platforms: platforms,
-                framework: framework
+            group: groupId,
+            toolkits: toolkits,
+            platforms: platforms,
+            framework: framework
         ]
     }
 }

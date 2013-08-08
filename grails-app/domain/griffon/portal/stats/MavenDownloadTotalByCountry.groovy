@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package griffon.portal.values;
-
+package griffon.portal.stats
 /**
  * @author Andres Almiray
  */
-public interface PreferenceKey {
-    String MAVEN_STORE_DIR = "maven.store.dir";
-    String PACKAGES_STORE_DIR = "packages.store.dir";
-    String RELEASES_STORE_DIR = "releases.store.dir";
-    String USER_AGENT_FILTERS = "user.agent.filters";
+class MavenDownloadTotalByCountry {
+    String country
+    int total = 0
+    Date dateCreated
+    Date lastUpdated
+
+    static constraints = {
+        country(nullable: false, blank: false, unique: true)
+    }
 }

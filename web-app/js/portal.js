@@ -30,8 +30,8 @@ function handleTagsResponse(data) {
     } else if (data.code == 'OK') {
         $('#tags-message').hide();
         $('#tags-submit').hide();
-        $('#tags-cancel').toggleClass('danger success', true);
-        $('#tags-apply').toggleClass('primary info', true);
+        $('#tags-cancel').toggleClass('btn-danger btn-success', true);
+        $('#tags-apply').toggleClass('btn-primary btn-info', true);
         $('#tags-apply').attr('disabled', true);
         $('#artifact-tags').html(data.tags);
     }

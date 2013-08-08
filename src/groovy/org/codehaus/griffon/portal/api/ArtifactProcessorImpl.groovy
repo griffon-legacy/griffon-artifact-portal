@@ -20,6 +20,7 @@ import griffon.portal.*
 import griffon.portal.util.MD5
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
+import groovy.xml.MarkupBuilder
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.pegdown.PegDownProcessor
 import org.slf4j.Logger
@@ -28,8 +29,7 @@ import org.slf4j.LoggerFactory
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-import static griffon.portal.values.PreferenceKey.PACKAGES_STORE_DIR
-import static griffon.portal.values.PreferenceKey.RELEASES_STORE_DIR
+import static griffon.portal.values.PreferenceKey.*
 import static griffon.util.ConfigUtils.getConfigValueAsBoolean
 
 /**
@@ -168,6 +168,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             license = json.license
             source = json.source
             documentation = json.documentation
+            groupId = json.group ?: Plugin.DEFAULT_GROUP
             toolkits = json.toolkits.join(',')
             platforms = json.platforms.join(',')
             framework = json.framework ?: false
@@ -176,6 +177,82 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         handleAuthors(plugin, json)
         plugin.save()
         makeRelease(artifactInfo, plugin, json)
+        makeMavenArtifacts(plugin, json)
+    }
+
+    private void makeMavenArtifacts(Plugin plugin, json) {
+        String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
+        String basePath = "${packagesStoreDir}/plugin/${json.name}/${json.version}/"
+        String fileName = "griffon-${json.name}-${json.version}.zip"
+        println "${basePath}${fileName}"
+        ZipFile zipFile = new ZipFile(new File("${basePath}${fileName}"))
+
+        List<String> versions = Release.createCriteria().list(sort: 'artifactVersion') {
+            artifact {
+                eq("name", plugin.name)
+            }
+            projections {
+                property('artifactVersion')
+            }
+        }
+        String lastUpdated = new Date().format('yyyyMMddHHmmss')
+
+        packagesStoreDir = preferencesService.getValueOf(MAVEN_STORE_DIR)
+        basePath = "${packagesStoreDir}/${plugin.groupId.replace('.', '/')}/"
+
+        ['bom', 'parent', 'runtime', 'compile', 'test'].each { scope ->
+            ZipEntry pomEntry = zipFile.getEntry("pom-${scope}.xml")
+            if (pomEntry == null) return
+            String artifactName = "griffon-${plugin.name}-${scope}"
+            String pomPath = "${artifactName}/${json.version}/griffon-${plugin.name}-${scope}-${json.version}.pom"
+            String pomFileName = basePath + pomPath
+            persistsZipEntry(zipFile, pomEntry, pomFileName)
+            makeMavenMetadata(plugin, basePath + artifactName, versions, scope, lastUpdated)
+        }
+        ['runtime', 'compile', 'test'].each { scope ->
+            String jarName = "griffon-${plugin.name}-${scope}-${json.version}.jar"
+            ZipEntry jarEntry = zipFile.getEntry("dist/${jarName}")
+            if (jarEntry == null) return
+            String jarPath = "griffon-${plugin.name}-${scope}/${json.version}/${jarName}"
+            String jarFileName = basePath + jarPath
+            persistsZipEntry(zipFile, jarEntry, jarFileName)
+            plugin['pom' + scope.capitalize()] = true
+        }
+        ['sources', 'javadoc'].each { scope ->
+            String jarName = "griffon-${plugin.name}-runtime-${json.version}-${scope}.jar"
+            ZipEntry jarEntry = zipFile.getEntry("docs/${jarName}")
+            if (jarEntry == null) return
+            String jarPath = "griffon-${plugin.name}-runtime/${json.version}/${jarName}"
+            String jarFileName = basePath + jarPath
+            persistsZipEntry(zipFile, jarEntry, jarFileName)
+        }
+        plugin.save()
+    }
+
+    private static void makeMavenMetadata(Plugin plugin, String filePath, List<String> versionList, String scope, String updated) {
+        StringWriter sw = new StringWriter()
+        MarkupBuilder builder = new MarkupBuilder(sw)
+        builder.metadata {
+            groupId(plugin.groupId)
+            artifactId("griffon-${plugin.name}-${scope}")
+            version(versionList[0])
+            versioning {
+                release(versionList.last())
+                versions {
+                    versionList.each { v -> version(v) }
+                }
+                lastUpdated(updated)
+            }
+        }
+        new File("${filePath}/maven-metadata.xml").text = '<?xml version="1.0"?>\n' + sw.toString()
+    }
+
+    private static void persistsZipEntry(ZipFile zipFile, ZipEntry zipEntry, String fileName) {
+        File file = new File(fileName)
+        file.parentFile.mkdirs()
+        OutputStream os = new FileOutputStream(file)
+        os.bytes = zipFile.getInputStream(zipEntry).bytes
+        os.close()
     }
 
     private void handleArchetype(ArtifactInfo artifactInfo, json) {

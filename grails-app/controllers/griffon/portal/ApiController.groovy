@@ -92,7 +92,7 @@ class ApiController {
                         params: [
                             type: params.type,
                             name: params.name,
-                            name: params.version
+                            version: params.version
                         ]
                     ]
                 }
@@ -220,6 +220,7 @@ class ApiController {
             license: plugin.license,
             source: plugin.source ?: '',
             documentation: plugin.documentation ?: '',
+            group: plugin.groupId,
             toolkits: isBlank(plugin.toolkits) ? [] : plugin.toolkits.split(','),
             platforms: isBlank(plugin.platforms) ? [] : plugin.platforms.split(','),
             framework: plugin.framework,
@@ -258,7 +259,7 @@ class ApiController {
             dependencies: release.dependencies.inject([]) { l, entry ->
                 l << [name: entry.key, version: entry.value]
                 l
-            },
+            }
         ]
     }
 }

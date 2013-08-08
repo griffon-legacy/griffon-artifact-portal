@@ -24,10 +24,10 @@ class UrlMappings {
         '/stats'(controller: 'stats', action: 'index')
 
         '/api'(controller: 'api', action: 'index')
-        '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
-        "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
-        "/api/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}
-        "/api/plugins/$name/$version/download"(controller: 'api', action: 'download') { type = 'plugin'}
+        '/api/plugins'(controller: 'api', action: 'list') { type = 'plugin' }
+        "/api/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin' }
+        "/api/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin' }
+        "/api/plugins/$name/$version/download"(controller: 'api', action: 'download') { type = 'plugin' }
         '/api/archetypes'(controller: 'api', action: 'list') { type = 'archetype' }
         "/api/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype' }
         "/api/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype' }
@@ -36,13 +36,13 @@ class UrlMappings {
         '/admin'(controller: 'admin', action: 'list') { type = 'user' }
         '/admin/user'(controller: 'admin', action: 'list') { type = 'user' }
         name admin_show_user: "/admin/user/$id"(controller: 'admin', action: 'show') { type = 'user' }
-        name admin_save_user:"/admin/user/$id/save"(controller: 'admin', action: 'save') { type = 'user' }
-        name admin_delete_user:"/admin/user/$id/delete"(controller: 'admin', action: 'delete') { type = 'user' }
-        name admin_change_user:"/admin/user/$id/change/$status"(controller: 'admin', action: 'changeMembership') { type = 'user' }
+        name admin_save_user: "/admin/user/$id/save"(controller: 'admin', action: 'save') { type = 'user' }
+        name admin_delete_user: "/admin/user/$id/delete"(controller: 'admin', action: 'delete') { type = 'user' }
+        name admin_change_user: "/admin/user/$id/change/$status"(controller: 'admin', action: 'changeMembership') { type = 'user' }
 
-        '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin'}
-        "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin'}
-        "/repository/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin'}
+        '/repository/plugins'(controller: 'api', action: 'list') { type = 'plugin' }
+        "/repository/plugins/$name"(controller: 'api', action: 'info') { type = 'plugin' }
+        "/repository/plugins/$name/$version"(controller: 'api', action: 'info') { type = 'plugin' }
         "/repository/plugins/$name/$version/griffon-${nameAndVersion}.zip"(controller: 'api', action: 'download') {
             type = 'plugin'
             md5 = false
@@ -58,9 +58,9 @@ class UrlMappings {
             md5 = false
             release = true
         }
-        '/repository/archetypes'(controller: 'api', action: 'list') { type = 'archetype'}
-        "/repository/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype'}
-        "/repository/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype'}
+        '/repository/archetypes'(controller: 'api', action: 'list') { type = 'archetype' }
+        "/repository/archetypes/$name"(controller: 'api', action: 'info') { type = 'archetype' }
+        "/repository/archetypes/$name/$version"(controller: 'api', action: 'info') { type = 'archetype' }
         "/repository/archetypes/$name/$version/griffon-${nameAndVersion}.zip"(controller: 'api', action: 'download') {
             type = 'archetype'
             md5 = false
@@ -77,13 +77,14 @@ class UrlMappings {
             release = true
         }
 
+        "/repository/maven/$artifactPath**"(controller: 'maven', action: 'browse')
+
         name categories_plugin: "/category/$action/plugins/$character?"(controller: 'artifact') {
             type = 'plugin'
             constraints {
                 action(inList: griffon.portal.values.Category.getNamesAsList())
             }
         }
-
 
         name categories_archetype: "/category/$action/archetypes/$character?"(controller: 'artifact') {
             type = 'archetype'
@@ -97,7 +98,7 @@ class UrlMappings {
         name tag_artifact: "/artifact/tag/$id"(controller: 'artifact', action: 'tag')
         name list_tagged: "/tags/$type/$tagName"(controller: 'artifact', action: 'list_tagged')
         "/plugins"(controller: 'artifact', action: 'all') { type = 'plugin' }
-        "/archetypes"(controller: 'artifact', action: 'all') { type = 'archetype'}
+        "/archetypes"(controller: 'artifact', action: 'all') { type = 'archetype' }
         name show_plugin: "/plugin/$name/$tab?"(controller: 'plugin', action: 'show')
         name show_archetype: "/archetype/$name/$tab?"(controller: 'archetype', action: 'show')
         name show_docs: "/docs/$type/$name"(controller: 'docs', action: 'show')
@@ -107,15 +108,14 @@ class UrlMappings {
         name download_release: "/release/download/$id/$type/$name/$version"(controller: 'release', action: 'download_release')
         "/$name+Plugin"(controller: 'plugin', action: 'show')
 
-
         "/$controller/$action?/$id?" {
             constraints {
                 // apply constraints here
             }
         }
 
-        "/"(view: "/index")
-        "500"(view: '/error')
-        "404"(view: "/index")
+        '/'(view: '/index')
+        '500'(view: '/error')
+        '404'(view: '/404')
     }
 }

@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-package griffon.portal.values;
+package griffon.portal.stats
+
+import griffon.portal.Artifact
 
 /**
  * @author Andres Almiray
  */
-public interface PreferenceKey {
-    String MAVEN_STORE_DIR = "maven.store.dir";
-    String PACKAGES_STORE_DIR = "packages.store.dir";
-    String RELEASES_STORE_DIR = "releases.store.dir";
-    String USER_AGENT_FILTERS = "user.agent.filters";
+class MavenDownloadByCountry {
+    Artifact artifact
+    String filename
+    String country
+    int total = 0
+    Date dateCreated
+    Date lastUpdated
+
+    static constraints = {
+        artifact(nullable: false)
+        filename(nullable: false, blank: false)
+        country(nullable: false, blank: false)
+    }
 }

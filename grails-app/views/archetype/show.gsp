@@ -24,8 +24,13 @@
         </div>
     </div>
 
+    <%
+        def tabs = ArtifactTab.values().flatten()
+        tabs.remove ArtifactTab.REPOSITORY
+    %>
+
     <ui:tabs>
-        <g:each in="${ArtifactTab.values()}" var="artifactTab">
+        <g:each in="${tabs}" var="artifactTab">
             <ui:tab title="${artifactTab.capitalizedName}"
                     active="${'Description' == artifactTab.capitalizedName}">
                 <g:render template="/artifact/tabs/$artifactTab"

@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-package griffon.portal.values;
+package griffon.portal.stats
+
+import griffon.portal.Release
 
 /**
  * @author Andres Almiray
  */
-public interface PreferenceKey {
-    String MAVEN_STORE_DIR = "maven.store.dir";
-    String PACKAGES_STORE_DIR = "packages.store.dir";
-    String RELEASES_STORE_DIR = "releases.store.dir";
-    String USER_AGENT_FILTERS = "user.agent.filters";
+class MavenDownloadTotal {
+    Release release
+    String filename
+    int total = 0
+    Date dateCreated
+    Date lastUpdated
+
+    static constraints = {
+        release(nullable: false)
+        filename(nullable: false, blank:false)
+    }
 }

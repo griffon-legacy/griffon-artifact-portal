@@ -1,6 +1,6 @@
 <%@ page import="griffon.portal.Plugin" %>
 <%
-    String latestVersion = artifactInstance.latestRelease?.artifactVersion ?: '1.0'
+    String latestVersion = artifactInstance.latestRelease?.artifactVersion ?: '1.0.0'
 %>
 
 <p>There are several ways to install a release of ${artifactInstance.name} using the <code>install-${artifactInstance.type}</code> target of the griffon command line tool.
