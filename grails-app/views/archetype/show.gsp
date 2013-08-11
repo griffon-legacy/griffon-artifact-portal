@@ -26,7 +26,7 @@
 
     <%
         def tabs = ArtifactTab.values().flatten()
-        tabs.remove ArtifactTab.REPOSITORY
+        // tabs.remove ArtifactTab.REPOSITORY
     %>
 
     <ui:tabs>

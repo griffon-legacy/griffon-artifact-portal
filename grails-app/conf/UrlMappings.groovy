@@ -77,7 +77,7 @@ class UrlMappings {
             release = true
         }
 
-        "/repository/maven/$artifactPath**"(controller: 'maven', action: 'browse')
+        // "/repository/maven/$artifactPath**"(controller: 'maven', action: 'browse')
 
         name categories_plugin: "/category/$action/plugins/$character?"(controller: 'artifact') {
             type = 'plugin'

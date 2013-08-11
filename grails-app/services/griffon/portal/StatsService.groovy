@@ -45,6 +45,7 @@ class StatsService {
         totalByCountry.save()
     }
 
+    /*
     void mavenDownload(Map params) {
         // preferencesService.getValueOf(PreferenceKey.USER_AGENT_FILTERS)
 
@@ -72,6 +73,7 @@ class StatsService {
         totalByCountry.total += 1
         totalByCountry.save()
     }
+    */
 
     void upload(Map params) {
         Upload upload = new Upload(

@@ -168,7 +168,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
             license = json.license
             source = json.source
             documentation = json.documentation
-            groupId = json.group ?: Plugin.DEFAULT_GROUP
+            // groupId = json.group ?: Plugin.DEFAULT_GROUP
             toolkits = json.toolkits.join(',')
             platforms = json.platforms.join(',')
             framework = json.framework ?: false
@@ -177,9 +177,10 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         handleAuthors(plugin, json)
         plugin.save()
         makeRelease(artifactInfo, plugin, json)
-        makeMavenArtifacts(plugin, json)
+        // makeMavenArtifacts(plugin, json)
     }
 
+    /*
     private void makeMavenArtifacts(Plugin plugin, json) {
         String packagesStoreDir = preferencesService.getValueOf(PACKAGES_STORE_DIR)
         String basePath = "${packagesStoreDir}/plugin/${json.name}/${json.version}/"
@@ -201,7 +202,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         basePath = "${packagesStoreDir}/${plugin.groupId.replace('.', '/')}/"
 
         ['bom', 'parent', 'runtime', 'compile', 'test'].each { scope ->
-            ZipEntry pomEntry = zipFile.getEntry("pom-${scope}.xml")
+            ZipEntry pomEntry = zipFile.getEntry("poms/${scope}.xml")
             if (pomEntry == null) return
             String artifactName = "griffon-${plugin.name}-${scope}"
             String pomPath = "${artifactName}/${json.version}/griffon-${plugin.name}-${scope}-${json.version}.pom"
@@ -246,6 +247,7 @@ class ArtifactProcessorImpl implements ArtifactProcessor {
         }
         new File("${filePath}/maven-metadata.xml").text = '<?xml version="1.0"?>\n' + sw.toString()
     }
+    */
 
     private static void persistsZipEntry(ZipFile zipFile, ZipEntry zipEntry, String fileName) {
         File file = new File(fileName)

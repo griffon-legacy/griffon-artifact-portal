@@ -30,7 +30,7 @@ public enum ArtifactTab {
     RELEASES,
     // FAQ,
     // SCREENSHOTS,
-    REPOSITORY,
+    // REPOSITORY,
     COMMENTS,
     STATISTICS;
 

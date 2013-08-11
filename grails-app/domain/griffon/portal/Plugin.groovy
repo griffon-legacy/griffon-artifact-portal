@@ -27,14 +27,14 @@ class Plugin extends Artifact {
 
     String toolkits = ''
     String platforms = ''
-    String groupId = DEFAULT_GROUP
+    // String groupId = DEFAULT_GROUP
     boolean framework = false
-    boolean pomRuntime = false
-    boolean pomCompile = false
-    boolean pomTest = false
+    // boolean pomRuntime = false
+    // boolean pomCompile = false
+    // boolean pomTest = false
 
     static constraints = {
-        groupId(nullable: false)
+        // groupId(nullable: false)
         toolkits(nullable: false, blank: true)
         platforms(nullable: false, blank: true)
         framework(nullable: false)
@@ -50,7 +50,7 @@ class Plugin extends Artifact {
 
     String toString() {
         super.toString() + [
-            group: groupId,
+            // group: groupId,
             toolkits: toolkits,
             platforms: platforms,
             framework: framework
