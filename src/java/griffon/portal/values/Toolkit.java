@@ -30,7 +30,8 @@ public enum Toolkit {
     SWT("SWT"),
     PIVOT("Pivot"),
     QT("Qt"),
-    LANTERNA("Lanterna");
+    LANTERNA("Lanterna"),
+    CONSOLE("Console");
 
     private final String name;
 
