@@ -29,7 +29,7 @@
     <ui:tabs>
         <g:each in="${ArtifactTab.values()}" var="artifactTab">
             <ui:tab title="${artifactTab.capitalizedName}" active="${'Description' == artifactTab.capitalizedName}">
-                <g:render template="/artifact/tabs/$artifactTab"
+                <g:render template="/artifact/tabs/${artifactTab.name}"
                           model="[artifactInstance: pluginInstance]"/>
                 </ui:tab>
         </g:each>

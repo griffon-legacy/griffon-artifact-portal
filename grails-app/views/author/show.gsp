@@ -19,7 +19,7 @@
         <g:each in="${tabs}" var="profileTab">
             <ui:tab title="${profileTab.capitalizedName}"
                     active="${'Plugins' == profileTab.capitalizedName}">
-                <g:render template="/profile/profile/${profileTab}"
+                <g:render template="/profile/profile/${profileTab.name}"
                           model="[tab: profileTab, userId: authorInstance.id]"/>
             </ui:tab>
         </g:each>
